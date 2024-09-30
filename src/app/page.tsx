@@ -25,7 +25,7 @@ export default function Home() {
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
         <h1 className="text-center">Start your game</h1>
         <ul className="flex gap-2 flex-wrap">
-          {games.map((game) => (
+          {games.map((game: Game) => (
             <>
               <Link href={"/" + game.name}>
                 <li
