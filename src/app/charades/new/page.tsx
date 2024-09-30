@@ -1,9 +1,10 @@
+import addNewList from "@/app/actions/charades";
 import WordsList from "./_components/WordsList";
 
 export default function NewCharadesPage() {
   return (
     <main className="container px-2 py-5 flex justify-center">
-      <form className=" max-w-96">
+      <form action={addNewList} className=" max-w-96">
         <label htmlFor="name">Name</label>
         <input
           type="text"

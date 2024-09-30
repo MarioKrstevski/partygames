@@ -1,7 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
 
-const games = [
+interface Game {
+  title: string;
+  name: string;
+  description: string;
+  explanation: string;
+  image: string;
+}
+
+const games: Game[] = [
   {
     title: "Charades",
     name: "charades",

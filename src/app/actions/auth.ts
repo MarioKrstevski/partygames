@@ -1,3 +1,4 @@
+"use server";
 import { lucia } from "@/lib/auth";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -12,7 +13,6 @@ export async function signIn(
   prevState: ActionResult,
   formData: FormData
 ): Promise<ActionResult> {
-  "use server";
   const email = formData.get("email")?.toString();
 
   if (!email || !emailRegex.test(email)) {
@@ -89,8 +89,6 @@ export async function signUp(
   _: any,
   formData: FormData
 ): Promise<ActionResult> {
-  "use server";
-
   const email = formData.get("email")?.toString();
   const password = formData.get("password")?.toString();
   const username = formData.get("username")?.toString();
