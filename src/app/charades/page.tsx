@@ -1,4 +1,5 @@
 import prismadb from "@/lib/db";
+import { CharadeList } from "@prisma/client";
 import Link from "next/link";
 
 export default async function CharadesPage() {
@@ -22,7 +23,7 @@ export default async function CharadesPage() {
         </p>
       )}
       <ul>
-        {games.map((game) => (
+        {games.map((game: CharadeList) => (
           <li key={game.id}>
             <a href={`/charades/${game.id}`}>{game.name}</a>
           </li>
