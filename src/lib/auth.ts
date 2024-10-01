@@ -25,6 +25,7 @@ export const lucia = new Lucia(adapter, {
       id: attributes.id,
       firstName: attributes.firstName,
       lastName: attributes.lastName,
+      role: attributes.role,
       //   hashedPassword: attributes.hashedPassword,
     };
   },
@@ -103,4 +104,5 @@ interface DatabaseUserAttributes {
   lastName?: string;
   email: string;
   hashedPassword: string;
+  role: string;
 }

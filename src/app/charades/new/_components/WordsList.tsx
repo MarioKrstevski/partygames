@@ -2,9 +2,13 @@
 
 import { useState } from "react";
 
-export default function WordsList() {
+export default function WordsList({
+  defaultItems,
+}: {
+  defaultItems?: string[];
+}) {
   const [word, setWord] = useState("");
-  const [words, setWords] = useState<string[]>([]);
+  const [words, setWords] = useState<string[]>(defaultItems || []);
   return (
     <div>
       <label htmlFor="word">Words</label>

@@ -8,7 +8,19 @@ import { Argon2id } from "oslo/password";
 import { UserRoles } from "../global/data";
 
 const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-
+export async function logout() {
+  const sessionCookie = await lucia.createBlankSessionCookie();
+  cookies().set(
+    sessionCookie.name,
+    sessionCookie.value,
+    sessionCookie.attributes
+  );
+  cookies().set("auth-cookie-exists", "", {
+    ...sessionCookie.attributes,
+    httpOnly: false,
+  });
+  redirect("/");
+}
 export async function signIn(
   prevState: ActionResult,
   formData: FormData
