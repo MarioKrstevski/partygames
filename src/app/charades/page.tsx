@@ -26,13 +26,15 @@ export default async function CharadesPage() {
       <ul>
         {games.map((game: CharadeList) => (
           <li key={game.id}>
-            <a href={`/charades/${game.id}`}>{game.name}</a>
-            <a
-              className="ml-3 text-yellow-300"
-              href={`/charades/edit/${game.id}`}
-            >
-              Edit
-            </a>
+            <a href={`/charades/play/${game.id}`}>{game.name}</a>
+            {user?.id === game.userId && (
+              <a
+                className="ml-3 text-yellow-300"
+                href={`/charades/edit/${game.id}`}
+              >
+                Edit
+              </a>
+            )}
           </li>
         ))}
       </ul>
