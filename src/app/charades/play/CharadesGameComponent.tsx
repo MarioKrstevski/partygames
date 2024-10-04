@@ -51,6 +51,28 @@ const initialGameState: GameState = {
   timeRemainingCountdown: 22,
   answers: [],
 };
+function requestFullscreen() {
+  const element = document.documentElement;
+
+  if (element.requestFullscreen) {
+    element.requestFullscreen();
+    // @ts-ignore
+  } else if (element.mozRequestFullScreen) {
+    // @ts-ignore
+    element.mozRequestFullScreen();
+
+    // @ts-ignore
+  } else if (element.webkitRequestFullscreen) {
+    // @ts-ignore
+    element.webkitRequestFullscreen();
+
+    // @ts-ignore
+  } else if (element.msRequestFullscreen) {
+    // @ts-ignore
+    element.msRequestFullscreen();
+  }
+}
+
 function gameStateReducer(
   state: typeof initialGameState,
   action: GameActions
@@ -87,6 +109,7 @@ function gameStateReducer(
       return state;
   }
 }
+const getOrientation = () => window.screen.orientation.type;
 
 function CharadesGameComponent({
   charade,
@@ -94,13 +117,16 @@ function CharadesGameComponent({
   charade: CharadeList;
 }) {
   const gameContainerRef = useRef<HTMLDivElement>(null);
+  const answerShowDivRef = useRef<HTMLDivElement>(null);
+
   const timerRef = useRef<any>(null);
   const [words, setWords] = useState(
     shuffleArray(charade.items.split(","))
   );
 
-  const [deviceOrientation, setDeviceOrientation] =
-    useState("portrait");
+  const [deviceOrientation, setDeviceOrientation] = useState(
+    getOrientation()
+  );
   const [tilt, setTilt] = useState("Tilt: ");
 
   // @ts-ignore
@@ -157,6 +183,16 @@ function CharadesGameComponent({
     if (game.gameStartingCountdown === 0) {
       dispatch({ type: "start" });
       clearInterval(timerRef.current);
+      const element = document.getElementById("gameContainer");
+      if (element) {
+        element.classList.add(
+          "inset-0",
+          "fixed",
+          "z-[100]",
+          "bg-black"
+          // "relative"
+        );
+      }
     }
   }, [game.gameStartingCountdown]);
   useEffect(() => {
@@ -167,14 +203,19 @@ function CharadesGameComponent({
   }, [game.timeRemainingCountdown]);
 
   function markAnswer(isCorrect: boolean) {
+    answerShowDivRef.current?.classList.add("bg-black");
+
     if (isCorrect) {
-      gameContainerRef.current?.classList.add("bg-green-200/30");
+      answerShowDivRef.current?.classList.add("bg-green-200/30");
+      answerShowDivRef.current?.classList.remove("bg-black");
     } else {
-      gameContainerRef.current?.classList.add("bg-red-300/30");
+      answerShowDivRef.current?.classList.remove("bg-black");
+      answerShowDivRef.current?.classList.add("bg-red-300/30");
     }
     setTimeout(() => {
-      gameContainerRef.current?.classList.remove("bg-green-200/30");
-      gameContainerRef.current?.classList.remove("bg-red-300/30");
+      answerShowDivRef.current?.classList.remove("bg-green-200/30");
+      answerShowDivRef.current?.classList.remove("bg-red-300/30");
+      answerShowDivRef.current?.classList.add("bg-black");
     }, 700);
   }
 
@@ -188,7 +229,6 @@ function CharadesGameComponent({
     }
   }, [game.answers, words.length]);
 
-  const getOrientation = () => window.screen.orientation.type;
   //add device orientation listener
   const updateOrientation = (event: any) => {
     console.log(event);
@@ -281,27 +321,27 @@ function CharadesGameComponent({
   }, []);
 
   return (
-    <div ref={gameContainerRef} className="">
-      <div>{game.status}</div>
+    <div ref={gameContainerRef} id="gameContainer" className="">
+      {/* <div>{game.status}</div>
       <div>{tilt}</div>
-      <div>{deviceOrientation.split("-")[0]}</div>
+      <div>{deviceOrientation.split("-")[0]}</div> */}
       {/* <pre>{JSON.stringify(game.answers, null, 2)}</pre> */}
-      {deviceOrientation.split("-")[0] === "landscape" && (
-        <h3
-          className="text-center"
-          style={{
-            color:
-              game.gameStartingCountdown > 0 &&
-              game.status === "starting"
-                ? "yellow"
-                : "unset",
-          }}
-        >
-          {game.gameStartingCountdown ||
-            game.timeRemainingCountdown ||
-            "Time's Up"}
-        </h3>
-      )}
+      {deviceOrientation.split("-")[0] === "landscape" &&
+        game.status !== "playing" &&
+        game.gameStartingCountdown > 0 && (
+          <h3
+            className="text-center"
+            style={{
+              color:
+                game.gameStartingCountdown > 0 &&
+                game.status === "starting"
+                  ? "yellow"
+                  : "unset",
+            }}
+          >
+            {game.gameStartingCountdown}
+          </h3>
+        )}
       {/* Game is Ready to Start and Starting*/}
       {(game.status === "readyToStart" ||
         game.status === "starting") &&
@@ -331,40 +371,47 @@ function CharadesGameComponent({
       {/* Game is Playing */}
       {game.status === "playing" &&
         deviceOrientation.split("-")[0] === "landscape" && (
-          <div>
-            <h1 className="text-4xl text-center">
-              {words[game.answers.length]}
-            </h1>
-            {/* controls */}
-            <div>
-              <button
-                onClick={() => {
-                  dispatch({
-                    type: "count",
-                    payload: {
-                      isCorrect: true,
-                      word: words[game.answers.length],
-                    },
-                  });
-                }}
-              >
-                Yes
-              </button>
-              <button
-                onClick={() => {
-                  dispatch({
-                    type: "count",
-                    payload: {
-                      isCorrect: false,
-                      word: words[game.answers.length],
-                    },
-                  });
-                }}
-              >
-                No
-              </button>
+          <div className="grid grid-cols-[25%_1fr_25%] h-full">
+            <button
+              className=""
+              onClick={() => {
+                dispatch({
+                  type: "count",
+                  payload: {
+                    isCorrect: true,
+                    word: words[game.answers.length],
+                  },
+                });
+              }}
+            >
+              Yes
+            </button>
+            <div
+              ref={answerShowDivRef}
+              className="flex items-center flex-col relative"
+            >
+              <h1 className="text-center absolute top-2">
+                {game.timeRemainingCountdown}
+              </h1>
+              <h1 className="text-4xl text-center h-full flex items-center">
+                {words[game.answers.length]}
+              </h1>
             </div>
-            <div>{deviceOrientation}</div>
+            {/* controls */}
+            <button
+              className=""
+              onClick={() => {
+                dispatch({
+                  type: "count",
+                  payload: {
+                    isCorrect: false,
+                    word: words[game.answers.length],
+                  },
+                });
+              }}
+            >
+              No
+            </button>
           </div>
         )}
 
@@ -385,7 +432,7 @@ function CharadesGameComponent({
               <button>Play again</button>
               <button>Back to categories</button>
             </div>
-            <div className="mt-4">
+            <div className="mt-4 overflow-y-auto">
               {game.answers.map((answer, index) => (
                 <div
                   key={index}
