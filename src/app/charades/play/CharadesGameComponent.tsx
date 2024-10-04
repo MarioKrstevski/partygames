@@ -100,6 +100,7 @@ function CharadesGameComponent({
 
   const [deviceOrientation, setDeviceOrientation] =
     useState("portrait");
+  const [tilt, setTilt] = useState("");
 
   // @ts-ignore
   const [game, dispatch] = useReducer<
@@ -193,25 +194,14 @@ function CharadesGameComponent({
     setDeviceOrientation(getOrientation());
   };
 
-  useEffect(() => {
-    window.addEventListener("orientationchange", updateOrientation);
-    window.addEventListener("deviceorientation", handleTilt);
-
-    return () => {
-      window.removeEventListener(
-        "orientationchange",
-        updateOrientation
-      );
-      window.removeEventListener("deviceorientation", handleTilt);
-    };
-  }, []);
-
-  const handleTilt = (event: DeviceOrientationEvent) => {
+  function handleTilt(event: DeviceOrientationEvent) {
     const { x, y } = (
       event as DeviceOrientationEvent & {
         accelerationIncludingGravity: { x: number; y: number };
       }
     ).accelerationIncludingGravity;
+    // alert("x, y: " + x + ", " + y);
+    setTilt("x, y: " + x + ", " + y);
     if (!x || !y) return;
     if (x > 0.5) {
       // Tilting right (yes)
@@ -232,11 +222,25 @@ function CharadesGameComponent({
         },
       });
     }
-  };
+  }
+
+  useEffect(() => {
+    window.addEventListener("orientationchange", updateOrientation);
+    window.addEventListener("deviceorientation", handleTilt);
+
+    return () => {
+      window.removeEventListener(
+        "orientationchange",
+        updateOrientation
+      );
+      window.removeEventListener("deviceorientation", handleTilt);
+    };
+  }, []);
 
   return (
     <div ref={gameContainerRef} className="">
       <div>{game.status}</div>
+      <div>{tilt}</div>
       <div>{deviceOrientation.split("-")[0]}</div>
       {/* <pre>{JSON.stringify(game.answers, null, 2)}</pre> */}
       {deviceOrientation.split("-")[0] === "landscape" && (
