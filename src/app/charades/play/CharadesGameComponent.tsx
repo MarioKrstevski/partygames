@@ -230,10 +230,29 @@ function CharadesGameComponent({
     //   });
     // }
   }
-
+  function handleOrientation(event: DeviceOrientationEvent) {
+    const beta = event.beta;
+    setTilt(event.beta + "");
+    if (!beta) return;
+    if (beta > 20) {
+      // Device tilted to the right (yes)
+      console.log("Yes");
+    } else if (beta < -20) {
+      // Device tilted to the left (no)
+      console.log("No");
+    }
+  }
   useEffect(() => {
     window.addEventListener("orientationchange", updateOrientation);
     // window.addEventListener("devicemotion", handleTilt);
+
+    // Check for browser support
+    if (typeof DeviceOrientationEvent !== "undefined") {
+      window.addEventListener("deviceorientation", handleOrientation);
+    } else {
+      console.log("Device Orientation API is not supported.");
+      setTilt("Device Orientation API is not supported.");
+    }
 
     const read = (sensor: any) => {
       setTilt(`x: ${sensor.x}, y: ${sensor.y}, z: ${sensor.z}`);
