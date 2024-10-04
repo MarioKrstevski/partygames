@@ -194,46 +194,52 @@ function CharadesGameComponent({
     setDeviceOrientation(getOrientation());
   };
 
-  function handleTilt(event: DeviceOrientationEvent) {
-    const { x, y } = (
-      event as DeviceOrientationEvent & {
-        accelerationIncludingGravity: { x: number; y: number };
-      }
-    ).accelerationIncludingGravity;
-    // alert("x, y: " + x + ", " + y);
-    setTilt("x, y: " + x + ", " + y);
-    if (!x || !y) return;
-    if (x > 0.5) {
-      // Tilting right (yes)
-      dispatch({
-        type: "count",
-        payload: {
-          isCorrect: true,
-          word: words[game.answers.length],
-        },
-      });
-    } else if (x < -0.5) {
-      // Tilting left (no)
-      dispatch({
-        type: "count",
-        payload: {
-          isCorrect: false,
-          word: words[game.answers.length],
-        },
-      });
-    }
+  function handleTilt(event: DeviceMotionEvent) {
+    console.log(event);
+    setTilt(`
+      x: ${event.rotationRate?.alpha},
+      y: ${event.rotationRate?.beta},
+      z: ${event.rotationRate?.gamma},
+      `);
+    // const { x, y } = (
+    //   event as DeviceOrientationEvent & {
+    //     accelerationIncludingGravity: { x: number; y: number };
+    //   }
+    // ).accelerationIncludingGravity;
+    // // alert("x, y: " + x + ", " + y);
+    // setTilt("x, y: " + x + ", " + y);
+    // if (!x || !y) return;
+    // if (x > 0.5) {
+    //   // Tilting right (yes)
+    //   dispatch({
+    //     type: "count",
+    //     payload: {
+    //       isCorrect: true,
+    //       word: words[game.answers.length],
+    //     },
+    //   });
+    // } else if (x < -0.5) {
+    //   // Tilting left (no)
+    //   dispatch({
+    //     type: "count",
+    //     payload: {
+    //       isCorrect: false,
+    //       word: words[game.answers.length],
+    //     },
+    //   });
+    // }
   }
 
   useEffect(() => {
     window.addEventListener("orientationchange", updateOrientation);
-    window.addEventListener("deviceorientation", handleTilt);
+    window.addEventListener("devicemotion", handleTilt);
 
     return () => {
       window.removeEventListener(
         "orientationchange",
         updateOrientation
       );
-      window.removeEventListener("deviceorientation", handleTilt);
+      window.removeEventListener("devicemotion", handleTilt);
     };
   }, []);
 
