@@ -98,6 +98,9 @@ function CharadesGameComponent({
     shuffleArray(charade.items.split(","))
   );
 
+  const [deviceOrientation, setDeviceOrientation] =
+    useState("portrait");
+
   // @ts-ignore
   const [game, dispatch] = useReducer<
     React.Reducer<GameState, GameAction>
@@ -160,6 +163,7 @@ function CharadesGameComponent({
       clearInterval(timerRef.current);
     }
   }, [game.timeRemainingCountdown]);
+
   function markAnswer(isCorrect: boolean) {
     if (isCorrect) {
       gameContainerRef.current?.classList.add("bg-green-200/30");
@@ -182,83 +186,140 @@ function CharadesGameComponent({
     }
   }, [game.answers, words.length]);
 
+  const getOrientation = () => window.screen.orientation.type;
+  //add device orientation listener
+  const updateOrientation = (event: any) => {
+    console.log(event);
+    setDeviceOrientation(getOrientation());
+  };
+
+  useEffect(() => {
+    window.addEventListener("orientationchange", updateOrientation);
+    window.addEventListener("deviceorientation", handleTilt);
+
+    return () => {
+      window.removeEventListener(
+        "orientationchange",
+        updateOrientation
+      );
+      window.removeEventListener("deviceorientation", handleTilt);
+    };
+  }, []);
+
+  const handleTilt = (event: DeviceOrientationEvent) => {
+    const { x, y } = (
+      event as DeviceOrientationEvent & {
+        accelerationIncludingGravity: { x: number; y: number };
+      }
+    ).accelerationIncludingGravity;
+    if (!x || !y) return;
+    if (x > 0.5) {
+      // Tilting right (yes)
+      dispatch({
+        type: "count",
+        payload: {
+          isCorrect: true,
+          word: words[game.answers.length],
+        },
+      });
+    } else if (x < -0.5) {
+      // Tilting left (no)
+      dispatch({
+        type: "count",
+        payload: {
+          isCorrect: false,
+          word: words[game.answers.length],
+        },
+      });
+    }
+  };
+
   return (
     <div ref={gameContainerRef} className="">
       <div>{game.status}</div>
+      <div>{deviceOrientation.split("-")[0]}</div>
       {/* <pre>{JSON.stringify(game.answers, null, 2)}</pre> */}
-      <h3
-        className="text-center"
-        style={{
-          color:
-            game.gameStartingCountdown > 0 &&
-            game.status === "starting"
-              ? "yellow"
-              : "unset",
-        }}
-      >
-        {game.gameStartingCountdown ||
-          game.timeRemainingCountdown ||
-          "Time's Up"}
-      </h3>
+      {deviceOrientation.split("-")[0] === "landscape" && (
+        <h3
+          className="text-center"
+          style={{
+            color:
+              game.gameStartingCountdown > 0 &&
+              game.status === "starting"
+                ? "yellow"
+                : "unset",
+          }}
+        >
+          {game.gameStartingCountdown ||
+            game.timeRemainingCountdown ||
+            "Time's Up"}
+        </h3>
+      )}
       {/* Game is Ready to Start and Starting*/}
       {(game.status === "readyToStart" ||
-        game.status === "starting") && (
-        <div className="flex flex-col items-center">
-          <h1 className="text-4xl text-center">{charade.name}</h1>
-          <p className="text-center">{charade.description}</p>
+        game.status === "starting") &&
+        deviceOrientation.split("-")[0] === "landscape" && (
           <div className="flex flex-col items-center">
-            {game.status === "readyToStart" && (
+            <h1 className="text-4xl text-center">{charade.name}</h1>
+            <p className="text-center">{charade.description}</p>
+            <div className="flex flex-col items-center">
+              {game.status === "readyToStart" && (
+                <button
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                  onClick={() => {
+                    dispatch({ type: "startCountdown" });
+                  }}
+                >
+                  Start
+                </button>
+              )}
+              <div className="mt-4"></div>
+            </div>
+          </div>
+        )}
+      {game.status === "readyToStart" &&
+        deviceOrientation.split("-")[0] === "portrait" && (
+          <div>Switch your phone to landscape</div>
+        )}
+      {/* Game is Playing */}
+      {game.status === "playing" &&
+        deviceOrientation.split("-")[0] === "landscape" && (
+          <div>
+            <h1 className="text-4xl text-center">
+              {words[game.answers.length]}
+            </h1>
+            {/* controls */}
+            <div>
               <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                 onClick={() => {
-                  dispatch({ type: "startCountdown" });
+                  dispatch({
+                    type: "count",
+                    payload: {
+                      isCorrect: true,
+                      word: words[game.answers.length],
+                    },
+                  });
                 }}
               >
-                Start
+                Yes
               </button>
-            )}
-            <div className="mt-4"></div>
+              <button
+                onClick={() => {
+                  dispatch({
+                    type: "count",
+                    payload: {
+                      isCorrect: false,
+                      word: words[game.answers.length],
+                    },
+                  });
+                }}
+              >
+                No
+              </button>
+            </div>
+            <div>{deviceOrientation}</div>
           </div>
-        </div>
-      )}
-
-      {/* Game is Playing */}
-      {game.status === "playing" && (
-        <div>
-          <h1 className="text-4xl text-center">
-            {words[game.answers.length]}
-          </h1>
-          {/* controls */}
-          <div>
-            <button
-              onClick={() => {
-                dispatch({
-                  type: "count",
-                  payload: {
-                    isCorrect: true,
-                    word: words[game.answers.length],
-                  },
-                });
-              }}
-            >
-              Yes
-            </button>
-            <button
-              onClick={() => {
-                dispatch({
-                  type: "count",
-                  payload: {
-                    isCorrect: false,
-                    word: words[game.answers.length],
-                  },
-                });
-              }}
-            >
-              No
-            </button>
-          </div>
-        </div>
-      )}
+        )}
 
       {/* Game Ended */}
       {game.status === "ended" && (
