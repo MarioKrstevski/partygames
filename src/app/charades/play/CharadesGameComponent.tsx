@@ -2,6 +2,7 @@
 import { isMobile, shuffleArray } from "@/lib/utils";
 import { CharadeList } from "@prisma/client";
 import { AnyAaaaRecord } from "dns";
+import Link from "next/link";
 import { useState, useEffect, useRef, useReducer } from "react";
 
 type GameStateOptions =
@@ -192,12 +193,24 @@ function CharadesGameComponent({
           "bg-black"
           // "relative"
         );
+        requestFullscreen();
       }
     }
   }, [game.gameStartingCountdown]);
   useEffect(() => {
     if (game.timeRemainingCountdown === 0) {
       dispatch({ type: "end" });
+      const element = document.getElementById("gameContainer");
+      if (element) {
+        element.classList.remove(
+          "inset-0",
+          "fixed",
+          "z-[100]",
+          "bg-black"
+          // "relative"
+        );
+        requestFullscreen();
+      }
       clearInterval(timerRef.current);
     }
   }, [game.timeRemainingCountdown]);
@@ -223,6 +236,18 @@ function CharadesGameComponent({
   useEffect(() => {
     if (game.answers.length === words.length) {
       dispatch({ type: "end" });
+      const element = document.getElementById("gameContainer");
+      if (element) {
+        element.classList.remove(
+          "inset-0",
+          "fixed",
+          "z-[100]",
+          "bg-black"
+          // "relative"
+        );
+        requestFullscreen();
+        clearInterval(timerRef.current);
+      }
     }
     if (game.answers.length > 0) {
       markAnswer(game.answers[game.answers.length - 1].isCorrect);
@@ -429,8 +454,16 @@ function CharadesGameComponent({
               /{game.answers.length}
             </h1>
             <div className="flex gap-2">
-              <button>Play again</button>
-              <button>Back to categories</button>
+              <button
+                onClick={() => {
+                  location.reload();
+                }}
+              >
+                Play again
+              </button>
+              <Link href={"/charades"}>
+                <button>Back to categories</button>
+              </Link>
             </div>
             <div className="mt-4 overflow-y-auto">
               {game.answers.map((answer, index) => (
