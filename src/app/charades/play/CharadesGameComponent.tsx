@@ -100,7 +100,7 @@ function CharadesGameComponent({
 
   const [deviceOrientation, setDeviceOrientation] =
     useState("portrait");
-  const [tilt, setTilt] = useState("");
+  const [tilt, setTilt] = useState("Tilt: ");
 
   // @ts-ignore
   const [game, dispatch] = useReducer<
@@ -232,14 +232,21 @@ function CharadesGameComponent({
 
   useEffect(() => {
     window.addEventListener("orientationchange", updateOrientation);
-    window.addEventListener("devicemotion", handleTilt);
+    // window.addEventListener("devicemotion", handleTilt);
 
+    const read = () => {
+      setTilt(`x: ${sensor.x}, y: ${sensor.y}, z: ${sensor.z}`);
+      console.log("gyro: ", sensor.x, sensor.y, sensor.z);
+    };
+    // @ts-ignore
+    let sensor = new Gyroscope();
+    sensor.addEventListener("reading", read);
     return () => {
       window.removeEventListener(
         "orientationchange",
         updateOrientation
       );
-      window.removeEventListener("devicemotion", handleTilt);
+      // window.removeEventListener("devicemotion", handleTilt);
     };
   }, []);
 
