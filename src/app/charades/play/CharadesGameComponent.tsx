@@ -1,6 +1,7 @@
 "use client";
 import { isMobile, shuffleArray } from "@/lib/utils";
 import { CharadeList } from "@prisma/client";
+import { AnyAaaaRecord } from "dns";
 import { useState, useEffect, useRef, useReducer } from "react";
 
 type GameStateOptions =
@@ -234,19 +235,23 @@ function CharadesGameComponent({
     window.addEventListener("orientationchange", updateOrientation);
     // window.addEventListener("devicemotion", handleTilt);
 
-    const read = () => {
+    const read = (sensor: any) => {
       setTilt(`x: ${sensor.x}, y: ${sensor.y}, z: ${sensor.z}`);
       console.log("gyro: ", sensor.x, sensor.y, sensor.z);
     };
     // @ts-ignore
-    let sensor = new Gyroscope();
-    sensor.start();
-    sensor.addEventListener("reading", read);
-    sensor.onreading = read;
-    sensor.onerror = (event: any) => {
-      console.log(event);
-      setTilt("Error: " + event.error);
-    };
+    if (window.Gyroscope) {
+      // @ts-ignore
+      let sensor = new Gyroscope();
+      sensor.start();
+      sensor.addEventListener("reading", read);
+      sensor.onreading = read;
+      sensor.onerror = (event: any) => {
+        console.log(event);
+        setTilt("Error: " + event.error);
+      };
+    }
+
     return () => {
       window.removeEventListener(
         "orientationchange",
