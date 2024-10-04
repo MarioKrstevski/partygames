@@ -180,7 +180,7 @@ function CharadesGameComponent({
     if (game.answers.length > 0) {
       markAnswer(game.answers[game.answers.length - 1].isCorrect);
     }
-  }, [game.answers]);
+  }, [game.answers, words.length]);
 
   return (
     <div ref={gameContainerRef} className="">
