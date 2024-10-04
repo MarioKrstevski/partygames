@@ -240,7 +240,13 @@ function CharadesGameComponent({
     };
     // @ts-ignore
     let sensor = new Gyroscope();
+    sensor.start();
     sensor.addEventListener("reading", read);
+    sensor.onreading = read;
+    sensor.onerror = (event: any) => {
+      console.log(event);
+      setTilt("Error: " + event.error);
+    };
     return () => {
       window.removeEventListener(
         "orientationchange",
