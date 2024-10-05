@@ -122,7 +122,11 @@ function gameStateReducer(
         ],
       };
     case "end":
-      return { ...state, status: "ended", timeRemainingCountdown: 0 };
+      return {
+        ...state,
+        status: "ended",
+        timeRemainingCountdown: 70,
+      };
     default:
       return state;
   }
@@ -201,7 +205,6 @@ function CharadesGameComponent({
     }
 
     if (game.status === "ended") {
-      gameEndSoundRef.current?.play();
       // force mobile device in portrait mode
       const element = document.getElementById("gameContainer");
       if (element) {
@@ -214,7 +217,9 @@ function CharadesGameComponent({
         );
         exitFullscreen();
       }
+
       clearInterval(timerRef.current);
+      gameEndSoundRef.current?.play();
       if (isMobile()) {
         // @ts-ignore
         if (screen.orientation.lock) {
