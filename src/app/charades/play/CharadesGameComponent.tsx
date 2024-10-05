@@ -219,7 +219,13 @@ function CharadesGameComponent({
       }
 
       clearInterval(timerRef.current);
-      gameEndSoundRef.current?.play();
+
+      if (gameEndSoundRef.current) {
+        gameEndSoundRef.current.pause();
+        gameEndSoundRef.current.currentTime = 0;
+        gameEndSoundRef.current.play();
+      }
+
       if (isMobile()) {
         // @ts-ignore
         if (screen.orientation.lock) {
@@ -252,11 +258,19 @@ function CharadesGameComponent({
 
     if (isCorrect) {
       vibrate(220);
-      correctSoundRef.current?.play();
+      if (correctSoundRef.current) {
+        correctSoundRef.current.pause();
+        correctSoundRef.current.currentTime = 0;
+        correctSoundRef.current.play();
+      }
       answerShowDivRef.current?.classList.add("bg-green-200/30");
       answerShowDivRef.current?.classList.remove("bg-black");
     } else {
-      incorrectSoundRef.current?.play();
+      if (incorrectSoundRef.current) {
+        incorrectSoundRef.current.pause();
+        incorrectSoundRef.current.currentTime = 0;
+        incorrectSoundRef.current.play();
+      }
       vibrate([150, 150]);
       answerShowDivRef.current?.classList.remove("bg-black");
       answerShowDivRef.current?.classList.add("bg-red-300/30");
