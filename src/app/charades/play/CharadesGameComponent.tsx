@@ -52,6 +52,23 @@ const initialGameState: GameState = {
   timeRemainingCountdown: 70,
   answers: [],
 };
+function exitFullscreen() {
+  if (document.exitFullscreen) {
+    document.exitFullscreen();
+    // @ts-ignore
+  } else if (document.mozCancelFullScreen) {
+    // @ts-ignore
+    document.mozCancelFullScreen();
+    // @ts-ignore
+  } else if (document.webkitExitFullscreen) {
+    // @ts-ignore
+    document.webkitExitFullscreen();
+    // @ts-ignore
+  } else if (document.msExitFullscreen) {
+    // @ts-ignore
+    document.msExitFullscreen();
+  }
+}
 function requestFullscreen() {
   const element = document.documentElement;
 
@@ -195,7 +212,7 @@ function CharadesGameComponent({
           "bg-black"
           // "relative"
         );
-        requestFullscreen();
+        exitFullscreen();
       }
       clearInterval(timerRef.current);
       if (isMobile()) {
