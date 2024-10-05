@@ -119,7 +119,9 @@ function CharadesGameComponent({
 }) {
   const gameContainerRef = useRef<HTMLDivElement>(null);
   const answerShowDivRef = useRef<HTMLDivElement>(null);
+
   const correctSoundRef = useRef<HTMLAudioElement>(null);
+  const gameEndSoundRef = useRef<HTMLAudioElement>(null);
   const incorrectSoundRef = useRef<HTMLAudioElement>(null);
 
   const timerRef = useRef<any>(null);
@@ -154,6 +156,18 @@ function CharadesGameComponent({
     }
 
     if (game.status === "playing") {
+      clearInterval(timerRef.current);
+      const element = document.getElementById("gameContainer");
+      if (element) {
+        element.classList.add(
+          "inset-0",
+          "fixed",
+          "z-[100]",
+          "bg-black"
+          // "relative"
+        );
+        requestFullscreen();
+      }
       const timer = setInterval(() => {
         dispatch({ type: "tickPlaying" });
       }, 1000);
@@ -170,7 +184,20 @@ function CharadesGameComponent({
     }
 
     if (game.status === "ended") {
+      gameEndSoundRef.current?.play();
       // force mobile device in portrait mode
+      const element = document.getElementById("gameContainer");
+      if (element) {
+        element.classList.remove(
+          "inset-0",
+          "fixed",
+          "z-[100]",
+          "bg-black"
+          // "relative"
+        );
+        requestFullscreen();
+      }
+      clearInterval(timerRef.current);
       if (isMobile()) {
         // @ts-ignore
         if (screen.orientation.lock) {
@@ -185,35 +212,11 @@ function CharadesGameComponent({
   useEffect(() => {
     if (game.gameStartingCountdown === 0) {
       dispatch({ type: "start" });
-      clearInterval(timerRef.current);
-      const element = document.getElementById("gameContainer");
-      if (element) {
-        element.classList.add(
-          "inset-0",
-          "fixed",
-          "z-[100]",
-          "bg-black"
-          // "relative"
-        );
-        requestFullscreen();
-      }
     }
   }, [game.gameStartingCountdown]);
   useEffect(() => {
     if (game.timeRemainingCountdown === 0) {
       dispatch({ type: "end" });
-      const element = document.getElementById("gameContainer");
-      if (element) {
-        element.classList.remove(
-          "inset-0",
-          "fixed",
-          "z-[100]",
-          "bg-black"
-          // "relative"
-        );
-        requestFullscreen();
-      }
-      clearInterval(timerRef.current);
     }
   }, [game.timeRemainingCountdown]);
 
@@ -247,18 +250,6 @@ function CharadesGameComponent({
   useEffect(() => {
     if (game.answers.length === words.length) {
       dispatch({ type: "end" });
-      const element = document.getElementById("gameContainer");
-      if (element) {
-        element.classList.remove(
-          "inset-0",
-          "fixed",
-          "z-[100]",
-          "bg-black"
-          // "relative"
-        );
-        requestFullscreen();
-        clearInterval(timerRef.current);
-      }
     }
     if (game.answers.length > 0) {
       markAnswer(game.answers[game.answers.length - 1].isCorrect);
@@ -365,6 +356,10 @@ function CharadesGameComponent({
       <audio
         src="/assets/charades/wronganswer.mp3"
         ref={incorrectSoundRef}
+      ></audio>
+      <audio
+        src="/assets/charades/success-game-ended.mp3"
+        ref={gameEndSoundRef}
       ></audio>
       {/* <div>{game.status}</div>
       <div>{tilt}</div>
