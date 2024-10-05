@@ -449,7 +449,7 @@ function CharadesGameComponent({
           <div className="grid grid-cols-[33%_1fr_33%] h-full">
             <button
               className=""
-              onMouseUp={() => {
+              onClick={() => {
                 dispatch({
                   type: "count",
                   payload: {
@@ -483,7 +483,7 @@ function CharadesGameComponent({
             {/* controls */}
             <button
               className=""
-              onMouseUp={() => {
+              onClick={() => {
                 dispatch({
                   type: "count",
                   payload: {
