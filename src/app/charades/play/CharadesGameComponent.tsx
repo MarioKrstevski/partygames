@@ -48,8 +48,8 @@ interface GameActions {
 
 const initialGameState: GameState = {
   status: "readyToStart",
-  gameStartingCountdown: 2,
-  timeRemainingCountdown: 22,
+  gameStartingCountdown: 5,
+  timeRemainingCountdown: 70,
   answers: [],
 };
 function requestFullscreen() {
@@ -226,13 +226,13 @@ function CharadesGameComponent({
     answerShowDivRef.current?.classList.add("bg-black");
 
     if (isCorrect) {
-      vibrate(100);
+      vibrate(220);
       correctSoundRef.current?.play();
       answerShowDivRef.current?.classList.add("bg-green-200/30");
       answerShowDivRef.current?.classList.remove("bg-black");
     } else {
       incorrectSoundRef.current?.play();
-      vibrate([50, 50]);
+      vibrate([150, 150]);
       answerShowDivRef.current?.classList.remove("bg-black");
       answerShowDivRef.current?.classList.add("bg-red-300/30");
     }
