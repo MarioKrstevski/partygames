@@ -119,6 +119,8 @@ function CharadesGameComponent({
 }) {
   const gameContainerRef = useRef<HTMLDivElement>(null);
   const answerShowDivRef = useRef<HTMLDivElement>(null);
+  const correctSoundRef = useRef<HTMLAudioElement>(null);
+  const incorrectSoundRef = useRef<HTMLAudioElement>(null);
 
   const timerRef = useRef<any>(null);
   const [words, setWords] = useState(
@@ -215,13 +217,22 @@ function CharadesGameComponent({
     }
   }, [game.timeRemainingCountdown]);
 
+  function vibrate(length: number[] | number) {
+    if (navigator.vibrate) {
+      navigator.vibrate(length);
+    }
+  }
   function markAnswer(isCorrect: boolean) {
     answerShowDivRef.current?.classList.add("bg-black");
 
     if (isCorrect) {
+      vibrate(100);
+      correctSoundRef.current?.play();
       answerShowDivRef.current?.classList.add("bg-green-200/30");
       answerShowDivRef.current?.classList.remove("bg-black");
     } else {
+      incorrectSoundRef.current?.play();
+      vibrate([50, 50]);
       answerShowDivRef.current?.classList.remove("bg-black");
       answerShowDivRef.current?.classList.add("bg-red-300/30");
     }
@@ -347,6 +358,14 @@ function CharadesGameComponent({
 
   return (
     <div ref={gameContainerRef} id="gameContainer" className="">
+      <audio
+        src="/assets/charades/correct-guess.mp3"
+        ref={correctSoundRef}
+      ></audio>
+      <audio
+        src="/assets/charades/wronganswer.mp3"
+        ref={incorrectSoundRef}
+      ></audio>
       {/* <div>{game.status}</div>
       <div>{tilt}</div>
       <div>{deviceOrientation.split("-")[0]}</div> */}
