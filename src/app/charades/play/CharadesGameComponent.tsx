@@ -435,6 +435,14 @@ function CharadesGameComponent({
               <h1 className="text-4xl text-center h-full flex items-center">
                 {words[game.answers.length]}
               </h1>
+              <button
+                className="absolute bottom-0 p-0"
+                onClick={() => {
+                  dispatch({ type: "end" });
+                }}
+              >
+                End
+              </button>
             </div>
             {/* controls */}
             <button
