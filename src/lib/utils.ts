@@ -38,3 +38,51 @@ function checkCookie(cookieName: string) {
   }
   return false; // Cookie does not exist
 }
+
+export function vibrate(length: number[] | number) {
+  if (navigator.vibrate) {
+    navigator.vibrate(length);
+  }
+}
+
+export function exitFullscreen() {
+  if (document.exitFullscreen) {
+    document.exitFullscreen();
+    // @ts-ignore
+  } else if (document.mozCancelFullScreen) {
+    // @ts-ignore
+    document.mozCancelFullScreen();
+    // @ts-ignore
+  } else if (document.webkitExitFullscreen) {
+    // @ts-ignore
+    document.webkitExitFullscreen();
+    // @ts-ignore
+  } else if (document.msExitFullscreen) {
+    // @ts-ignore
+    document.msExitFullscreen();
+  }
+}
+export function requestFullscreen() {
+  const element = document.documentElement;
+
+  if (element.requestFullscreen) {
+    element.requestFullscreen();
+    // @ts-ignore
+  } else if (element.mozRequestFullScreen) {
+    // @ts-ignore
+    element.mozRequestFullScreen();
+
+    // @ts-ignore
+  } else if (element.webkitRequestFullscreen) {
+    // @ts-ignore
+    element.webkitRequestFullscreen();
+
+    // @ts-ignore
+  } else if (element.msRequestFullscreen) {
+    // @ts-ignore
+    element.msRequestFullscreen();
+  }
+}
+export function getOrientation() {
+  return window.screen.orientation.type;
+}

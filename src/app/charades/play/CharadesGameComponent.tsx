@@ -1,5 +1,12 @@
 "use client";
-import { isMobile, shuffleArray } from "@/lib/utils";
+import {
+  exitFullscreen,
+  getOrientation,
+  isMobile,
+  requestFullscreen,
+  shuffleArray,
+  vibrate,
+} from "@/lib/utils";
 import { CharadeList } from "@prisma/client";
 import { AnyAaaaRecord } from "dns";
 import Link from "next/link";
@@ -52,44 +59,6 @@ const initialGameState: GameState = {
   timeRemainingCountdown: 70,
   answers: [],
 };
-function exitFullscreen() {
-  if (document.exitFullscreen) {
-    document.exitFullscreen();
-    // @ts-ignore
-  } else if (document.mozCancelFullScreen) {
-    // @ts-ignore
-    document.mozCancelFullScreen();
-    // @ts-ignore
-  } else if (document.webkitExitFullscreen) {
-    // @ts-ignore
-    document.webkitExitFullscreen();
-    // @ts-ignore
-  } else if (document.msExitFullscreen) {
-    // @ts-ignore
-    document.msExitFullscreen();
-  }
-}
-function requestFullscreen() {
-  const element = document.documentElement;
-
-  if (element.requestFullscreen) {
-    element.requestFullscreen();
-    // @ts-ignore
-  } else if (element.mozRequestFullScreen) {
-    // @ts-ignore
-    element.mozRequestFullScreen();
-
-    // @ts-ignore
-  } else if (element.webkitRequestFullscreen) {
-    // @ts-ignore
-    element.webkitRequestFullscreen();
-
-    // @ts-ignore
-  } else if (element.msRequestFullscreen) {
-    // @ts-ignore
-    element.msRequestFullscreen();
-  }
-}
 
 function gameStateReducer(
   state: typeof initialGameState,
@@ -131,7 +100,6 @@ function gameStateReducer(
       return state;
   }
 }
-const getOrientation = () => window.screen.orientation.type;
 
 function CharadesGameComponent({
   charade,
@@ -248,11 +216,6 @@ function CharadesGameComponent({
     }
   }, [game.timeRemainingCountdown]);
 
-  function vibrate(length: number[] | number) {
-    if (navigator.vibrate) {
-      navigator.vibrate(length);
-    }
-  }
   function markAnswer(isCorrect: boolean) {
     answerShowDivRef.current?.classList.add("bg-black");
 
@@ -297,91 +260,6 @@ function CharadesGameComponent({
     console.log(event);
     setDeviceOrientation(getOrientation());
   };
-
-  function handleTilt(event: DeviceMotionEvent) {
-    console.log(event);
-    setTilt(`
-      x: ${event.rotationRate?.alpha},
-      y: ${event.rotationRate?.beta},
-      z: ${event.rotationRate?.gamma},
-      `);
-    // const { x, y } = (
-    //   event as DeviceOrientationEvent & {
-    //     accelerationIncludingGravity: { x: number; y: number };
-    //   }
-    // ).accelerationIncludingGravity;
-    // // alert("x, y: " + x + ", " + y);
-    // setTilt("x, y: " + x + ", " + y);
-    // if (!x || !y) return;
-    // if (x > 0.5) {
-    //   // Tilting right (yes)
-    //   dispatch({
-    //     type: "count",
-    //     payload: {
-    //       isCorrect: true,
-    //       word: words[game.answers.length],
-    //     },
-    //   });
-    // } else if (x < -0.5) {
-    //   // Tilting left (no)
-    //   dispatch({
-    //     type: "count",
-    //     payload: {
-    //       isCorrect: false,
-    //       word: words[game.answers.length],
-    //     },
-    //   });
-    // }
-  }
-  function handleOrientation(event: DeviceOrientationEvent) {
-    const beta = event.beta;
-    setTilt(event.beta + "");
-    if (!beta) return;
-    if (beta > 20) {
-      // Device tilted to the right (yes)
-      console.log("Yes");
-    } else if (beta < -20) {
-      // Device tilted to the left (no)
-      console.log("No");
-    }
-  }
-  useEffect(() => {
-    window.addEventListener("orientationchange", updateOrientation);
-    // window.addEventListener("devicemotion", handleTilt);
-
-    // Check for browser support
-    if (typeof DeviceOrientationEvent !== "undefined") {
-      window.addEventListener("deviceorientation", handleOrientation);
-    } else {
-      console.log("Device Orientation API is not supported.");
-      setTilt("Device Orientation API is not supported.");
-    }
-
-    const read = (sensor: any) => {
-      setTilt(`x: ${sensor.x}, y: ${sensor.y}, z: ${sensor.z}`);
-      console.log("gyro: ", sensor.x, sensor.y, sensor.z);
-    };
-    // @ts-ignore
-    if (window.Gyroscope) {
-      // @ts-ignore
-      let sensor = new Gyroscope();
-      sensor.start();
-      sensor.addEventListener("reading", read);
-      sensor.onreading = read;
-      sensor.onerror = (event: any) => {
-        console.log(event);
-        setTilt("Error: " + event.error);
-      };
-    }
-
-    return () => {
-      window.removeEventListener(
-        "orientationchange",
-        updateOrientation
-      );
-      // window.removeEventListener("devicemotion", handleTilt);
-    };
-  }, []);
 
   return (
     <div ref={gameContainerRef} id="gameContainer" className="">
