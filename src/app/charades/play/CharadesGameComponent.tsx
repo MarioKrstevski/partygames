@@ -415,10 +415,10 @@ function CharadesGameComponent({
       {/* Game is Playing */}
       {game.status === "playing" &&
         deviceOrientation.split("-")[0] === "landscape" && (
-          <div className="grid grid-cols-[25%_1fr_25%] h-full">
+          <div className="grid grid-cols-[33%_1fr_33%] h-full">
             <button
               className=""
-              onClick={() => {
+              onMouseUp={() => {
                 dispatch({
                   type: "count",
                   payload: {
@@ -444,7 +444,7 @@ function CharadesGameComponent({
             {/* controls */}
             <button
               className=""
-              onClick={() => {
+              onMouseUp={() => {
                 dispatch({
                   type: "count",
                   payload: {
