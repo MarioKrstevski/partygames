@@ -52,6 +52,14 @@ const games: Game[] = [
       "Never Have I Ever is a game where players go through the list of things they have never done.",
     image: "/assets/neverhaveiever/neverhaveiever-cover.png",
   },
+  {
+    title: "Spin the Bottle",
+    name: "spinthebottle/play",
+    description: "Spin the bottle",
+    explanation:
+      "Spin the Bottle is a game where players spin a bottle to determine who will perform a dare.",
+    image: "/assets/spinthebottle/spinthebottle-cover.png",
+  },
 ];
 export default function Home() {
   return (
