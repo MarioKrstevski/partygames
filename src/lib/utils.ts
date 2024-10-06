@@ -46,7 +46,14 @@ export function vibrate(length: number[] | number) {
 }
 
 export function exitFullscreen() {
-  if (document.exitFullscreen) {
+  if (!document) {
+    console.log("No document");
+    return;
+  }
+  if (!document.fullscreenElement) {
+    return;
+    // @ts-ignore
+  } else if (document.exitFullscreen) {
     document.exitFullscreen();
     // @ts-ignore
   } else if (document.mozCancelFullScreen) {
@@ -63,6 +70,10 @@ export function exitFullscreen() {
   }
 }
 export function requestFullscreen() {
+  if (!document) {
+    console.log("No document");
+    return;
+  }
   const element = document.documentElement;
 
   if (element.requestFullscreen) {

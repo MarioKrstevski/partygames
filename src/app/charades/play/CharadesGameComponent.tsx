@@ -159,6 +159,7 @@ function CharadesGameComponent({
           "bg-black"
           // "relative"
         );
+        // document.getElementById("fullscreenButton")?.click();
         requestFullscreen();
       }
       const timer = setInterval(() => {
@@ -267,6 +268,15 @@ function CharadesGameComponent({
 
   return (
     <div ref={gameContainerRef} id="gameContainer" className="">
+      <button
+        id="fullscreenButton"
+        className="invisible h-0 w-0 absolute"
+        onClick={() => {
+          requestFullscreen();
+        }}
+      >
+        fullscreen
+      </button>
       <audio
         src="/assets/charades/correct-guess.mp3"
         ref={correctSoundRef}

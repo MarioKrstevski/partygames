@@ -10,7 +10,6 @@ export default async function EditCharadePage({
 }: {
   params: { charadeId: string };
 }) {
-  console.log(params.charadeId);
   const { user } = await validateRequest();
   if (!user) {
     return <div>Not authorized</div>;
