@@ -118,9 +118,9 @@ function CharadesGameComponent({
     shuffleArray(charade.content.split(","))
   );
 
-  const [deviceOrientation, setDeviceOrientation] = useState(
-    getOrientation()
-  );
+  const [deviceOrientation, setDeviceOrientation] =
+    useState("portrait");
+
   const [tilt, setTilt] = useState("Tilt: ");
 
   // @ts-ignore
@@ -128,6 +128,10 @@ function CharadesGameComponent({
     React.Reducer<GameState, GameAction>
   >(gameStateReducer, initialGameState);
 
+  //Load orientation on start
+  useEffect(() => {
+    setDeviceOrientation(getOrientation());
+  }, []);
   //setup intervals
   useEffect(() => {
     return () => {
