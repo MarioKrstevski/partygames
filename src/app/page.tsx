@@ -67,6 +67,14 @@ const games: Game[] = [
     explanation: "Virtual dice for your game",
     image: "/assets/diceroll/diceroll-cover.webp",
   },
+  {
+    title: "Boom It",
+    name: "boomit",
+    description: "Most likely to but with a twist.",
+    explanation:
+      "There is a bomb going off, wherever it lands, you have to do the punishment.",
+    image: "/assets/boomit/boomit-cover.webp",
+  },
 ];
 export default function Home() {
   return (
