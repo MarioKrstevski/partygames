@@ -120,7 +120,7 @@ export default function BoomItGameComponent({
         <div></div>
         <div className="text-xl">
           <p className="text-center">
-            You're toast! The bomb went off in your hands!
+            You&apos;re toast! The bomb went off in your hands!
           </p>
           <div className="flex flex-col items-center">
             <div>Punishment:</div>
