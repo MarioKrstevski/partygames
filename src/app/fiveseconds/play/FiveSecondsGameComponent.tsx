@@ -61,12 +61,16 @@ export default function FiveSecondsGameComponent({
       className="grid grid-rows-[1fr_280px] items-center h-full"
     >
       <div className="text-center">
-        <h1>
+        <h1 className="flex justify-center">
           {timeLeft > 6 && "Get Ready"}
           {timeLeft === 6 && "Start"}
-          {timeLeft < 6 && timeLeft}
+          {timeLeft < 6 && (
+            <div className=" text-xl w-10 h-10 flex items-center justify-center rounded-full border-solid border-white border-1 p-1">
+              {timeLeft}
+            </div>
+          )}
         </h1>
-        <p className="text-2xl text-white">
+        <p className="text-2xl text-white mt-16">
           {timeLeft > 0
             ? content[currentContentIndex]
             : "Time’s up! 🙉"}
