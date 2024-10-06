@@ -24,8 +24,8 @@ export default function SpinTheBottleGameComponent() {
         onClick={startAnimation}
         className="transition-all duration-[2500ms]  ease-in-out"
         src="/assets/spinthebottle/bottle.png"
-        width={200}
-        height={200}
+        width={318}
+        height={318}
         alt="Bottle"
       />
     </div>
