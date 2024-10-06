@@ -14,17 +14,18 @@ enum UserRole {
 }
 
 model User {
-    id                  String                @id @default(cuid())
-    email               String                @unique
-    role                UserRole              @default(USER)
-    username            String                @unique
-    hashedPassword      String
-    createdAt           DateTime              @default(now())
-    updatedAt           DateTime              @updatedAt
-    Session             Session[]
-    charadeList         CharadeList[]
-    fiveSecondsCategory FiveSecondsCategory[]
-    TruthOrDareCategory TruthOrDareCategory[]
+    id                   String                 @id @default(cuid())
+    email                String                 @unique
+    role                 UserRole               @default(USER)
+    username             String                 @unique
+    hashedPassword       String
+    createdAt            DateTime               @default(now())
+    updatedAt            DateTime               @updatedAt
+    Session              Session[]
+    charadeList          CharadeList[]
+    fiveSecondsCategory  FiveSecondsCategory[]
+    TruthOrDareCategory  TruthOrDareCategory[]
+    MostLikelyToCategory MostLikelyToCategory[]
 }
 
 model Session {
@@ -70,4 +71,16 @@ model TruthOrDareCategory {
     userId       String
     truthContent String[]
     dareContent  String[]
+}
+
+model MostLikelyToCategory {
+    id          String   @id @default(cuid())
+    isPublic    Boolean  @default(false)
+    description String   @default("")
+    name        String   @unique
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+    user        User     @relation(fields: [userId], references: [id])
+    userId      String
+    content     String[]
 }
