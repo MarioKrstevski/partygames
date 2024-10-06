@@ -11,7 +11,11 @@ export default function SpinTheBottleGameComponent() {
     clickCounterRef.current += 1;
     //   e.target.classList.remove("duration-400");
     //   e.target.classList.add("duration-1000");
-    let spinAngle = randomNumber(0, 360) * randomNumber(3, 8);
+    const times = randomNumber(3, 7);
+    console.log(times);
+    let spinAngle = randomNumber(0, 360) * times + 360;
+    console.log(spinAngle);
+
     if (clickCounterRef.current % 2 === 0) {
       spinAngle *= -1;
     }
