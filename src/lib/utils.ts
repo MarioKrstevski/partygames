@@ -97,3 +97,7 @@ export function requestFullscreen() {
 export function getOrientation() {
   return window.screen.orientation.type;
 }
+
+export function randomNumber(min: number, max: number) {
+  return Math.random() * (max - min) + min;
+}
