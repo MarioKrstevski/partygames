@@ -115,7 +115,7 @@ function CharadesGameComponent({
 
   const timerRef = useRef<any>(null);
   const [words, setWords] = useState(
-    shuffleArray(charade.items.split(","))
+    shuffleArray(charade.content.split(","))
   );
 
   const [deviceOrientation, setDeviceOrientation] = useState(

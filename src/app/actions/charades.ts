@@ -31,7 +31,7 @@ export async function addCharade(
       userId: user.id,
       name,
       description,
-      items: words,
+      content: words,
       isPublic: user.role === "ADMIN",
     },
   });
@@ -76,7 +76,7 @@ export async function editCharade(
       userId: user.id,
       name,
       description,
-      items: words,
+      content: words,
       isPublic: user.role === "ADMIN",
     },
   });

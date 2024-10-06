@@ -1,6 +1,6 @@
 import { Form } from "@/components/Form";
 import WordsList from "../../new/_components/WordsList";
-import { deleteCharade, editCharade } from "@/app/actions/charades";
+import { editCharade } from "@/app/actions/charades";
 import prismadb from "@/lib/db";
 import { validateRequest } from "@/lib/auth";
 import DeleteCharadeButton from "./DeleteCharadeButton";
@@ -53,7 +53,7 @@ export default async function EditCharadePage({
             required
           />
 
-          <WordsList defaultItems={charade.items.split(",")} />
+          <WordsList defaultItems={charade.content.split(",")} />
           <button type="submit">Create</button>
         </Form>
       </div>

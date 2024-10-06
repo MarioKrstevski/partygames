@@ -21,6 +21,9 @@ export default async function PlayCharadesGame({
     redirect("/charades");
     // return <div>Charade not found</div>;
   }
+  if (!charade.isPublic && charade.userId !== user?.id) {
+    return <div>You can&apos;t play that game</div>;
+  }
   return (
     <main>
       <CharadesGameComponent charade={charade} />
