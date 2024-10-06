@@ -8,7 +8,6 @@ export default async function PlayCharadesGame({
 }: {
   params: { charadeId: string };
 }) {
-  console.log(params.charadeId);
   const { user } = await validateRequest();
   // if (!user) {
   //   return <div>Not authorized</div>;

@@ -8,7 +8,6 @@ import {
   vibrate,
 } from "@/lib/utils";
 import { CharadeList } from "@prisma/client";
-import { AnyAaaaRecord } from "dns";
 import Link from "next/link";
 import { useState, useEffect, useRef, useReducer } from "react";
 
