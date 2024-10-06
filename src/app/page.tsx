@@ -60,6 +60,13 @@ const games: Game[] = [
       "Spin the Bottle is a game where players spin a bottle to determine who will perform a dare.",
     image: "/assets/spinthebottle/spinthebottle-cover.png",
   },
+  {
+    title: "Dice Roll",
+    name: "diceroll/play",
+    description: "Dice rolls",
+    explanation: "Virtual dice for your game",
+    image: "/assets/diceroll/diceroll-cover.webp",
+  },
 ];
 export default function Home() {
   return (

@@ -9,7 +9,7 @@ export default async function NeverHaveIEverPage() {
   });
   const { user } = await validateRequest();
   return (
-    <main className="container p-2">
+    <main className="container p-2 h-[calc(100vh_-_40px)] ">
       <h1>Never Have I Ever</h1>
       <p>
         Start with 5 fingers up. Put one down for every thing you have
