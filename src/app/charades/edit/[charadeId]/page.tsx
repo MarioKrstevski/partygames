@@ -52,7 +52,7 @@ export default async function EditCharadePage({
             required
           />
 
-          <WordsList defaultItems={charade.content.split(",")} />
+          <WordsList defaultItems={charade.content} />
           <button type="submit">Create</button>
         </Form>
       </div>

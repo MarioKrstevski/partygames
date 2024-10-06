@@ -114,9 +114,7 @@ function CharadesGameComponent({
   const incorrectSoundRef = useRef<HTMLAudioElement>(null);
 
   const timerRef = useRef<any>(null);
-  const [words, setWords] = useState(
-    shuffleArray(charade.content.split(","))
-  );
+  const [words, setWords] = useState(shuffleArray(charade.content));
 
   const [deviceOrientation, setDeviceOrientation] =
     useState("portrait");
