@@ -124,7 +124,7 @@ export default function BoomItGameComponent({
           </p>
           <div className="flex flex-col items-center">
             <div>Punishment:</div>
-            <p>{punishments[currentPunishmentIndex]}</p>
+            <p>{punishments[currentPunishmentIndex + 1]}</p>
           </div>
         </div>
         <div className="text-center ">
