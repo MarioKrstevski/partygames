@@ -4,20 +4,35 @@ import Dice from "./Dice";
 import "./diceroll.css";
 export default function DiceRollGameComponent() {
   const [diceAmount, setDiceAmount] = useState(1);
+
   const diceContainerElement = useRef<HTMLDivElement>(null);
   function rollDice() {
     if (diceContainerElement.current === null) {
       return;
     }
     var diceContainer = diceContainerElement.current;
+
     diceContainer.querySelectorAll(".dice").forEach((dice) => {
       const randomNumber = Math.floor(Math.random() * 6 + 1);
-      console.log(randomNumber);
 
+      let lastNumber = Number(dice.classList[1].split("-")[1]);
       for (var i = 1; i <= 6; i++) {
         dice.classList.remove("show-" + i);
         if (randomNumber === i) {
-          dice.classList.add("show-" + i);
+          if (lastNumber === randomNumber) {
+            dice.classList.add("show-" + ((randomNumber + 3) % 6));
+            // due to the nature of the timeout, i++ will execute and sometimes
+            // it will become 7, by creating local variable ii, we can avoid this
+            let ii = i;
+            setTimeout(() => {
+              dice.classList.remove(
+                "show-" + ((randomNumber + 3) % 6)
+              );
+              dice.classList.add("show-" + ii);
+            }, 300);
+          } else {
+            dice.classList.add("show-" + i);
+          }
         }
       }
     });
