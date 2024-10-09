@@ -15,6 +15,7 @@ export default function DiceRollGameComponent() {
     diceContainer.querySelectorAll(".dice").forEach((dice) => {
       const randomNumber = Math.floor(Math.random() * 6 + 1);
 
+      // push through changes
       let lastNumber = Number(dice.classList[1].split("-")[1]);
       for (var i = 1; i <= 6; i++) {
         dice.classList.remove("show-" + i);
