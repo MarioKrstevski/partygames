@@ -7,35 +7,43 @@ Every classic party game in one place, playable instantly in the browser. No app
 
 ## Stack
 
-- [Next.js 14](https://nextjs.org) (App Router, server actions)
-- [Drizzle ORM](https://orm.drizzle.team) on Postgres ([Neon](https://neon.tech) in production)
-- [better-auth](https://better-auth.com) (email/password + username)
-- Tailwind CSS
+| | |
+| --- | --- |
+| [Next.js 16](https://nextjs.org) | App Router, server actions, Turbopack |
+| [React 19](https://react.dev) | |
+| [Tailwind CSS 4](https://tailwindcss.com) | CSS-first config — the theme lives in `src/app/globals.css` |
+| [shadcn/ui](https://ui.shadcn.com) | Radix-based primitives in `src/components/ui/` |
+| [Drizzle ORM](https://orm.drizzle.team) | Postgres via `postgres-js` |
+| [better-auth](https://better-auth.com) | email/password + username |
+| Postgres 17 | Docker locally, [Neon](https://neon.tech) in production |
 
 ## Local development
 
 ```bash
 npm install
-cp .env.example .env   # fill in DATABASE_URL and BETTER_AUTH_SECRET
-npm run db:push        # sync schema to your database
-npm run db:seed        # load starter decks for every game
+cp .env.example .env            # then fill in BETTER_AUTH_SECRET and ADMIN_EMAIL
+npm run db:up                   # start Postgres in Docker (port 5437)
+npm run db:migrate              # apply migrations
+npm run db:seed                 # load starter decks for every game
 npm run dev
 ```
 
-`DATABASE_URL` can point at any Postgres — a local Docker container works fine:
+Generate the auth secret with `openssl rand -base64 32` — better-auth throws at import time if `BETTER_AUTH_SECRET` is empty.
 
-```bash
-docker run -d --name partygames-db -e POSTGRES_PASSWORD=postgres -p 5432:5432 postgres:17-alpine
-```
+The database listens on **5437** rather than the default 5432, so it doesn't collide with other local Postgres containers. Change it in `docker-compose.yml` and `DATABASE_URL` together if you'd rather use another port.
 
-Generate an auth secret with `openssl rand -base64 32`.
+## Going to Neon
+
+Point `DATABASE_URL` at your Neon pooled connection string and run `npm run db:migrate`. There is no separate production driver — `postgres-js` talks to Docker and Neon the same way, so dev and production behave identically.
 
 ## Architecture notes
 
-- **One `deck` table for all games.** Deck content is a `jsonb` map of section key → entries (e.g. Truth or Dare stores `{ truths: [...], dares: [...] }`). Which sections a game uses is declared in the game registry.
-- **`src/lib/games.ts` is the game registry.** Titles, taglines, how-to-play copy, images, and deck content sections all live there. The `/[game]` routes (deck list, create, edit, play) are fully generic and driven by the registry — adding a new deck-based game means adding a registry entry, a play component in `src/components/games/`, and a line in the component registry.
-- **Auth** is handled by better-auth (`src/lib/auth.ts`, route handler at `/api/auth/[...all]`). Use `getUser()` / `getSession()` in server code and `@/lib/auth-client` in client components.
-- **Deck mutations** go through `src/app/actions/decks.ts` (zod-validated server actions with ownership checks).
+- **One `deck` table for all games.** Deck content is a `jsonb` map of section key → entries (Truth or Dare stores `{ truths: [...], dares: [...] }`, Charades stores `{ items: [...] }`). Which sections a game uses is declared in the game registry.
+- **`src/lib/games.ts` is the game registry.** Titles, taglines, how-to-play copy, images, and deck content sections all live there. The `/[game]` routes (deck list, create, edit, play) are fully generic and driven by it — adding a deck-based game means adding a registry entry, a play component in `src/components/games/`, and a line in `src/components/games/registry.tsx`.
+- **Auth** is better-auth (`src/lib/auth.ts`, route handler at `/api/auth/[...all]`). Use `getUser()` / `getSession()` in server code and `@/lib/auth-client` in client components. Admin access is by email — see `ADMIN_EMAIL` and `isAdminEmail()`.
+- **Deck mutations** go through `src/app/actions/decks.ts` — zod-validated server actions with ownership checks. They redirect on success and carry a `?saved=` flag that `SavedToast` turns into a toast, because React 19 resets an uncontrolled form once its action settles.
+- **Styling** is dark-only. The palette is defined once in `globals.css` using shadcn's token names, so shadcn components inherit the app's violet-on-zinc look without restyling.
+- **Migrations** are applied by `scripts/migrate.ts` rather than `drizzle-kit migrate`, so a deploy only needs `drizzle-orm` at runtime — and errors surface instead of being swallowed.
 
 ## Scripts
 
@@ -43,6 +51,10 @@ Generate an auth secret with `openssl rand -base64 32`.
 | --- | --- |
 | `npm run dev` | Dev server |
 | `npm run build` | Production build |
-| `npm run db:push` | Push schema to the database (dev) |
-| `npm run db:generate` / `db:migrate` | Generate / apply SQL migrations |
+| `npm run lint` | ESLint (flat config) |
+| `npm run db:up` / `db:down` | Start / stop the local Postgres container |
+| `npm run db:generate` | Generate a SQL migration from `src/lib/schema.ts` |
+| `npm run db:migrate` | Apply pending migrations |
+| `npm run db:push` | Push the schema straight to the database (local experiments only) |
+| `npm run db:studio` | Drizzle Studio |
 | `npm run db:seed` | Seed public starter decks |
