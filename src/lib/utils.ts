@@ -23,6 +23,18 @@ export function vibrate(length: number[] | number) {
   }
 }
 
+/**
+ * Fullscreen requests reject when the browser refuses them — no user gesture,
+ * a permissions policy, or an embedded frame. Nothing here depends on the
+ * request succeeding, so the rejection is swallowed rather than surfacing as
+ * an uncaught promise error. The prefixed variants return undefined.
+ */
+function ignoreRejection(result: unknown) {
+  if (result && typeof (result as Promise<void>).catch === "function") {
+    (result as Promise<void>).catch(() => {});
+  }
+}
+
 export function exitFullscreen() {
   if (!document) {
     console.log("No document");
@@ -32,19 +44,19 @@ export function exitFullscreen() {
     return;
     // @ts-ignore
   } else if (document.exitFullscreen) {
-    document.exitFullscreen();
+    ignoreRejection(document.exitFullscreen());
     // @ts-ignore
   } else if (document.mozCancelFullScreen) {
     // @ts-ignore
-    document.mozCancelFullScreen();
+    ignoreRejection(document.mozCancelFullScreen());
     // @ts-ignore
   } else if (document.webkitExitFullscreen) {
     // @ts-ignore
-    document.webkitExitFullscreen();
+    ignoreRejection(document.webkitExitFullscreen());
     // @ts-ignore
   } else if (document.msExitFullscreen) {
     // @ts-ignore
-    document.msExitFullscreen();
+    ignoreRejection(document.msExitFullscreen());
   }
 }
 export function requestFullscreen() {
@@ -55,21 +67,21 @@ export function requestFullscreen() {
   const element = document.documentElement;
 
   if (element.requestFullscreen) {
-    element.requestFullscreen();
+    ignoreRejection(element.requestFullscreen());
     // @ts-ignore
   } else if (element.mozRequestFullScreen) {
     // @ts-ignore
-    element.mozRequestFullScreen();
+    ignoreRejection(element.mozRequestFullScreen());
 
     // @ts-ignore
   } else if (element.webkitRequestFullscreen) {
     // @ts-ignore
-    element.webkitRequestFullscreen();
+    ignoreRejection(element.webkitRequestFullscreen());
 
     // @ts-ignore
   } else if (element.msRequestFullscreen) {
     // @ts-ignore
-    element.msRequestFullscreen();
+    ignoreRejection(element.msRequestFullscreen());
   }
 }
 export function getOrientation() {
