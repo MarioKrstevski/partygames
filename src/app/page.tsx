@@ -147,30 +147,6 @@ export default function Home() {
           </ul>
         </section>
 
-        {/* Lab */}
-        <section
-          aria-labelledby="lab-heading"
-          className="mx-auto mt-16 w-full max-w-5xl px-4 sm:px-6"
-        >
-          <Link
-            href="/lab"
-            className="group flex flex-col gap-2 rounded-2xl border border-dashed border-violet-400/40 bg-violet-600/10 p-6 transition-colors hover:border-violet-400 hover:bg-violet-600/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-400 sm:flex-row sm:items-center sm:justify-between"
-          >
-            <span>
-              <span className="block text-lg font-semibold text-white">
-                🧪 The Lab — new games in testing
-              </span>
-              <span className="mt-0.5 block text-sm text-zinc-400">
-                Would You Rather, Paranoia, Word Spy — plus player names and
-                boys-vs-girls mode. Try them first.
-              </span>
-            </span>
-            <span className="text-sm font-semibold text-violet-300 group-hover:text-violet-200">
-              Enter the Lab →
-            </span>
-          </Link>
-        </section>
-
         {/* Make it yours */}
         <section
           aria-labelledby="custom-heading"
