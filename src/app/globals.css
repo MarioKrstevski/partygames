@@ -1,17 +1,42 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-:root {
-  --background: #0d0a1a;
-  --foreground: #f4f2ff;
+/*
+ * Dark-only theme. Colours are the app's violet-on-zinc palette expressed as
+ * design tokens, using the shadcn/ui token names so its components inherit the
+ * look without restyling.
+ */
+@theme {
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+  --color-background: oklch(0.16 0.032 300);
+  --color-foreground: oklch(0.97 0.012 300);
+  --color-card: oklch(0.22 0.03 300);
+  --color-card-foreground: oklch(0.97 0.012 300);
+  --color-popover: oklch(0.2 0.03 300);
+  --color-popover-foreground: oklch(0.97 0.012 300);
+  --color-primary: oklch(0.55 0.24 295);
+  --color-primary-foreground: oklch(0.99 0 0);
+  --color-secondary: oklch(0.29 0.03 300);
+  --color-secondary-foreground: oklch(0.97 0.012 300);
+  --color-muted: oklch(0.29 0.03 300);
+  --color-muted-foreground: oklch(0.72 0.02 300);
+  --color-accent: oklch(0.33 0.05 300);
+  --color-accent-foreground: oklch(0.97 0.012 300);
+  --color-destructive: oklch(0.58 0.22 27);
+  --color-destructive-foreground: oklch(0.99 0 0);
+  --color-border: oklch(0.4 0.03 300 / 30%);
+  --color-input: oklch(0.4 0.03 300 / 30%);
+  --color-ring: oklch(0.62 0.19 295);
+
+  --radius: 0.75rem;
 }
 
 body {
-  color: var(--foreground);
+  color: var(--color-foreground);
   background:
     radial-gradient(1000px 500px at 80% -10%, rgba(124, 58, 237, 0.25), transparent),
     radial-gradient(800px 400px at 10% 110%, rgba(236, 72, 153, 0.15), transparent),
-    var(--background);
+    var(--color-background);
   min-height: 100dvh;
 }

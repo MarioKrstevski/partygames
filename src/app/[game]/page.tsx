@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: GamePageProps): Promise<Metad
   const game = getGame(slug);
   if (!game) return {};
   return {
-    title: `${game.title} — Party Games`,
+    title: game.title,
     description: game.description,
   };
 }

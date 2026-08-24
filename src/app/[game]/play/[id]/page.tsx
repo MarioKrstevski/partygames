@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: PlayPageProps): Promise<Metad
   const { game: slug, id } = await params;
   const game = getGame(slug);
   if (!game) return {};
-  return { title: `Play ${game.title} — Party Games` };
+  return { title: `Play ${game.title}` };
 }
 
 export default async function PlayPage({ params }: PlayPageProps) {

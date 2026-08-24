@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: NewDeckPageProps): Promise<Me
   const { game: slug } = await params;
   const game = getGame(slug);
   if (!game) return {};
-  return { title: `New ${game.title} deck — Party Games` };
+  return { title: `New ${game.title} deck` };
 }
 
 export default async function NewDeckPage({ params }: NewDeckPageProps) {
