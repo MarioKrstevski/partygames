@@ -79,7 +79,7 @@ export const verification = pgTable("verification", {
 // Decks — one table for every game's content
 // ---------------------------------------------------------------------------
 
-const tierEnum = pgEnum("tier", ["light", "medium", "spicy"]);
+export const tierEnum = pgEnum("tier", ["light", "medium", "spicy"]);
 
 export const gameTypeEnum = pgEnum("game_type", [
   "charades",
