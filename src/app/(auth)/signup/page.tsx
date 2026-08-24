@@ -1,116 +1,134 @@
-import { signUp } from "@/app/actions/auth";
-import { Form } from "@/components/Form";
+"use client";
+
 import Link from "next/link";
-export default function SignUp() {
+import { useRouter } from "next/navigation";
+import { useEffect, useState, type FormEvent } from "react";
+import { authClient, useSession } from "@/lib/auth-client";
+import { Button, Card, Input, Label } from "@/components/ui";
+
+export default function SignUpPage() {
+  const router = useRouter();
+  const { data: session } = useSession();
+  const [error, setError] = useState<string | null>(null);
+  const [pending, setPending] = useState(false);
+
+  // Already signed in (and not mid-submit): nothing to do here.
+  useEffect(() => {
+    if (session && !pending) router.replace("/decks");
+  }, [session, pending, router]);
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const username = String(formData.get("username") ?? "").trim();
+    const email = String(formData.get("email") ?? "").trim();
+    const password = String(formData.get("password") ?? "");
+    const confirmPassword = String(formData.get("confirm-password") ?? "");
+
+    if (password !== confirmPassword) {
+      setError("Passwords don't match.");
+      return;
+    }
+
+    setError(null);
+    setPending(true);
+    const { error: signUpError } = await authClient.signUp.email({
+      email,
+      password,
+      name: username,
+      username,
+    });
+    if (signUpError) {
+      setError(signUpError.message ?? "Something went wrong. Please try again.");
+      setPending(false);
+      return;
+    }
+    router.push("/");
+    router.refresh();
+  }
+
   return (
-    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight  ">
-          Sign up to Adresa
-        </h2>
-      </div>
+    <main className="flex min-h-[calc(100vh-4rem)] items-center justify-center px-4 py-10">
+      <Card className="w-full max-w-sm">
+        <h1 className="mb-6 text-center text-2xl font-bold">
+          Create your account
+        </h1>
 
-      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <Form action={signUp}>
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium leading-6  "
-            >
-              Email address <span className="text-red-500">*</span>
-            </label>
-            <div className="mt-2">
-              <input
-                id="email"
-                name="email"
-                type="email"
-                required
-                autoComplete="email"
-                className="block w-full rounded-md border-0 py-1.5   shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-            </div>
-          </div>
-          <div>
-            <label
-              htmlFor="username"
-              className="block text-sm font-medium leading-6  "
-            >
-              Username <span className="text-red-500">*</span>
-            </label>
-            <div className="mt-2">
-              <input
-                id="username"
-                name="username"
-                type="text"
-                required
-                className="block w-full rounded-md border-0 py-1.5   shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-            </div>
+            <Label htmlFor="username">Username</Label>
+            <Input
+              id="username"
+              name="username"
+              type="text"
+              required
+              minLength={3}
+              autoComplete="username"
+              placeholder="partyanimal"
+            />
           </div>
 
           <div>
-            <div className="flex items-center justify-between">
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium leading-6  "
-              >
-                Password <span className="text-red-500">*</span>
-              </label>
-            </div>
-            <div className="mt-2">
-              <input
-                id="password"
-                name="password"
-                type="password"
-                required
-                minLength={5}
-                autoComplete="current-password"
-                className="block w-full rounded-md border-0 py-1.5   shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-            </div>
+            <Label htmlFor="email">Email</Label>
+            <Input
+              id="email"
+              name="email"
+              type="email"
+              required
+              autoComplete="email"
+              placeholder="you@example.com"
+            />
           </div>
 
           <div>
-            <div className="flex items-center justify-between">
-              <label
-                htmlFor="confirm-password"
-                className="block text-sm font-medium leading-6  "
-              >
-                Confirm Password{" "}
-                <span className="text-red-500">*</span>
-              </label>
-            </div>
-            <div className="mt-2">
-              <input
-                id="confirm-password"
-                name="confirm-password"
-                type="password"
-                required
-                autoComplete="off"
-                className="block w-full rounded-md border-0 py-1.5   shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-            </div>
+            <Label htmlFor="password">Password</Label>
+            <Input
+              id="password"
+              name="password"
+              type="password"
+              required
+              minLength={8}
+              autoComplete="new-password"
+              aria-describedby="password-hint"
+            />
+            <p id="password-hint" className="mt-1.5 text-xs text-zinc-400">
+              At least 8 characters.
+            </p>
           </div>
 
-          <div className="my-4">
-            <button
-              type="submit"
-              className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-              Sign up
-            </button>
+          <div>
+            <Label htmlFor="confirm-password">Confirm password</Label>
+            <Input
+              id="confirm-password"
+              name="confirm-password"
+              type="password"
+              required
+              minLength={8}
+              autoComplete="new-password"
+            />
           </div>
-        </Form>
-        <p className="mt-10 text-center text-sm text-gray-500">
-          Already a member?{" "}
+
+          {error ? (
+            <p role="alert" className="text-sm text-red-400">
+              {error}
+            </p>
+          ) : null}
+
+          <Button type="submit" className="w-full" disabled={pending}>
+            {pending ? "Creating account…" : "Sign up"}
+          </Button>
+        </form>
+
+        <p className="mt-6 text-center text-sm text-zinc-400">
+          Already have an account?{" "}
           <Link
-            href={"/signin"}
-            className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
+            href="/signin"
+            className="font-semibold text-violet-400 hover:text-violet-300"
           >
             Sign in
           </Link>
         </p>
-      </div>
-    </div>
+      </Card>
+    </main>
   );
 }

@@ -9,36 +9,14 @@ export function isMobile() {
     navigator.userAgent
   );
 }
-export function shuffleArray(array: any) {
-  for (let i = array.length - 1; i > 0; i--) {
+export function shuffleArray<T>(array: T[]): T[] {
+  const copy = [...array];
+  for (let i = copy.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
+    [copy[i], copy[j]] = [copy[j], copy[i]];
   }
-  return [...array];
+  return copy;
 }
-export function isLoggedInClient() {
-  if (typeof window === "undefined") {
-    return;
-  }
-  const authCookieExists = checkCookie("auth-cookie-exists");
-  return authCookieExists;
-}
-
-function checkCookie(cookieName: string) {
-  const cookies = document.cookie.split(";"); // Split the cookie string by semicolons to get individual cookies
-
-  for (let cookie of cookies) {
-    // Trim leading/trailing spaces
-    cookie = cookie.trim();
-
-    // Check if the current cookie starts with the given name
-    if (cookie.startsWith(`${cookieName}=`)) {
-      return true; // Cookie exists
-    }
-  }
-  return false; // Cookie does not exist
-}
-
 export function vibrate(length: number[] | number) {
   if (navigator.vibrate) {
     navigator.vibrate(length);

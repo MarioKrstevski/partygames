@@ -1,0 +1,76 @@
+import Link from "next/link";
+import { notFound, redirect } from "next/navigation";
+import type { Metadata } from "next";
+import { deleteDeck, updateDeck } from "@/app/actions/decks";
+import { getUser } from "@/lib/auth";
+import { getOwnedDeck } from "@/lib/decks";
+import { getGame } from "@/lib/games";
+import DeckForm from "@/components/DeckForm";
+import { Card, PageContainer } from "@/components/ui";
+import DeleteDeckButton from "./DeleteDeckButton";
+
+interface EditDeckPageProps {
+  params: { game: string; id: string };
+}
+
+export function generateMetadata({ params }: EditDeckPageProps): Metadata {
+  const game = getGame(params.game);
+  if (!game) return {};
+  return { title: `Edit ${game.title} deck — Party Games` };
+}
+
+export default async function EditDeckPage({ params }: EditDeckPageProps) {
+  const game = getGame(params.game);
+  if (!game) notFound();
+
+  const user = await getUser();
+  if (!user) redirect("/signin");
+
+  const isAdmin = !!user.email && user.email === process.env.ADMIN_EMAIL;
+
+  const deck = await getOwnedDeck(params.id, user.id);
+  if (!deck || deck.gameType !== game.slug) notFound();
+
+  return (
+    <PageContainer className="max-w-2xl space-y-6">
+      <div>
+        <Link
+          href={`/${game.slug}`}
+          className="text-sm text-zinc-400 hover:text-white"
+        >
+          ← Back to {game.title}
+        </Link>
+        <h1 className="mt-2 text-2xl font-bold sm:text-3xl">
+          {game.emoji} Edit deck
+        </h1>
+        <p className="mt-1 text-sm text-zinc-400">
+          Tweak your entries — one per line — and save.
+        </p>
+      </div>
+
+      <DeckForm
+        game={game}
+        action={updateDeck.bind(null, game.slug, deck.id)}
+        initial={{
+          name: deck.name,
+          description: deck.description ?? "",
+          language: deck.language,
+          isPublic: deck.isPublic,
+          content: deck.content,
+        }}
+        isAdmin={isAdmin}
+      />
+
+      <Card className="border-red-500/20">
+        <h2 className="text-sm font-semibold text-red-300">Danger zone</h2>
+        <p className="mb-3 mt-1 text-sm text-zinc-400">
+          Deleting a deck removes it for everyone, permanently.
+        </p>
+        <DeleteDeckButton
+          deckName={deck.name}
+          action={deleteDeck.bind(null, game.slug, deck.id)}
+        />
+      </Card>
+    </PageContainer>
+  );
+}

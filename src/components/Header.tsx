@@ -1,52 +1,41 @@
-"use client";
-import { logout } from "@/app/actions/auth";
-import { isLoggedInClient } from "@/lib/utils";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { getUser } from "@/lib/auth";
+import { ButtonLink } from "@/components/ui";
+import SignOutButton from "@/components/SignOutButton";
 
-export default function Header() {
-  //effect description
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  useEffect(() => {
-    const isAuthenticated = isLoggedInClient();
-    if (isAuthenticated) {
-      setIsLoggedIn(true);
-    }
-  }, []);
+export default async function Header() {
+  const user = await getUser();
+
   return (
-    <div className="overflow-hidden h-[40px] flex items-center justify-between px-5 py-2 shadow-lg shadow-gray-800  ">
-      <div className="p-2">
-        <Link href={"/"}>Logo: Party Games</Link>
+    <header className="sticky top-0 z-50 border-b border-white/10 bg-[#0d0a1a]/70 backdrop-blur">
+      <div className="mx-auto flex h-14 w-full max-w-5xl items-center justify-between px-4 sm:px-6">
+        <Link
+          href="/"
+          className="text-base font-bold tracking-tight text-white transition-colors hover:text-violet-300"
+        >
+          <span aria-hidden="true">🎉</span> Party Games
+        </Link>
+
+        <nav aria-label="Account" className="flex items-center gap-2">
+          {user ? (
+            <>
+              <ButtonLink href="/decks" variant="ghost" className="px-3 py-2">
+                My decks
+              </ButtonLink>
+              <SignOutButton />
+            </>
+          ) : (
+            <>
+              <ButtonLink href="/signin" variant="ghost" className="px-3 py-2">
+                Sign in
+              </ButtonLink>
+              <ButtonLink href="/signup" className="px-3 py-2">
+                Sign up
+              </ButtonLink>
+            </>
+          )}
+        </nav>
       </div>
-      <nav>
-        {!isLoggedIn ? (
-          <ul className="flex gap-1">
-            <li>
-              <Link href={"/signin"}>
-                <button className="py-0.5 px-1 text-sm">
-                  Sign in
-                </button>
-              </Link>
-            </li>
-            <li>
-              <Link href={"/signup"}>
-                <button className="py-0.5 px-1 text-sm">
-                  Sign up
-                </button>
-              </Link>
-            </li>
-          </ul>
-        ) : (
-          <form
-            action={logout}
-            onSubmit={() => {
-              setIsLoggedIn(false);
-            }}
-          >
-            <button className="py-0.5 px-1 text-sm">Logout</button>
-          </form>
-        )}
-      </nav>
-    </div>
+    </header>
   );
 }
