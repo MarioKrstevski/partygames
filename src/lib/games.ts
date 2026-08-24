@@ -1,0 +1,233 @@
+import type { DeckContent } from "./schema";
+
+export const GAME_SLUGS = [
+  "charades",
+  "truthordare",
+  "mostlikelyto",
+  "fiveseconds",
+  "neverhaveiever",
+  "boomit",
+] as const;
+
+export type GameSlug = (typeof GAME_SLUGS)[number];
+
+export const TOOL_SLUGS = ["spinthebottle", "diceroll"] as const;
+export type ToolSlug = (typeof TOOL_SLUGS)[number];
+
+/** One editable list inside a deck (e.g. "truths" and "dares"). */
+export interface ContentSection {
+  key: string;
+  label: string;
+  /** Shown under the textarea in the deck editor. */
+  hint: string;
+  placeholder: string;
+  minItems: number;
+}
+
+export interface GameDef {
+  slug: GameSlug;
+  title: string;
+  /** Short punchy line for cards and the landing page. */
+  tagline: string;
+  description: string;
+  howToPlay: string[];
+  emoji: string;
+  image: string;
+  sections: ContentSection[];
+}
+
+export interface ToolDef {
+  slug: ToolSlug;
+  title: string;
+  tagline: string;
+  emoji: string;
+  image: string;
+  href: string;
+}
+
+export const GAMES: Record<GameSlug, GameDef> = {
+  charades: {
+    slug: "charades",
+    title: "Charades",
+    tagline: "Act it out. No words allowed.",
+    description:
+      "Hold the phone to your forehead, act out or guess the word before the timer runs out. Tilt to score.",
+    howToPlay: [
+      "Pick a deck and hold the phone to your forehead facing your friends.",
+      "They act out or describe the word — you guess.",
+      "Got it? Tilt down. Pass? Tilt up. Beat the timer!",
+    ],
+    emoji: "🎭",
+    image: "/assets/charades/charades-game-logo.png",
+    sections: [
+      {
+        key: "items",
+        label: "Words",
+        hint: "One word or phrase per line — things players will act out.",
+        placeholder: "Moonwalk\nMaking pizza\nJames Bond",
+        minItems: 5,
+      },
+    ],
+  },
+  truthordare: {
+    slug: "truthordare",
+    title: "Truth or Dare",
+    tagline: "Confess or commit. Your call.",
+    description:
+      "The classic party icebreaker. Pick truth to answer honestly, or dare to do the deed.",
+    howToPlay: [
+      "Pick a deck that fits your group's vibe.",
+      "On your turn, choose Truth or Dare.",
+      "Answer honestly or do the dare — no chickening out.",
+    ],
+    emoji: "🔥",
+    image: "/assets/truthordare/truthordare-cover.png",
+    sections: [
+      {
+        key: "truths",
+        label: "Truths",
+        hint: "One question per line.",
+        placeholder: "What's your most embarrassing moment?",
+        minItems: 3,
+      },
+      {
+        key: "dares",
+        label: "Dares",
+        hint: "One dare per line.",
+        placeholder: "Speak in an accent for the next 3 rounds",
+        minItems: 3,
+      },
+    ],
+  },
+  mostlikelyto: {
+    slug: "mostlikelyto",
+    title: "Most Likely To",
+    tagline: "Point fingers. Find out what your friends really think.",
+    description:
+      "Read the prompt, count to three, and everyone points at the person most likely to do it.",
+    howToPlay: [
+      "Read the prompt out loud.",
+      "On three, everyone points at the person most likely to do it.",
+      "Most fingers loses (or drinks, or explains themselves).",
+    ],
+    emoji: "👉",
+    image: "/assets/mostlikelyto/mostlikelyto-cover.png",
+    sections: [
+      {
+        key: "items",
+        label: "Prompts",
+        hint: 'One prompt per line, completing "Who is most likely to…".',
+        placeholder: "…forget their own birthday\n…become famous",
+        minItems: 5,
+      },
+    ],
+  },
+  fiveseconds: {
+    slug: "fiveseconds",
+    title: "5 Seconds",
+    tagline: "Name three things. You have five seconds. Go!",
+    description:
+      "Easy questions, brutal time limit. Name three things in the category before five seconds run out.",
+    howToPlay: [
+      "Draw a category and start the 5-second timer.",
+      "Name three things that fit before it runs out.",
+      "Freeze up and the point goes to the group.",
+    ],
+    emoji: "⏱️",
+    image: "/assets/fiveseconds/fiveseconds-cover.webp",
+    sections: [
+      {
+        key: "items",
+        label: "Categories",
+        hint: 'One category per line, e.g. "3 pizza toppings".',
+        placeholder: "3 pizza toppings\n3 movies with robots",
+        minItems: 5,
+      },
+    ],
+  },
+  neverhaveiever: {
+    slug: "neverhaveiever",
+    title: "Never Have I Ever",
+    tagline: "Learn who did what. Regret asking.",
+    description:
+      "Read the statement — everyone who HAS done it owns up. The stories write themselves.",
+    howToPlay: [
+      "Read the statement out loud.",
+      "Everyone who has done it raises a hand (or drinks).",
+      "Best stories get retold. Sorry in advance.",
+    ],
+    emoji: "🙈",
+    image: "/assets/neverhaveiever/neverhaveiever-cover.png",
+    sections: [
+      {
+        key: "items",
+        label: "Statements",
+        hint: 'One statement per line, completing "Never have I ever…".',
+        placeholder: "…missed a flight\n…pretended to know a stranger",
+        minItems: 5,
+      },
+    ],
+  },
+  boomit: {
+    slug: "boomit",
+    title: "Boom It",
+    tagline: "Answer fast and pass the bomb before it blows.",
+    description:
+      "A hot-potato of questions. Answer and pass the phone — whoever holds it when it booms pays the punishment.",
+    howToPlay: [
+      "Read the prompt, answer it, pass the phone fast.",
+      "The bomb timer is random — nobody knows when it blows.",
+      "Holding it at boom? You take the punishment.",
+    ],
+    emoji: "💣",
+    image: "/assets/boomit/boomit-cover.webp",
+    sections: [
+      {
+        key: "statements",
+        label: "Prompts",
+        hint: "One quick prompt per line.",
+        placeholder: "Name a country in South America",
+        minItems: 5,
+      },
+      {
+        key: "punishments",
+        label: "Punishments",
+        hint: "One punishment per line for whoever holds the boom.",
+        placeholder: "Do 10 push-ups",
+        minItems: 3,
+      },
+    ],
+  },
+};
+
+export const TOOLS: ToolDef[] = [
+  {
+    slug: "spinthebottle",
+    title: "Spin the Bottle",
+    tagline: "Let the bottle decide.",
+    emoji: "🍾",
+    image: "/assets/spinthebottle/spinthebottle-cover.png",
+    href: "/spinthebottle/play",
+  },
+  {
+    slug: "diceroll",
+    title: "Dice Roll",
+    tagline: "Roll up to three dice, no table needed.",
+    emoji: "🎲",
+    image: "/assets/diceroll/diceroll-cover.webp",
+    href: "/diceroll/play",
+  },
+];
+
+export function isGameSlug(value: string): value is GameSlug {
+  return (GAME_SLUGS as readonly string[]).includes(value);
+}
+
+export function getGame(slug: string): GameDef | null {
+  return isGameSlug(slug) ? GAMES[slug] : null;
+}
+
+/** Empty content object with every section key of a game present. */
+export function emptyContent(game: GameDef): DeckContent {
+  return Object.fromEntries(game.sections.map((s) => [s.key, []]));
+}

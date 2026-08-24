@@ -1,86 +1,99 @@
 "use client";
-import { useRef, useState } from "react";
+
+import { useEffect, useRef, useState } from "react";
 import Dice from "./Dice";
+import { Button } from "@/components/ui";
+import { cn, randomNumber } from "@/lib/utils";
 import "./diceroll.css";
+
+const DICE_COUNTS = [1, 2, 3] as const;
+/** How long the intermediate face is shown so the cube always animates. */
+const NUDGE_MS = 300;
+/** Cube transition duration (see diceroll.css) plus the nudge. */
+const ROLL_MS = 1000 + NUDGE_MS;
+
+/** Opposite faces of a die sum to 7, so this is always a different face. */
+function oppositeFace(value: number): number {
+  return 7 - value;
+}
+
 export default function DiceRollGameComponent() {
-  const [diceAmount, setDiceAmount] = useState(1);
+  const [values, setValues] = useState<number[]>([1]);
+  const [isRolling, setIsRolling] = useState(false);
+  const timeoutsRef = useRef<number[]>([]);
 
-  const diceContainerElement = useRef<HTMLDivElement>(null);
-  function rollDice() {
-    if (diceContainerElement.current === null) {
-      return;
-    }
-    var diceContainer = diceContainerElement.current;
+  useEffect(() => {
+    const timeouts = timeoutsRef.current;
+    return () => timeouts.forEach((id) => window.clearTimeout(id));
+  }, []);
 
-    diceContainer.querySelectorAll(".dice").forEach((dice) => {
-      const randomNumber = Math.floor(Math.random() * 6 + 1);
-
-      // push through changes
-      let lastNumber = Number(dice.classList[1].split("-")[1]);
-      for (var i = 1; i <= 6; i++) {
-        dice.classList.remove("show-" + i);
-        if (randomNumber === i) {
-          if (lastNumber === randomNumber) {
-            dice.classList.add("show-" + ((randomNumber + 3) % 6));
-            // due to the nature of the timeout, i++ will execute and sometimes
-            // it will become 7, by creating local variable ii, we can avoid this
-            let ii = i;
-            setTimeout(() => {
-              dice.classList.remove(
-                "show-" + ((randomNumber + 3) % 6)
-              );
-              dice.classList.add("show-" + ii);
-            }, 300);
-          } else {
-            dice.classList.add("show-" + i);
-          }
-        }
-      }
-    });
+  function setDiceCount(count: number) {
+    setValues((current) =>
+      Array.from({ length: count }, (_, index) => current[index] ?? 1),
+    );
   }
+
+  function rollDice() {
+    if (isRolling) return;
+    setIsRolling(true);
+    const results = values.map(() => randomNumber(1, 6));
+    // Show the opposite face first so the cube visibly spins even when a
+    // die lands on the same value it already shows.
+    setValues(results.map(oppositeFace));
+    timeoutsRef.current.push(
+      window.setTimeout(() => setValues(results), NUDGE_MS),
+      window.setTimeout(() => setIsRolling(false), ROLL_MS),
+    );
+  }
+
+  const total = values.reduce((sum, value) => sum + value, 0);
+
   return (
-    <div className="grid grid-rows-[200px_1fr_280px] items-center h-full">
-      <div>
-        <h1 className="text-center text-2xl mt-16 px-4">
-          How many dice
-        </h1>
-        <div className="flex gap-1 items-center justify-center">
-          <div
-            className=" rounded text-lg border p-2 cursor-pointer bg-slate-500 text-white w-9 h-9 flex items-center justify-center"
-            onClick={() => {
-              setDiceAmount(1);
-            }}
-          >
-            1
-          </div>
-          <div
-            className=" rounded text-lg border p-2 cursor-pointer bg-slate-500 text-white w-9 h-9 flex items-center justify-center"
-            onClick={() => {
-              setDiceAmount(2);
-            }}
-          >
-            2
-          </div>
-          <div
-            className=" rounded text-lg border p-2 cursor-pointer bg-slate-500 text-white w-9 h-9 flex items-center justify-center"
-            onClick={() => {
-              setDiceAmount(3);
-            }}
-          >
-            3
-          </div>
+    <div className="flex h-full flex-col items-center justify-between gap-8 py-10">
+      <fieldset>
+        <legend className="mb-3 text-center text-lg font-semibold">
+          How many dice?
+        </legend>
+        <div className="flex items-center justify-center gap-2">
+          {DICE_COUNTS.map((count) => (
+            <button
+              key={count}
+              type="button"
+              onClick={() => setDiceCount(count)}
+              aria-pressed={values.length === count}
+              disabled={isRolling}
+              className={cn(
+                "h-10 w-10 rounded-xl border text-sm font-semibold transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-400 disabled:opacity-50",
+                values.length === count
+                  ? "border-violet-500 bg-violet-600 text-white shadow-lg shadow-violet-600/25"
+                  : "border-white/15 bg-white/5 text-zinc-300 hover:bg-white/10",
+              )}
+            >
+              {count}
+            </button>
+          ))}
         </div>
-      </div>
-      <div
-        ref={diceContainerElement}
-        className="text-center flex justify-center  gap-2"
-      >
-        {Array.from({ length: diceAmount }).map((_, index) => (
-          <Dice key={index} />
+      </fieldset>
+
+      <div className="flex flex-wrap items-center justify-center gap-6">
+        {values.map((value, index) => (
+          <Dice key={index} value={value} />
         ))}
       </div>
-      <div className="text-center flex gap-2 justify-center">
-        <button onClick={rollDice}>Roll Dice</button>
+
+      <div className="flex flex-col items-center gap-4">
+        <p
+          aria-live="polite"
+          className={cn(
+            "text-lg font-semibold text-zinc-200",
+            values.length < 2 && "invisible",
+          )}
+        >
+          Total: {isRolling ? "…" : total}
+        </p>
+        <Button onClick={rollDice} disabled={isRolling} className="w-40">
+          {isRolling ? "Rolling…" : "Roll dice"}
+        </Button>
       </div>
     </div>
   );

@@ -1,36 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎉 Party Games
 
-## Getting Started
+Every classic party game in one place, playable instantly in the browser. No app install, no account needed to play. Accounts unlock creating custom decks in any language and sharing them with your friend group.
 
-First, run the development server:
+**Games:** Charades · Truth or Dare · Most Likely To · 5 Seconds · Never Have I Ever · Boom It
+**Quick tools:** Spin the Bottle · Dice Roll
+
+## Stack
+
+- [Next.js 14](https://nextjs.org) (App Router, server actions)
+- [Drizzle ORM](https://orm.drizzle.team) on Postgres ([Neon](https://neon.tech) in production)
+- [better-auth](https://better-auth.com) (email/password + username)
+- Tailwind CSS
+
+## Local development
 
 ```bash
+npm install
+cp .env.example .env   # fill in DATABASE_URL and BETTER_AUTH_SECRET
+npm run db:push        # sync schema to your database
+npm run db:seed        # load starter decks for every game
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+`DATABASE_URL` can point at any Postgres — a local Docker container works fine:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+docker run -d --name partygames-db -e POSTGRES_PASSWORD=postgres -p 5432:5432 postgres:17-alpine
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Generate an auth secret with `openssl rand -base64 32`.
 
-## Learn More
+## Architecture notes
 
-To learn more about Next.js, take a look at the following resources:
+- **One `deck` table for all games.** Deck content is a `jsonb` map of section key → entries (e.g. Truth or Dare stores `{ truths: [...], dares: [...] }`). Which sections a game uses is declared in the game registry.
+- **`src/lib/games.ts` is the game registry.** Titles, taglines, how-to-play copy, images, and deck content sections all live there. The `/[game]` routes (deck list, create, edit, play) are fully generic and driven by the registry — adding a new deck-based game means adding a registry entry, a play component in `src/components/games/`, and a line in the component registry.
+- **Auth** is handled by better-auth (`src/lib/auth.ts`, route handler at `/api/auth/[...all]`). Use `getUser()` / `getSession()` in server code and `@/lib/auth-client` in client components.
+- **Deck mutations** go through `src/app/actions/decks.ts` (zod-validated server actions with ownership checks).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Scripts
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Script | Purpose |
+| --- | --- |
+| `npm run dev` | Dev server |
+| `npm run build` | Production build |
+| `npm run db:push` | Push schema to the database (dev) |
+| `npm run db:generate` / `db:migrate` | Generate / apply SQL migrations |
+| `npm run db:seed` | Seed public starter decks |

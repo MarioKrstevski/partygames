@@ -1,37 +1,57 @@
 "use client";
 
+import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
+import { Button } from "@/components/ui";
 import { randomNumber } from "@/lib/utils";
-import { useRef } from "react";
+
+const SPIN_DURATION_MS = 2500;
 
 export default function SpinTheBottleGameComponent() {
-  const clickCounterRef = useRef(0);
-  function startAnimation(e: any) {
-    // e.target.classList.add("duration-400");
-    // e.target.classList.remove("duration-1000");
-    clickCounterRef.current += 1;
-    //   e.target.classList.remove("duration-400");
-    //   e.target.classList.add("duration-1000");
-    const times = randomNumber(3, 7);
-    console.log(times);
-    let spinAngle = randomNumber(0, 360) * times + 360;
-    console.log(spinAngle);
+  const [rotation, setRotation] = useState(0);
+  const [isSpinning, setIsSpinning] = useState(false);
+  const spinTimeout = useRef<ReturnType<typeof setTimeout>>();
 
-    if (clickCounterRef.current % 2 === 0) {
-      spinAngle *= -1;
-    }
+  useEffect(() => () => clearTimeout(spinTimeout.current), []);
 
-    e.target.style.transform = "rotate(" + spinAngle + "deg)";
+  function spin() {
+    if (isSpinning) return;
+    setIsSpinning(true);
+    const fullTurns = randomNumber(3, 6);
+    setRotation((current) => current + fullTurns * 360 + randomNumber(0, 359));
+    // Fallback in case transitionend never fires (interrupted/cancelled transition)
+    spinTimeout.current = setTimeout(
+      () => setIsSpinning(false),
+      SPIN_DURATION_MS + 200,
+    );
   }
+
   return (
-    <div className="h-full flex items-center justify-center">
-      <img
-        onClick={startAnimation}
-        className="transition-all duration-[2500ms]  ease-in-out"
-        src="/assets/spinthebottle/bottle.png"
-        width={318}
-        height={318}
-        alt="Bottle"
-      />
+    <div className="flex h-full flex-col items-center justify-center gap-10 py-10">
+      <button
+        type="button"
+        onClick={spin}
+        disabled={isSpinning}
+        aria-label="Spin the bottle"
+        className="rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-400"
+      >
+        <Image
+          src="/assets/spinthebottle/bottle.png"
+          alt=""
+          width={318}
+          height={318}
+          priority
+          className="transition-transform ease-in-out"
+          style={{
+            transform: `rotate(${rotation}deg)`,
+            transitionDuration: `${SPIN_DURATION_MS}ms`,
+          }}
+          onTransitionEnd={() => setIsSpinning(false)}
+        />
+      </button>
+      <Button onClick={spin} disabled={isSpinning} className="w-40">
+        {isSpinning ? "Spinning…" : "Spin"}
+      </Button>
     </div>
   );
 }

@@ -1,109 +1,214 @@
 import Image from "next/image";
 import Link from "next/link";
+import Footer from "@/components/Footer";
+import { GAMES, TOOLS } from "@/lib/games";
+import { ButtonLink } from "@/components/ui";
 
-interface Game {
-  title: string;
-  name: string;
-  description: string;
-  explanation: string;
-  image: string;
-}
+const STEPS = [
+  {
+    title: "Create a free account",
+    description:
+      "One minute, no credit card. Playing stays free with or without one.",
+  },
+  {
+    title: "Build a deck in your language",
+    description:
+      "Charades words, dares, punishments — write them yourself. Your inside jokes, your language, your people.",
+  },
+  {
+    title: "Host game night",
+    description:
+      "Open a game, pick your deck, pass the phone around. That is the whole setup.",
+  },
+] as const;
 
-const games: Game[] = [
-  {
-    title: "Charades",
-    name: "charades",
-    description: "A parlor or party word guessing game.",
-    explanation:
-      "Charades is a game where players guess a word or phrase based on a silent performance by one player.",
-    image: "/assets/charades/charades-game-logo.png",
-  },
-  {
-    title: "Truth or Dare",
-    name: "truthordare",
-    description:
-      "A party game where players have to choose between truth or dare.",
-    explanation:
-      "Truth or Dare is a game where players choose between answering a question truthfully or performing a dare.",
-    image: "/assets/truthordare/truthordare-cover.png",
-  },
-  {
-    title: "Most Likely To",
-    name: "mostlikelyto",
-    description:
-      "Chose the person who is most likely to do the action.",
-    explanation:
-      "Most Likely To is a game where players choose the person who is most likely to do the action.",
-    image: "/assets/mostlikelyto/mostlikelyto-cover.png",
-  },
-  {
-    title: "5 Seconds",
-    name: "fiveseconds",
-    description: "Answer the question in 5 seconds or drink.",
-    explanation:
-      "5 Seconds is a game where players have to answer the question in 5 seconds or drink.",
-    image: "/assets/fiveseconds/fiveseconds-cover.webp",
-  },
-  {
-    title: "Never Have I Ever",
-    name: "neverhaveiever",
-    description: "Go through the list of things you have never done.",
-    explanation:
-      "Never Have I Ever is a game where players go through the list of things they have never done.",
-    image: "/assets/neverhaveiever/neverhaveiever-cover.png",
-  },
-  {
-    title: "Spin the Bottle",
-    name: "spinthebottle/play",
-    description: "Spin the bottle",
-    explanation:
-      "Spin the Bottle is a game where players spin a bottle to determine who will perform a dare.",
-    image: "/assets/spinthebottle/spinthebottle-cover.png",
-  },
-  {
-    title: "Dice Roll",
-    name: "diceroll/play",
-    description: "Dice rolls",
-    explanation: "Virtual dice for your game",
-    image: "/assets/diceroll/diceroll-cover.webp",
-  },
-  {
-    title: "Boom It",
-    name: "boomit",
-    description: "Most likely to but with a twist.",
-    explanation:
-      "There is a bomb going off, wherever it lands, you have to do the punishment.",
-    image: "/assets/boomit/boomit-cover.webp",
-  },
-];
 export default function Home() {
   return (
-    <div className="items-center justify-items-center min-h-screen pb-20 gap-16 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-2  items-center sm:items-start">
-        <h1 className="text-center">Select Game</h1>
-        <ul className="flex gap-2 flex-wrap justify-center p-0 w-full px-2.5">
-          {games.map((game: Game) => (
-            <>
-              <Link href={"/" + game.name}>
-                <li
-                  key={game.title}
-                  className="flex border flex-col gap-2 items-center p-2 rounded-md hover:outline outline-2 outline-blue-300"
+    <>
+      <main>
+        {/* Hero */}
+        <section className="mx-auto w-full max-w-5xl px-4 pb-16 pt-14 text-center sm:px-6 sm:pt-24">
+          <p
+            aria-hidden="true"
+            className="mb-6 text-3xl tracking-widest sm:text-4xl"
+          >
+            🎭 🔥 👉 ⏱️ 🙈 💣
+          </p>
+          <h1 className="mx-auto max-w-3xl text-4xl font-extrabold tracking-tight text-white sm:text-6xl">
+            One phone. Every party game.{" "}
+            <span className="bg-gradient-to-r from-violet-400 to-pink-400 bg-clip-text text-transparent">
+              Zero excuses.
+            </span>
+          </h1>
+          <p className="mx-auto mt-5 max-w-xl text-base text-zinc-300 sm:text-lg">
+            Charades, Truth or Dare, Never Have I Ever and more — playable in
+            the browser the second your friends walk in. No app to install, no
+            account needed to play. Want it personal? Build custom decks in any
+            language.
+          </p>
+          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <ButtonLink href="#games" className="w-full px-6 py-3 sm:w-auto">
+              Pick a game
+            </ButtonLink>
+            <ButtonLink
+              href="/signup"
+              variant="secondary"
+              className="w-full px-6 py-3 sm:w-auto"
+            >
+              Create a deck
+            </ButtonLink>
+          </div>
+        </section>
+
+        {/* Games grid */}
+        <section
+          id="games"
+          aria-labelledby="games-heading"
+          className="mx-auto w-full max-w-5xl scroll-mt-8 px-4 sm:px-6"
+        >
+          <h2
+            id="games-heading"
+            className="text-2xl font-bold tracking-tight text-white sm:text-3xl"
+          >
+            Pick your poison
+          </h2>
+          <p className="mt-2 text-sm text-zinc-400 sm:text-base">
+            Six games, all free, all ready in one tap.
+          </p>
+          <ul className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {Object.values(GAMES).map((game) => (
+              <li key={game.slug}>
+                <Link
+                  href={`/${game.slug}`}
+                  className="group flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur transition-colors hover:border-violet-400/50 hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-400"
                 >
-                  <Image
-                    className="object-cover"
-                    src={game.image}
-                    alt={game.title}
-                    width={160}
-                    height={160}
-                  />
-                  <h4 className="p-0 m-0">{game.title}</h4>
-                  {/* <p>{game.description}</p> */}
+                  <div className="relative aspect-[16/9] w-full overflow-hidden bg-black/30">
+                    <Image
+                      src={game.image}
+                      alt=""
+                      fill
+                      sizes="(min-width: 1024px) 320px, (min-width: 640px) 50vw, 100vw"
+                      className="object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                  </div>
+                  <div className="flex flex-1 flex-col p-4">
+                    <h3 className="text-lg font-semibold text-white">
+                      <span aria-hidden="true" className="mr-2">
+                        {game.emoji}
+                      </span>
+                      {game.title}
+                    </h3>
+                    <p className="mt-1 text-sm text-zinc-400">{game.tagline}</p>
+                  </div>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        {/* Quick tools */}
+        <section
+          aria-labelledby="tools-heading"
+          className="mx-auto mt-16 w-full max-w-5xl px-4 sm:px-6"
+        >
+          <h2
+            id="tools-heading"
+            className="text-2xl font-bold tracking-tight text-white sm:text-3xl"
+          >
+            Quick tools
+          </h2>
+          <p className="mt-2 text-sm text-zinc-400 sm:text-base">
+            No rules, no decks — just the classics when you need them.
+          </p>
+          <ul className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
+            {TOOLS.map((tool) => (
+              <li key={tool.slug}>
+                <Link
+                  href={tool.href}
+                  className="group flex items-center gap-4 rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur transition-colors hover:border-violet-400/50 hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-400"
+                >
+                  <span
+                    aria-hidden="true"
+                    className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-violet-600/20 text-3xl"
+                  >
+                    {tool.emoji}
+                  </span>
+                  <span>
+                    <span className="block text-lg font-semibold text-white">
+                      {tool.title}
+                    </span>
+                    <span className="mt-0.5 block text-sm text-zinc-400">
+                      {tool.tagline}
+                    </span>
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        {/* Lab */}
+        <section
+          aria-labelledby="lab-heading"
+          className="mx-auto mt-16 w-full max-w-5xl px-4 sm:px-6"
+        >
+          <Link
+            href="/lab"
+            className="group flex flex-col gap-2 rounded-2xl border border-dashed border-violet-400/40 bg-violet-600/10 p-6 transition-colors hover:border-violet-400 hover:bg-violet-600/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-400 sm:flex-row sm:items-center sm:justify-between"
+          >
+            <span>
+              <span className="block text-lg font-semibold text-white">
+                🧪 The Lab — new games in testing
+              </span>
+              <span className="mt-0.5 block text-sm text-zinc-400">
+                Would You Rather, Paranoia, Word Spy — plus player names and
+                boys-vs-girls mode. Try them first.
+              </span>
+            </span>
+            <span className="text-sm font-semibold text-violet-300 group-hover:text-violet-200">
+              Enter the Lab →
+            </span>
+          </Link>
+        </section>
+
+        {/* Make it yours */}
+        <section
+          aria-labelledby="custom-heading"
+          className="mx-auto my-16 w-full max-w-5xl px-4 sm:my-24 sm:px-6"
+        >
+          <div className="rounded-3xl border border-violet-500/20 bg-gradient-to-b from-violet-600/15 to-pink-500/5 p-6 sm:p-10">
+            <h2
+              id="custom-heading"
+              className="text-2xl font-bold tracking-tight text-white sm:text-3xl"
+            >
+              Make it yours
+            </h2>
+            <p className="mt-2 max-w-xl text-sm text-zinc-300 sm:text-base">
+              The built-in decks are great. The deck full of things only your
+              group would dare each other to do? Better.
+            </p>
+            <ol className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-3">
+              {STEPS.map((step, index) => (
+                <li key={step.title} className="flex flex-col">
+                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-violet-600 text-sm font-bold text-white">
+                    {index + 1}
+                  </span>
+                  <h3 className="mt-3 font-semibold text-white">
+                    {step.title}
+                  </h3>
+                  <p className="mt-1 text-sm text-zinc-400">
+                    {step.description}
+                  </p>
                 </li>
-              </Link>
-            </>
-          ))}
-        </ul>
+              ))}
+            </ol>
+            <ButtonLink href="/signup" className="mt-8 px-6 py-3">
+              Start building decks
+            </ButtonLink>
+          </div>
+        </section>
       </main>
-    </div>
+      <Footer />
+    </>
   );
 }
