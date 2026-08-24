@@ -64,6 +64,9 @@ function SubmitButton({ isEdit }: { isEdit: boolean }) {
 
 export default function DeckForm({ game, action, initial, isAdmin }: DeckFormProps) {
   const [state, formAction] = useActionState(action, {});
+  // A rejected submit hands back what was typed (React 19 resets the form),
+  // so prefer those values over the deck's stored ones.
+  const submitted = state.values;
   const [language, setLanguage] = useState(initial?.language ?? "en");
   const knownLanguage = LANGUAGES.some((l) => l.value === initial?.language);
 
@@ -87,7 +90,7 @@ export default function DeckForm({ game, action, initial, isAdmin }: DeckFormPro
             required
             minLength={2}
             maxLength={60}
-            defaultValue={initial?.name}
+            defaultValue={submitted?.name ?? initial?.name}
             placeholder={`My ${game.title} deck`}
           />
         </div>
@@ -98,7 +101,7 @@ export default function DeckForm({ game, action, initial, isAdmin }: DeckFormPro
             id="deck-description"
             name="description"
             maxLength={300}
-            defaultValue={initial?.description}
+            defaultValue={submitted?.description ?? initial?.description}
             placeholder="What's this deck about? (optional)"
           />
         </div>
@@ -133,7 +136,7 @@ export default function DeckForm({ game, action, initial, isAdmin }: DeckFormPro
               id="deck-public"
               name="isPublic"
               type="checkbox"
-              defaultChecked={initial?.isPublic ?? true}
+              defaultChecked={submitted?.isPublic ?? initial?.isPublic ?? true}
               className="mt-0.5 h-4 w-4 rounded border-white/20 bg-white/5 accent-violet-600"
             />
             <div>
@@ -157,7 +160,10 @@ export default function DeckForm({ game, action, initial, isAdmin }: DeckFormPro
             name={`content.${section.key}`}
             rows={8}
             required
-            defaultValue={initial?.content[section.key]?.join("\n")}
+            defaultValue={
+              submitted?.content[section.key] ??
+              initial?.content[section.key]?.join("\n")
+            }
             placeholder={section.placeholder}
             aria-describedby={`content-${section.key}-hint`}
           />

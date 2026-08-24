@@ -11,7 +11,7 @@ import { PageContainer } from "@/components/layout";
 import { Card } from "@/components/ui/card";
 
 export const metadata: Metadata = {
-  title: "My decks — Party Games",
+  title: "My decks",
 };
 
 function entryCount(deck: Deck): number {
@@ -60,7 +60,7 @@ export default async function MyDecksPage() {
             <ul className="space-y-3">
               {gameDecks.map((deck) => (
                 <li key={deck.id}>
-                  <Card className="flex flex-wrap items-center justify-between gap-3 p-4">
+                  <Card className="flex flex-row flex-wrap items-center justify-between gap-3 p-4">
                     <div className="min-w-0">
                       <div className="flex items-center gap-2">
                         <span className="truncate font-semibold">

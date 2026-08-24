@@ -9,8 +9,38 @@ import { getUser } from "@/lib/auth";
 import { deck, type DeckContent } from "@/lib/schema";
 import { getGame, type GameDef } from "@/lib/games";
 
+export interface DeckFormValues {
+  name: string;
+  description: string;
+  language: string;
+  isPublic: boolean;
+  /** Raw textarea contents, keyed by content section. */
+  content: Record<string, string>;
+}
+
 export interface DeckActionState {
   error?: string;
+  /**
+   * What the user typed. React 19 resets an uncontrolled form once its action
+   * settles, so a rejected submit has to hand the values back or the work is
+   * lost.
+   */
+  values?: DeckFormValues;
+}
+
+function formValues(gameSlug: string, formData: FormData): DeckFormValues {
+  const content: Record<string, string> = {};
+  for (const section of getGame(gameSlug)?.sections ?? []) {
+    content[section.key] =
+      (formData.get(`content.${section.key}`) as string | null) ?? "";
+  }
+  return {
+    name: (formData.get("name") as string | null) ?? "",
+    description: (formData.get("description") as string | null) ?? "",
+    language: (formData.get("language") as string | null) || "en",
+    isPublic: formData.get("isPublic") === "on",
+    content,
+  };
 }
 
 const metaSchema = z.object({
@@ -78,7 +108,9 @@ export async function createDeck(
   if (!user) redirect("/signin");
 
   const parsed = parseDeckForm(gameSlug, formData);
-  if ("error" in parsed && parsed.error) return { error: parsed.error };
+  if ("error" in parsed && parsed.error) {
+    return { error: parsed.error, values: formValues(gameSlug, formData) };
+  }
   const { game, meta, content } = parsed as Exclude<
     ReturnType<typeof parseDeckForm>,
     { error: string }
@@ -89,7 +121,10 @@ export async function createDeck(
     .from(deck)
     .where(eq(deck.userId, user.id));
   if (deckCount >= 100) {
-    return { error: "You've reached the limit of 100 decks per account." };
+    return {
+      error: "You've reached the limit of 100 decks per account.",
+      values: formValues(gameSlug, formData),
+    };
   }
 
   try {
@@ -104,10 +139,16 @@ export async function createDeck(
     });
   } catch (e) {
     if (isUniqueViolation(e)) {
-      return { error: `You already have a ${game.title} deck named "${meta.name}".` };
+      return {
+        error: `You already have a ${game.title} deck named "${meta.name}".`,
+        values: formValues(gameSlug, formData),
+      };
     }
     console.error("createDeck failed", e);
-    return { error: "Something went wrong saving the deck. Please try again." };
+    return {
+      error: "Something went wrong saving the deck. Please try again.",
+      values: formValues(gameSlug, formData),
+    };
   }
 
   revalidatePath(`/${game.slug}`);
@@ -125,7 +166,9 @@ export async function updateDeck(
   if (!user) redirect("/signin");
 
   const parsed = parseDeckForm(gameSlug, formData);
-  if ("error" in parsed && parsed.error) return { error: parsed.error };
+  if ("error" in parsed && parsed.error) {
+    return { error: parsed.error, values: formValues(gameSlug, formData) };
+  }
   const { game, meta, content } = parsed as Exclude<
     ReturnType<typeof parseDeckForm>,
     { error: string }
@@ -150,14 +193,23 @@ export async function updateDeck(
       )
       .returning({ id: deck.id });
     if (updated.length === 0) {
-      return { error: "Deck not found or you don't own it." };
+      return {
+        error: "Deck not found or you don't own it.",
+        values: formValues(gameSlug, formData),
+      };
     }
   } catch (e) {
     if (isUniqueViolation(e)) {
-      return { error: `You already have a ${game.title} deck named "${meta.name}".` };
+      return {
+        error: `You already have a ${game.title} deck named "${meta.name}".`,
+        values: formValues(gameSlug, formData),
+      };
     }
     console.error("updateDeck failed", e);
-    return { error: "Something went wrong saving the deck. Please try again." };
+    return {
+      error: "Something went wrong saving the deck. Please try again.",
+      values: formValues(gameSlug, formData),
+    };
   }
 
   revalidatePath(`/${game.slug}`);
