@@ -41,7 +41,7 @@ export type AuthSession = typeof auth.$Infer.Session;
 
 /** Session for the current request (server components / actions). */
 export const getSession = cache(async () => {
-  return auth.api.getSession({ headers: headers() });
+  return auth.api.getSession({ headers: await headers() });
 });
 
 /** Current user or null. */

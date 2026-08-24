@@ -10,17 +10,19 @@ import { Card, PageContainer } from "@/components/ui";
 import DeleteDeckButton from "./DeleteDeckButton";
 
 interface EditDeckPageProps {
-  params: { game: string; id: string };
+  params: Promise<{ game: string; id: string }>;
 }
 
-export function generateMetadata({ params }: EditDeckPageProps): Metadata {
-  const game = getGame(params.game);
+export async function generateMetadata({ params }: EditDeckPageProps): Promise<Metadata> {
+  const { game: slug, id } = await params;
+  const game = getGame(slug);
   if (!game) return {};
   return { title: `Edit ${game.title} deck — Party Games` };
 }
 
 export default async function EditDeckPage({ params }: EditDeckPageProps) {
-  const game = getGame(params.game);
+  const { game: slug, id } = await params;
+  const game = getGame(slug);
   if (!game) notFound();
 
   const user = await getUser();
@@ -28,7 +30,7 @@ export default async function EditDeckPage({ params }: EditDeckPageProps) {
 
   const isAdmin = !!user.email && user.email === process.env.ADMIN_EMAIL;
 
-  const deck = await getOwnedDeck(params.id, user.id);
+  const deck = await getOwnedDeck(id, user.id);
   if (!deck || deck.gameType !== game.slug) notFound();
 
   return (

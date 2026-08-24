@@ -7,21 +7,23 @@ import { GamePlayer } from "@/components/games/registry";
 import TrackPlay from "./TrackPlay";
 
 interface PlayPageProps {
-  params: { game: string; id: string };
+  params: Promise<{ game: string; id: string }>;
 }
 
-export function generateMetadata({ params }: PlayPageProps): Metadata {
-  const game = getGame(params.game);
+export async function generateMetadata({ params }: PlayPageProps): Promise<Metadata> {
+  const { game: slug, id } = await params;
+  const game = getGame(slug);
   if (!game) return {};
   return { title: `Play ${game.title} — Party Games` };
 }
 
 export default async function PlayPage({ params }: PlayPageProps) {
-  const game = getGame(params.game);
+  const { game: slug, id } = await params;
+  const game = getGame(slug);
   if (!game) notFound();
 
   const user = await getUser();
-  const deck = await getPlayableDeck(params.id, user?.id);
+  const deck = await getPlayableDeck(id, user?.id);
   if (!deck || deck.gameType !== game.slug) notFound();
 
   return (

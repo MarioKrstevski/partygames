@@ -8,17 +8,19 @@ import DeckForm from "@/components/DeckForm";
 import { PageContainer } from "@/components/ui";
 
 interface NewDeckPageProps {
-  params: { game: string };
+  params: Promise<{ game: string }>;
 }
 
-export function generateMetadata({ params }: NewDeckPageProps): Metadata {
-  const game = getGame(params.game);
+export async function generateMetadata({ params }: NewDeckPageProps): Promise<Metadata> {
+  const { game: slug } = await params;
+  const game = getGame(slug);
   if (!game) return {};
   return { title: `New ${game.title} deck — Party Games` };
 }
 
 export default async function NewDeckPage({ params }: NewDeckPageProps) {
-  const game = getGame(params.game);
+  const { game: slug } = await params;
+  const game = getGame(slug);
   if (!game) notFound();
 
   const user = await getUser();

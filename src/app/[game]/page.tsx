@@ -8,11 +8,12 @@ import type { Deck } from "@/lib/schema";
 import { ButtonLink, Card, PageContainer, TierBadge } from "@/components/ui";
 
 interface GamePageProps {
-  params: { game: string };
+  params: Promise<{ game: string }>;
 }
 
-export function generateMetadata({ params }: GamePageProps): Metadata {
-  const game = getGame(params.game);
+export async function generateMetadata({ params }: GamePageProps): Promise<Metadata> {
+  const { game: slug } = await params;
+  const game = getGame(slug);
   if (!game) return {};
   return {
     title: `${game.title} — Party Games`,
@@ -37,7 +38,8 @@ const LANGUAGE_LABELS: Record<string, string> = {
 };
 
 export default async function GamePage({ params }: GamePageProps) {
-  const game = getGame(params.game);
+  const { game: slug } = await params;
+  const game = getGame(slug);
   if (!game) notFound();
 
   const user = await getUser();

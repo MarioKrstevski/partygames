@@ -1,6 +1,7 @@
 "use client";
 
-import { useFormState, useFormStatus } from "react-dom";
+import { useActionState } from "react";
+import { useFormStatus } from "react-dom";
 import type { DeckActionState } from "@/app/actions/decks";
 import { Button, Card, Input, Label, Textarea } from "@/components/ui";
 
@@ -51,7 +52,7 @@ function SubmitButton({ isEdit }: { isEdit: boolean }) {
 }
 
 export default function DeckForm({ game, action, initial, isAdmin }: DeckFormProps) {
-  const [state, formAction] = useFormState(action, {});
+  const [state, formAction] = useActionState(action, {});
   const knownLanguage = LANGUAGES.some((l) => l.value === initial?.language);
 
   return (

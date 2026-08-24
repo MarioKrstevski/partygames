@@ -10,7 +10,7 @@ const SPIN_DURATION_MS = 2500;
 export default function SpinTheBottleGameComponent() {
   const [rotation, setRotation] = useState(0);
   const [isSpinning, setIsSpinning] = useState(false);
-  const spinTimeout = useRef<ReturnType<typeof setTimeout>>();
+  const spinTimeout = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   useEffect(() => () => clearTimeout(spinTimeout.current), []);
 
