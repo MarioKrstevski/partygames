@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Dice from "./Dice";
-import { Button } from "@/components/ui";
+import { Button } from "@/components/ui/button";
 import { cn, randomNumber } from "@/lib/utils";
 import "./diceroll.css";
 

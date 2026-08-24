@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Button, ButtonLink } from "@/components/ui";
+import { ButtonLink } from "@/components/button-link";
+import { Button } from "@/components/ui/button";
 import {
   exitFullscreen,
   getOrientation,
@@ -228,7 +229,7 @@ export default function CharadesGame({
               </p>
             )}
             <div className="flex items-center gap-3">
-              <Button onClick={startGame} className="px-8 py-3 text-lg">
+              <Button onClick={startGame} className="h-auto px-8 py-3 text-lg">
                 Start
               </Button>
               <ButtonLink href="/charades" variant="ghost">
@@ -243,7 +244,7 @@ export default function CharadesGame({
 
   if (phase === "playing") {
     return (
-      <div className="fixed inset-0 z-50 bg-[#0d0a1a]">
+      <div className="fixed inset-0 z-50 bg-background">
         {!isLandscape ? (
           <div className="flex h-full flex-col items-center justify-center gap-3 px-6 text-center">
             <p className="text-2xl font-semibold">Rotate your phone to landscape</p>

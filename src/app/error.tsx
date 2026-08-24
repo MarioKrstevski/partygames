@@ -1,6 +1,8 @@
 "use client";
 
-import { Button, ButtonLink, PageContainer } from "@/components/ui";
+import { ButtonLink } from "@/components/button-link";
+import { PageContainer } from "@/components/layout";
+import { Button } from "@/components/ui/button";
 
 export default function Error({ reset }: { error: Error; reset: () => void }) {
   return (

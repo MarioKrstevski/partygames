@@ -1,7 +1,20 @@
 "use client";
 
 import { useTransition } from "react";
+import { toast } from "sonner";
 import { adminDeleteDeck } from "./actions";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
 
 interface DeleteDeckButtonProps {
   deckId: string;
@@ -9,21 +22,41 @@ interface DeleteDeckButtonProps {
   deckName: string;
 }
 
-export default function DeleteDeckButton({ deckId, gameSlug, deckName }: DeleteDeckButtonProps) {
+export default function DeleteDeckButton({
+  deckId,
+  gameSlug,
+  deckName,
+}: DeleteDeckButtonProps) {
   const [pending, startTransition] = useTransition();
 
-  function handleClick() {
-    if (!confirm(`Delete "${deckName}"? This cannot be undone.`)) return;
-    startTransition(() => adminDeleteDeck(deckId, gameSlug));
+  function handleDelete() {
+    startTransition(async () => {
+      await adminDeleteDeck(deckId, gameSlug);
+      toast.success(`Deleted “${deckName}”`);
+    });
   }
 
   return (
-    <button
-      onClick={handleClick}
-      disabled={pending}
-      className="inline-flex items-center rounded-lg px-2.5 py-1 text-xs font-semibold text-red-400 transition-colors hover:bg-red-500/10 disabled:opacity-50"
-    >
-      {pending ? "…" : "Delete"}
-    </button>
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
+        <Button variant="destructive" size="xs" disabled={pending}>
+          {pending ? "…" : "Delete"}
+        </Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Delete “{deckName}”?</AlertDialogTitle>
+          <AlertDialogDescription>
+            This permanently removes the deck for everyone. It cannot be undone.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction onClick={handleDelete}>
+            Delete deck
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 }

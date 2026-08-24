@@ -1,23 +1,20 @@
 "use client";
 
-import { useState } from "react";
-import { useFormStatus } from "react-dom";
+import { useTransition } from "react";
+import { toast } from "sonner";
 import type { DeckActionState } from "@/app/actions/decks";
-import { Button } from "@/components/ui";
-
-function ConfirmDeleteButton({ onCancel }: { onCancel: () => void }) {
-  const { pending } = useFormStatus();
-  return (
-    <div className="flex items-center gap-3">
-      <Button type="submit" variant="danger" disabled={pending}>
-        {pending ? "Deleting…" : "Yes, delete forever"}
-      </Button>
-      <Button type="button" variant="ghost" onClick={onCancel} disabled={pending}>
-        Cancel
-      </Button>
-    </div>
-  );
-}
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
 
 export default function DeleteDeckButton({
   deckName,
@@ -26,36 +23,38 @@ export default function DeleteDeckButton({
   deckName: string;
   action: () => Promise<DeckActionState>;
 }) {
-  const [confirming, setConfirming] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [pending, startTransition] = useTransition();
 
-  if (!confirming) {
-    return (
-      <Button type="button" variant="danger" onClick={() => setConfirming(true)}>
-        Delete deck
-      </Button>
-    );
+  function handleDelete() {
+    startTransition(async () => {
+      // A successful delete redirects, so only failures come back here.
+      const result = await action();
+      if (result?.error) toast.error(result.error);
+    });
   }
 
   return (
-    <form
-      action={async () => {
-        setError(null);
-        const result = await action();
-        if (result?.error) setError(result.error);
-      }}
-      className="space-y-2"
-    >
-      <p className="text-sm text-zinc-300">
-        Delete <span className="font-semibold text-white">{deckName}</span>?
-        This can&apos;t be undone.
-      </p>
-      {error && (
-        <p role="alert" className="text-sm text-red-400">
-          {error}
-        </p>
-      )}
-      <ConfirmDeleteButton onCancel={() => setConfirming(false)} />
-    </form>
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
+        <Button type="button" variant="destructive" disabled={pending}>
+          {pending ? "Deleting…" : "Delete deck"}
+        </Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Delete “{deckName}”?</AlertDialogTitle>
+          <AlertDialogDescription>
+            This deck and everything in it will be gone for good. This cannot be
+            undone.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Keep it</AlertDialogCancel>
+          <AlertDialogAction onClick={handleDelete}>
+            Yes, delete forever
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 }

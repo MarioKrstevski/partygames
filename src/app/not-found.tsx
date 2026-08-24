@@ -1,4 +1,5 @@
-import { ButtonLink, PageContainer } from "@/components/ui";
+import { ButtonLink } from "@/components/button-link";
+import { PageContainer } from "@/components/layout";
 
 export default function NotFound() {
   return (

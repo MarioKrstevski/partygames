@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { Button } from "@/components/ui";
+import { Button } from "@/components/ui/button";
 import { randomNumber } from "@/lib/utils";
 
 const SPIN_DURATION_MS = 2500;

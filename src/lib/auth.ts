@@ -49,3 +49,8 @@ export const getUser = cache(async () => {
   const session = await getSession();
   return session?.user ?? null;
 });
+
+/** Admin access is granted by email — see ADMIN_EMAIL in .env. */
+export function isAdminEmail(email: string | null | undefined): boolean {
+  return !!email && email === process.env.ADMIN_EMAIL;
+}

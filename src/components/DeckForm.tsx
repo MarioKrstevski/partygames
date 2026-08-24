@@ -1,9 +1,20 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { useFormStatus } from "react-dom";
 import type { DeckActionState } from "@/app/actions/decks";
-import { Button, Card, Input, Label, Textarea } from "@/components/ui";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const LANGUAGES = [
   { value: "en", label: "English" },
@@ -53,6 +64,7 @@ function SubmitButton({ isEdit }: { isEdit: boolean }) {
 
 export default function DeckForm({ game, action, initial, isAdmin }: DeckFormProps) {
   const [state, formAction] = useActionState(action, {});
+  const [language, setLanguage] = useState(initial?.language ?? "en");
   const knownLanguage = LANGUAGES.some((l) => l.value === initial?.language);
 
   return (
@@ -66,7 +78,7 @@ export default function DeckForm({ game, action, initial, isAdmin }: DeckFormPro
         </div>
       )}
 
-      <Card className="space-y-4">
+      <Card className="space-y-4 p-5">
         <div>
           <Label htmlFor="deck-name">Deck name</Label>
           <Input
@@ -93,21 +105,26 @@ export default function DeckForm({ game, action, initial, isAdmin }: DeckFormPro
 
         <div>
           <Label htmlFor="deck-language">Language</Label>
-          <select
-            id="deck-language"
-            name="language"
-            defaultValue={initial?.language ?? "en"}
-            className="w-full rounded-xl border border-white/15 bg-white/5 px-3.5 py-2.5 text-sm text-white focus:border-violet-400 focus:outline-none [&>option]:bg-[#0d0a1a]"
-          >
-            {LANGUAGES.map((lang) => (
-              <option key={lang.value} value={lang.value}>
-                {lang.label}
-              </option>
-            ))}
-            {initial?.language && !knownLanguage && (
-              <option value={initial.language}>{initial.language}</option>
-            )}
-          </select>
+          {/* Select is not a form control, so the value is submitted by the
+              hidden input below and the server action is unchanged. */}
+          <input type="hidden" name="language" value={language} />
+          <Select value={language} onValueChange={setLanguage}>
+            <SelectTrigger id="deck-language" className="w-full">
+              <SelectValue placeholder="Pick a language" />
+            </SelectTrigger>
+            <SelectContent>
+              {LANGUAGES.map((lang) => (
+                <SelectItem key={lang.value} value={lang.value}>
+                  {lang.label}
+                </SelectItem>
+              ))}
+              {initial?.language && !knownLanguage && (
+                <SelectItem value={initial.language}>
+                  {initial.language}
+                </SelectItem>
+              )}
+            </SelectContent>
+          </Select>
         </div>
 
         {isAdmin && (
@@ -133,7 +150,7 @@ export default function DeckForm({ game, action, initial, isAdmin }: DeckFormPro
       </Card>
 
       {game.sections.map((section) => (
-        <Card key={section.key}>
+        <Card key={section.key} className="p-5">
           <Label htmlFor={`content-${section.key}`}>{section.label}</Label>
           <Textarea
             id={`content-${section.key}`}

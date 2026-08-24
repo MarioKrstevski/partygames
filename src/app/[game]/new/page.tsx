@@ -2,10 +2,10 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import type { Metadata } from "next";
 import { createDeck } from "@/app/actions/decks";
-import { getUser } from "@/lib/auth";
+import { getUser, isAdminEmail } from "@/lib/auth";
 import { getGame } from "@/lib/games";
 import DeckForm from "@/components/DeckForm";
-import { PageContainer } from "@/components/ui";
+import { PageContainer } from "@/components/layout";
 
 interface NewDeckPageProps {
   params: Promise<{ game: string }>;
@@ -26,7 +26,7 @@ export default async function NewDeckPage({ params }: NewDeckPageProps) {
   const user = await getUser();
   if (!user) redirect("/signin");
 
-  const isAdmin = !!user.email && user.email === process.env.ADMIN_EMAIL;
+  const isAdmin = isAdminEmail(user.email);
 
   return (
     <PageContainer className="max-w-2xl space-y-6">

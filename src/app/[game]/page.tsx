@@ -1,11 +1,16 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { getUser } from "@/lib/auth";
 import { getVisibleDecks } from "@/lib/decks";
 import { getGame } from "@/lib/games";
 import type { Deck } from "@/lib/schema";
-import { ButtonLink, Card, PageContainer, TierBadge } from "@/components/ui";
+import { TierBadge } from "@/components/TierBadge";
+import { ButtonLink } from "@/components/button-link";
+import { PageContainer } from "@/components/layout";
+import SavedToast from "@/components/SavedToast";
+import { Card } from "@/components/ui/card";
 
 interface GamePageProps {
   params: Promise<{ game: string }>;
@@ -47,6 +52,9 @@ export default async function GamePage({ params }: GamePageProps) {
 
   return (
     <PageContainer className="space-y-8">
+      <Suspense fallback={null}>
+        <SavedToast />
+      </Suspense>
       <Card className="space-y-4 p-6 sm:p-8">
         <div className="flex items-center gap-4">
           <span aria-hidden className="text-5xl">
@@ -108,7 +116,7 @@ export default async function GamePage({ params }: GamePageProps) {
           <ul className="grid gap-4 sm:grid-cols-2">
             {decks.map((deck) => (
               <li key={deck.id}>
-                <Card className="flex h-full flex-col gap-3">
+                <Card className="flex h-full flex-col gap-3 p-5">
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex flex-wrap items-center gap-2">
                       <h3 className="text-lg font-semibold">{deck.name}</h3>

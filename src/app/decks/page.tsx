@@ -5,7 +5,10 @@ import { getUser } from "@/lib/auth";
 import { getMyDecks } from "@/lib/decks";
 import { GAME_SLUGS, GAMES, isGameSlug } from "@/lib/games";
 import type { Deck } from "@/lib/schema";
-import { ButtonLink, Card, PageContainer, TierBadge } from "@/components/ui";
+import { TierBadge } from "@/components/TierBadge";
+import { ButtonLink } from "@/components/button-link";
+import { PageContainer } from "@/components/layout";
+import { Card } from "@/components/ui/card";
 
 export const metadata: Metadata = {
   title: "My decks — Party Games",

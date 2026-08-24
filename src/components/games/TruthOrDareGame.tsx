@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Button } from "@/components/ui";
+import { Button } from "@/components/ui/button";
 import { cn, shuffleArray, vibrate } from "@/lib/utils";
 
 type Kind = "truth" | "dare";

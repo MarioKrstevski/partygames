@@ -2,11 +2,12 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import type { Metadata } from "next";
 import { deleteDeck, updateDeck } from "@/app/actions/decks";
-import { getUser } from "@/lib/auth";
+import { getUser, isAdminEmail } from "@/lib/auth";
 import { getOwnedDeck } from "@/lib/decks";
 import { getGame } from "@/lib/games";
 import DeckForm from "@/components/DeckForm";
-import { Card, PageContainer } from "@/components/ui";
+import { PageContainer } from "@/components/layout";
+import { Card } from "@/components/ui/card";
 import DeleteDeckButton from "./DeleteDeckButton";
 
 interface EditDeckPageProps {
@@ -28,7 +29,7 @@ export default async function EditDeckPage({ params }: EditDeckPageProps) {
   const user = await getUser();
   if (!user) redirect("/signin");
 
-  const isAdmin = !!user.email && user.email === process.env.ADMIN_EMAIL;
+  const isAdmin = isAdminEmail(user.email);
 
   const deck = await getOwnedDeck(id, user.id);
   if (!deck || deck.gameType !== game.slug) notFound();
@@ -63,7 +64,7 @@ export default async function EditDeckPage({ params }: EditDeckPageProps) {
         isAdmin={isAdmin}
       />
 
-      <Card className="border-red-500/20">
+      <Card className="border-red-500/20 p-5">
         <h2 className="text-sm font-semibold text-red-300">Danger zone</h2>
         <p className="mb-3 mt-1 text-sm text-zinc-400">
           Deleting a deck removes it for everyone, permanently.

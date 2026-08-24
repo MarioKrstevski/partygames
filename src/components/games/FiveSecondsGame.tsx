@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Button, ButtonLink } from "@/components/ui";
+import { ButtonLink } from "@/components/button-link";
+import { Button } from "@/components/ui/button";
 import { shuffleArray, vibrate } from "@/lib/utils";
 
 const READY_SECONDS = 3;
@@ -102,7 +103,7 @@ export default function FiveSecondsGame({
           </div>
         </div>
         <div className="flex flex-col gap-3 sm:flex-row">
-          <Button onClick={handleReplay} className="px-8 py-3 text-base">
+          <Button onClick={handleReplay} className="h-auto px-8 py-3 text-base">
             Play again
           </Button>
           <ButtonLink href="/fiveseconds" variant="secondary">
@@ -180,7 +181,7 @@ export default function FiveSecondsGame({
           </Button>
           <Button
             onClick={() => handleResult("fail")}
-            variant="danger"
+            variant="destructive"
             className="py-4 text-base"
           >
             Failed ❌

@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Footer from "@/components/Footer";
 import { GAMES, TOOLS } from "@/lib/games";
-import { ButtonLink } from "@/components/ui";
+import { ButtonLink } from "@/components/button-link";
 
 const STEPS = [
   {
@@ -47,13 +47,13 @@ export default function Home() {
             language.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <ButtonLink href="#games" className="w-full px-6 py-3 sm:w-auto">
+            <ButtonLink href="#games" className="h-auto w-full px-6 py-3 text-base sm:w-auto">
               Pick a game
             </ButtonLink>
             <ButtonLink
               href="/signup"
               variant="secondary"
-              className="w-full px-6 py-3 sm:w-auto"
+              className="h-auto w-full px-6 py-3 text-base sm:w-auto"
             >
               Create a deck
             </ButtonLink>
@@ -178,7 +178,7 @@ export default function Home() {
                 </li>
               ))}
             </ol>
-            <ButtonLink href="/signup" className="mt-8 px-6 py-3">
+            <ButtonLink href="/signup" className="mt-8 h-auto px-6 py-3 text-base">
               Start building decks
             </ButtonLink>
           </div>

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Button } from "@/components/ui";
+import { Button } from "@/components/ui/button";
 import { shuffleArray, vibrate } from "@/lib/utils";
 
 type NeverHaveIEverGameProps = {
@@ -69,7 +69,7 @@ export default function NeverHaveIEverGame({
           </p>
         </div>
         <div className="flex flex-col items-center gap-3 sm:flex-row">
-          <Button onClick={handleReplay} className="px-8 py-3 text-base">
+          <Button onClick={handleReplay} className="h-auto px-8 py-3 text-base">
             Play again
           </Button>
           <Link

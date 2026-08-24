@@ -112,7 +112,7 @@ export async function createDeck(
 
   revalidatePath(`/${game.slug}`);
   revalidatePath("/decks");
-  redirect(`/${game.slug}`);
+  redirect(`/${game.slug}?saved=created`);
 }
 
 export async function updateDeck(
@@ -162,7 +162,7 @@ export async function updateDeck(
 
   revalidatePath(`/${game.slug}`);
   revalidatePath("/decks");
-  redirect(`/${game.slug}`);
+  redirect(`/${game.slug}?saved=updated`);
 }
 
 export async function deleteDeck(
@@ -183,7 +183,7 @@ export async function deleteDeck(
 
   revalidatePath(`/${gameSlug}`);
   revalidatePath("/decks");
-  redirect(`/${gameSlug}`);
+  redirect(`/${gameSlug}?saved=deleted`);
 }
 
 function isUniqueViolation(e: unknown): boolean {

@@ -2,7 +2,8 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { randomNumber, shuffleArray, vibrate } from "@/lib/utils";
-import { Button, ButtonLink } from "@/components/ui";
+import { ButtonLink } from "@/components/button-link";
+import { Button } from "@/components/ui/button";
 
 type Phase = "idle" | "countdown" | "armed" | "boom";
 
@@ -11,9 +12,9 @@ const MIN_FUSE_MS = 10_000;
 const MAX_FUSE_MS = 40_000;
 
 const armedBackgrounds = [
-  "bg-gradient-to-b from-violet-950 via-violet-900 to-[#0d0a1a]",
-  "bg-gradient-to-b from-fuchsia-950 via-fuchsia-900 to-[#0d0a1a]",
-  "bg-gradient-to-b from-indigo-950 via-indigo-900 to-[#0d0a1a]",
+  "bg-gradient-to-b from-violet-950 via-violet-900 to-background",
+  "bg-gradient-to-b from-fuchsia-950 via-fuchsia-900 to-background",
+  "bg-gradient-to-b from-indigo-950 via-indigo-900 to-background",
 ];
 
 export default function BoomItGame({
@@ -150,7 +151,7 @@ export default function BoomItGame({
 
   if (phase === "countdown") {
     return (
-      <div className="flex min-h-[calc(100dvh-3.5rem)] flex-col items-center justify-center gap-4 bg-gradient-to-b from-violet-950 to-[#0d0a1a] text-center">
+      <div className="flex min-h-[calc(100dvh-3.5rem)] flex-col items-center justify-center gap-4 bg-gradient-to-b from-violet-950 to-background text-center">
         <p
           className="text-8xl font-bold tabular-nums text-white"
           aria-live="assertive"
@@ -164,7 +165,7 @@ export default function BoomItGame({
 
   if (phase === "boom") {
     return (
-      <div className="flex min-h-[calc(100dvh-3.5rem)] flex-col items-center justify-center gap-8 bg-gradient-to-b from-red-950 via-red-900 to-[#0d0a1a] px-6 text-center">
+      <div className="flex min-h-[calc(100dvh-3.5rem)] flex-col items-center justify-center gap-8 bg-gradient-to-b from-red-950 via-red-900 to-background px-6 text-center">
         <div role="alert">
           <p className="text-7xl" aria-hidden>
             &#128165;

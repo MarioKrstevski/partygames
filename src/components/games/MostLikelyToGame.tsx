@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Button } from "@/components/ui";
+import { Button } from "@/components/ui/button";
 import { shuffleArray, vibrate } from "@/lib/utils";
 
 type MostLikelyToGameProps = {

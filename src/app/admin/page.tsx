@@ -1,16 +1,13 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { getUser } from "@/lib/auth";
+import { getUser, isAdminEmail } from "@/lib/auth";
 import { getAllDecks, getDeckPlayCounts, getGamePlayCounts } from "@/lib/decks";
 import { GAMES, GAME_SLUGS } from "@/lib/games";
-import { ButtonLink, PageContainer } from "@/components/ui";
+import { ButtonLink } from "@/components/button-link";
+import { PageContainer } from "@/components/layout";
 import TogglePublicButton from "./TogglePublicButton";
 import DeleteDeckButton from "./DeleteDeckButton";
 import type { Deck } from "@/lib/schema";
-
-function isAdmin(email: string | null | undefined): boolean {
-  return !!email && email === process.env.ADMIN_EMAIL;
-}
 
 function itemCount(deck: Deck): number {
   return Object.values(deck.content).reduce((sum, arr) => sum + arr.length, 0);
@@ -21,7 +18,7 @@ export const metadata = { title: "Admin — Deck Management" };
 export default async function AdminPage() {
   const user = await getUser();
   if (!user) redirect("/signin");
-  if (!isAdmin(user.email)) redirect("/");
+  if (!isAdminEmail(user.email)) redirect("/");
 
   const [allDecks, deckPlayCounts, gamePlayCounts] = await Promise.all([
     getAllDecks(),

@@ -4,17 +4,13 @@ import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
-import { getUser } from "@/lib/auth";
+import { getUser, isAdminEmail } from "@/lib/auth";
 import { deck } from "@/lib/schema";
-
-function isAdmin(email: string | null | undefined): boolean {
-  return !!email && email === process.env.ADMIN_EMAIL;
-}
 
 export async function togglePublic(deckId: string, currentValue: boolean) {
   const user = await getUser();
   if (!user) redirect("/signin");
-  if (!isAdmin(user.email)) redirect("/");
+  if (!isAdminEmail(user.email)) redirect("/");
 
   await db
     .update(deck)
@@ -27,7 +23,7 @@ export async function togglePublic(deckId: string, currentValue: boolean) {
 export async function adminDeleteDeck(deckId: string, gameSlug: string) {
   const user = await getUser();
   if (!user) redirect("/signin");
-  if (!isAdmin(user.email)) redirect("/");
+  if (!isAdminEmail(user.email)) redirect("/");
 
   await db.delete(deck).where(eq(deck.id, deckId));
 
