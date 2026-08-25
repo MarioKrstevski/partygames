@@ -10,6 +10,9 @@ export const GAME_SLUGS = [
   "wouldyourather",
   "paranoia",
   "wordspy",
+  "oddoneout",
+  "fibber",
+  "partymode",
 ] as const;
 
 export type GameSlug = (typeof GAME_SLUGS)[number];
@@ -282,6 +285,91 @@ export const GAMES: Record<GameSlug, GameDef> = {
         hint: "One word or short phrase per line — this deck is the category.",
         placeholder: "Pizza\nSushi\nPancakes",
         minItems: 8,
+      },
+    ],
+  },
+  oddoneout: {
+    slug: "oddoneout",
+    title: "Odd One Out",
+    tagline: "Think like the herd — or take the Pink Cow.",
+    description:
+      "Everyone secretly answers the same question. Match the group and score; stand alone and the Pink Cow is yours.",
+    howToPlay: [
+      "Pass the phone — everyone types an answer in secret.",
+      "All answers are revealed at once.",
+      "Matching the biggest group scores. Alone against a united room? Pink Cow.",
+    ],
+    emoji: "🐮",
+    minPlayers: 3,
+    sections: [
+      {
+        key: "questions",
+        label: "Questions",
+        hint: "One open question per line with lots of obvious answers.",
+        placeholder:
+          "Name a yellow fruit\nName something you find in a kitchen",
+        minItems: 5,
+      },
+    ],
+  },
+  fibber: {
+    slug: "fibber",
+    title: "Fibber",
+    tagline: "Invent the lie. Spot the truth.",
+    description:
+      "A real question with a real answer. Everyone writes a convincing fake, then the room votes — fool your friends and steal their points.",
+    howToPlay: [
+      "Pass the phone — everyone secretly writes a fake answer.",
+      "All fakes are shuffled in with the real answer.",
+      "Vote. Finding the truth scores 2; every player your fake fools scores you 1.",
+    ],
+    emoji: "🤥",
+    minPlayers: 3,
+    sections: [
+      {
+        key: "questions",
+        label: "Questions",
+        hint: 'One per line as "question | the real answer".',
+        placeholder:
+          "What is the world's smallest country? | Vatican City\nWhat is a group of crows called? | A murder",
+        minItems: 5,
+        validateEntry: {
+          pattern: "^[^|]+\\|[^|]+$",
+          message:
+            'each line needs exactly one "|" between the question and its real answer',
+        },
+      },
+    ],
+  },
+  partymode: {
+    slug: "partymode",
+    title: "Party Mode",
+    tagline: "One endless deck that calls people out by name.",
+    description:
+      "Dares, challenges and rules dealt one at a time, with your friends' names dropped straight into them. Rules stick around until someone breaks them.",
+    howToPlay: [
+      "Add everyone playing, then hit deal.",
+      "Do what the card says — it will name names.",
+      "Rule cards stay active for a few rounds. Break one, take the punishment.",
+    ],
+    emoji: "🎉",
+    minPlayers: 2,
+    sections: [
+      {
+        key: "prompts",
+        label: "Prompts",
+        hint: "One per line. Use {player} and {player2} for names, {all} for everyone.",
+        placeholder:
+          "{player}, swap seats with {player2}\n{player} does their best impression of {player2}",
+        minItems: 10,
+      },
+      {
+        key: "rules",
+        label: "Rules",
+        hint: "One per line — these stay active for a few rounds.",
+        placeholder:
+          "Nobody may say the word 'drink'\n{player} must be addressed as Your Majesty",
+        minItems: 3,
       },
     ],
   },

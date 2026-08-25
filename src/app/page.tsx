@@ -32,7 +32,7 @@ export default function Home() {
             aria-hidden="true"
             className="mb-6 text-3xl tracking-widest sm:text-4xl"
           >
-            🎭 🔥 👉 ⏱️ 🙈 💣 🤷 🤫 🕵️
+            🎭 🔥 👉 ⏱️ 🙈 💣 🤷 🤫 🕵️ 🐮 🤥 🎉
           </p>
           <h1 className="mx-auto max-w-3xl text-4xl font-extrabold tracking-tight text-white sm:text-6xl">
             One phone. Every party game.{" "}
@@ -73,7 +73,7 @@ export default function Home() {
             Pick your poison
           </h2>
           <p className="mt-2 text-sm text-zinc-400 sm:text-base">
-            Nine games, all free, all ready in one tap.
+            Twelve games, all free, all ready in one tap.
           </p>
           <ul className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {Object.values(GAMES).map((game) => (

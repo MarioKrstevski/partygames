@@ -2,7 +2,7 @@
 
 Every classic party game in one place, playable instantly in the browser. No app install, no account needed to play. Accounts unlock creating custom decks in any language and sharing them with your friend group.
 
-**Games:** Charades · Truth or Dare · Most Likely To · 5 Seconds · Never Have I Ever · Boom It
+**Games:** Charades · Truth or Dare · Most Likely To · 5 Seconds · Never Have I Ever · Boom It · Would You Rather · Paranoia · Word Spy · Odd One Out · Fibber · Party Mode
 **Quick tools:** Spin the Bottle · Dice Roll
 
 ## Stack
@@ -43,6 +43,15 @@ Point `DATABASE_URL` at your Neon pooled connection string and run `npm run db:m
 - **Auth** is better-auth (`src/lib/auth.ts`, route handler at `/api/auth/[...all]`). Use `getUser()` / `getSession()` in server code and `@/lib/auth-client` in client components. Admin access is by email — see `ADMIN_EMAIL` and `isAdminEmail()`.
 - **Deck mutations** go through `src/app/actions/decks.ts` — zod-validated server actions with ownership checks. They redirect on success and carry a `?saved=` flag that `SavedToast` turns into a toast, because React 19 resets an uncontrolled form once its action settles.
 - **Styling** is dark-only. The palette is defined once in `globals.css` using shadcn's token names, so shadcn components inherit the app's violet-on-zinc look without restyling.
+- **Pass-the-phone infrastructure** lives in `src/components/players/`: a
+  localStorage roster (`src/lib/players.ts`) shared across every game that
+  names players, and `PassAroundInput` for collecting one secret entry per
+  player (used by Odd One Out and Fibber).
+- **Game logic is separated from components** where it has rules worth
+  testing: `src/lib/oddoneout.ts` (herd scoring, Pink Cow), `src/lib/fibber.ts`
+  (option building, Psych scoring), `src/lib/prompts.ts` (Party Mode name
+  injection), `src/lib/dilemmas.ts`. These are unit-tested; the components are
+  verified by playing them.
 - **Migrations** are applied by `scripts/migrate.ts` rather than `drizzle-kit migrate`, so a deploy only needs `drizzle-orm` at runtime — and errors surface instead of being swallowed.
 
 ## Scripts
@@ -52,6 +61,7 @@ Point `DATABASE_URL` at your Neon pooled connection string and run `npm run db:m
 | `npm run dev` | Dev server |
 | `npm run build` | Production build |
 | `npm run lint` | ESLint (flat config) |
+| `npm test` | Vitest unit tests |
 | `npm run db:up` / `db:down` | Start / stop the local Postgres container |
 | `npm run db:generate` | Generate a SQL migration from `src/lib/schema.ts` |
 | `npm run db:migrate` | Apply pending migrations |

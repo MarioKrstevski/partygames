@@ -9,6 +9,9 @@ import BoomItGame from "./BoomItGame";
 import WouldYouRatherGame from "./WouldYouRatherGame";
 import ParanoiaGame from "./ParanoiaGame";
 import WordSpyGame from "./WordSpyGame";
+import OddOneOutGame from "./OddOneOutGame";
+import FibberGame from "./FibberGame";
+import PartyModeGame from "./PartyModeGame";
 
 export interface PlayableDeck {
   id: string;
@@ -29,6 +32,9 @@ const GAME_COMPONENTS: Record<
   wouldyourather: WouldYouRatherGame,
   paranoia: ParanoiaGame,
   wordspy: WordSpyGame,
+  oddoneout: OddOneOutGame,
+  fibber: FibberGame,
+  partymode: PartyModeGame,
 };
 
 export function GamePlayer({
