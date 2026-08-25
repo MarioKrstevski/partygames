@@ -91,3 +91,13 @@ export async function getGamePlayCounts(): Promise<Record<string, number>> {
 
   return Object.fromEntries(rows.map((r) => [r.gameType, r.count]));
 }
+
+/** Every deck the night planner may schedule: public decks plus the user's own. */
+export async function getPlannableDecks(
+  userId?: string | null,
+): Promise<Deck[]> {
+  const visibility = userId
+    ? or(eq(deck.isPublic, true), eq(deck.userId, userId))
+    : eq(deck.isPublic, true);
+  return db.select().from(deck).where(visibility).orderBy(asc(deck.name));
+}

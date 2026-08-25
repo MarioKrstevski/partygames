@@ -9,9 +9,14 @@ const config = [
     // Both predate Next 16's react-hooks rules. Kept visible as warnings so
     // they can be reworked as real game logic changes, not as part of a
     // stack migration.
-    // usePlayers additionally hydrates roster state from localStorage in a
-    // mount effect — the standard SSR-safe pattern for storage-backed state.
-    files: ["src/components/games/**", "src/components/players/**"],
+    // usePlayers and the night planner additionally hydrate state from
+    // localStorage in a mount effect — the standard SSR-safe pattern for
+    // storage-backed state.
+    files: [
+      "src/components/games/**",
+      "src/components/players/**",
+      "src/components/night/**",
+    ],
     rules: { "react-hooks/set-state-in-effect": "warn" },
   },
   { ignores: [".next/**", "node_modules/**", "drizzle/**"] },

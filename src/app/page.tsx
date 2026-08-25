@@ -47,15 +47,18 @@ export default function Home() {
             language.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <ButtonLink href="#games" className="h-auto w-full px-6 py-3 text-base sm:w-auto">
-              Pick a game
+            <ButtonLink
+              href="/tonight"
+              className="h-auto w-full px-6 py-3 text-base sm:w-auto"
+            >
+              🌙 Plan tonight
             </ButtonLink>
             <ButtonLink
-              href="/signup"
+              href="#games"
               variant="secondary"
               className="h-auto w-full px-6 py-3 text-base sm:w-auto"
             >
-              Create a deck
+              Browse all 13
             </ButtonLink>
           </div>
         </section>
@@ -73,7 +76,14 @@ export default function Home() {
             Pick your poison
           </h2>
           <p className="mt-2 text-sm text-zinc-400 sm:text-base">
-            Thirteen games, all free, all ready in one tap.
+            Thirteen games, all free, all ready in one tap — or let{" "}
+            <Link
+              href="/tonight"
+              className="font-medium text-violet-300 underline-offset-4 hover:underline"
+            >
+              Plan tonight
+            </Link>{" "}
+            build the running order for you.
           </p>
           <ul className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {Object.values(GAMES).map((game) => (
@@ -108,6 +118,12 @@ export default function Home() {
                       {game.title}
                     </h3>
                     <p className="mt-1 text-sm text-zinc-400">{game.tagline}</p>
+                    <p className="mt-2 text-xs text-zinc-500">
+                      {game.minPlayers === game.maxPlayers
+                        ? `${game.minPlayers} players`
+                        : `${game.minPlayers}–${game.maxPlayers} players`}{" "}
+                      · ~{game.minutes} min
+                    </p>
                   </div>
                 </Link>
               </li>

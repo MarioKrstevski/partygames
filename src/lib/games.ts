@@ -49,6 +49,12 @@ export interface GameDef {
   image?: string;
   /** Minimum roster size; games without a roster leave this unset. */
   minPlayers?: number;
+  /** Above this the game drags — pass-around turns get slow in a big room. */
+  maxPlayers?: number;
+  /** Roughly how long one sitting runs, in minutes. Used to plan a night. */
+  minutes: number;
+  /** "high" is loud and physical, "low" is sitting and talking. Paces a night. */
+  energy: "low" | "high";
   sections: ContentSection[];
 }
 
@@ -74,6 +80,10 @@ export const GAMES: Record<GameSlug, GameDef> = {
       "Got it? Tilt down. Pass? Tilt up. Beat the timer!",
     ],
     emoji: "🎭",
+    minPlayers: 2,
+    maxPlayers: 12,
+    minutes: 10,
+    energy: "high",
     image: "/assets/charades/charades-game-logo.png",
     sections: [
       {
@@ -97,6 +107,10 @@ export const GAMES: Record<GameSlug, GameDef> = {
       "Answer honestly or do the dare — no chickening out.",
     ],
     emoji: "🔥",
+    minPlayers: 2,
+    maxPlayers: 10,
+    minutes: 15,
+    energy: "low",
     image: "/assets/truthordare/truthordare-cover.png",
     sections: [
       {
@@ -127,6 +141,10 @@ export const GAMES: Record<GameSlug, GameDef> = {
       "Most fingers loses (or drinks, or explains themselves).",
     ],
     emoji: "👉",
+    minPlayers: 3,
+    maxPlayers: 12,
+    minutes: 10,
+    energy: "low",
     image: "/assets/mostlikelyto/mostlikelyto-cover.png",
     sections: [
       {
@@ -150,6 +168,10 @@ export const GAMES: Record<GameSlug, GameDef> = {
       "Freeze up and the point goes to the group.",
     ],
     emoji: "⏱️",
+    minPlayers: 2,
+    maxPlayers: 10,
+    minutes: 10,
+    energy: "high",
     image: "/assets/fiveseconds/fiveseconds-cover.webp",
     sections: [
       {
@@ -173,6 +195,10 @@ export const GAMES: Record<GameSlug, GameDef> = {
       "Best stories get retold. Sorry in advance.",
     ],
     emoji: "🙈",
+    minPlayers: 3,
+    maxPlayers: 12,
+    minutes: 15,
+    energy: "low",
     image: "/assets/neverhaveiever/neverhaveiever-cover.png",
     sections: [
       {
@@ -196,6 +222,10 @@ export const GAMES: Record<GameSlug, GameDef> = {
       "Holding it at boom? You take the punishment.",
     ],
     emoji: "💣",
+    minPlayers: 3,
+    maxPlayers: 10,
+    minutes: 10,
+    energy: "high",
     image: "/assets/boomit/boomit-cover.webp",
     sections: [
       {
@@ -226,6 +256,10 @@ export const GAMES: Record<GameSlug, GameDef> = {
       "The minority explains themselves. Then next card.",
     ],
     emoji: "🤷",
+    minPlayers: 2,
+    maxPlayers: 12,
+    minutes: 10,
+    energy: "low",
     sections: [
       {
         key: "dilemmas",
@@ -255,6 +289,9 @@ export const GAMES: Record<GameSlug, GameDef> = {
     ],
     emoji: "🤫",
     minPlayers: 3,
+    maxPlayers: 8,
+    minutes: 15,
+    energy: "low",
     sections: [
       {
         key: "questions",
@@ -279,6 +316,9 @@ export const GAMES: Record<GameSlug, GameDef> = {
     ],
     emoji: "🕵️",
     minPlayers: 3,
+    maxPlayers: 8,
+    minutes: 15,
+    energy: "low",
     sections: [
       {
         key: "words",
@@ -302,6 +342,9 @@ export const GAMES: Record<GameSlug, GameDef> = {
     ],
     emoji: "🐮",
     minPlayers: 3,
+    maxPlayers: 8,
+    minutes: 15,
+    energy: "low",
     sections: [
       {
         key: "questions",
@@ -326,6 +369,9 @@ export const GAMES: Record<GameSlug, GameDef> = {
     ],
     emoji: "🤥",
     minPlayers: 3,
+    maxPlayers: 8,
+    minutes: 20,
+    energy: "low",
     sections: [
       {
         key: "questions",
@@ -355,6 +401,9 @@ export const GAMES: Record<GameSlug, GameDef> = {
     ],
     emoji: "🎉",
     minPlayers: 2,
+    maxPlayers: 12,
+    minutes: 20,
+    energy: "high",
     sections: [
       {
         key: "prompts",
@@ -387,6 +436,9 @@ export const GAMES: Record<GameSlug, GameDef> = {
     ],
     emoji: "🎨",
     minPlayers: 3,
+    maxPlayers: 8,
+    minutes: 20,
+    energy: "low",
     sections: [
       {
         key: "words",

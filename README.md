@@ -4,6 +4,7 @@ Every classic party game in one place, playable instantly in the browser. No app
 
 **Games:** Charades · Truth or Dare · Most Likely To · 5 Seconds · Never Have I Ever · Boom It · Would You Rather · Paranoia · Word Spy · Odd One Out · Fibber · Party Mode · Doodle Chain
 **Quick tools:** Spin the Bottle · Dice Roll
+**Plan tonight:** answer three questions, get a running order for the whole evening
 
 ## Stack
 
@@ -43,6 +44,13 @@ Point `DATABASE_URL` at your Neon pooled connection string and run `npm run db:m
 - **Auth** is better-auth (`src/lib/auth.ts`, route handler at `/api/auth/[...all]`). Use `getUser()` / `getSession()` in server code and `@/lib/auth-client` in client components. Admin access is by email — see `ADMIN_EMAIL` and `isAdminEmail()`.
 - **Deck mutations** go through `src/app/actions/decks.ts` — zod-validated server actions with ownership checks. They redirect on success and carry a `?saved=` flag that `SavedToast` turns into a toast, because React 19 resets an uncontrolled form once its action settles.
 - **Styling** is dark-only. The palette is defined once in `globals.css` using shadcn's token names, so shadcn components inherit the app's violet-on-zinc look without restyling.
+- **`/tonight` plans the evening.** `src/lib/night.ts` takes the group size,
+  the vibe and how long you have, then builds a running order: only games that
+  fit the room, no repeats until every eligible game has been used, energy
+  alternating so nobody shouts for two hours, and heat escalating from a warm
+  up to the spicy decks. The plan lives in localStorage because playing a game
+  navigates away from the planner. Game pacing metadata (`minutes`, `energy`,
+  `minPlayers`, `maxPlayers`) lives in the registry alongside everything else.
 - **Pass-the-phone infrastructure** lives in `src/components/players/`: a
   localStorage roster (`src/lib/players.ts`) shared across every game that
   names players, and `PassAroundInput` for collecting one secret entry per
