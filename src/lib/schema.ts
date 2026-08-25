@@ -99,6 +99,7 @@ export const gameTypeEnum = pgEnum("game_type", [
   "oddoneout",
   "fibber",
   "partymode",
+  "doodlechain",
 ]);
 
 /**

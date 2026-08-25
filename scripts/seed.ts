@@ -2183,6 +2183,48 @@ const partyModeTurnedUp: Record<string, string[]> = {
   ],
 };
 
+// ============================================================
+// DOODLE CHAIN — words chosen to be drawable, not just guessable
+// ============================================================
+
+const doodleEasy: string[] = [
+  "Octopus", "Birthday cake", "Snowman", "Pirate ship", "Rainbow",
+  "Haunted house", "Ice cream cone", "Robot", "Lighthouse", "Dragon",
+  "Sunflower", "Hot air balloon", "Treasure map", "Campfire", "Windmill",
+  "Astronaut", "Mermaid", "Wizard hat", "Sandcastle", "Tree house",
+  "Volcano", "Penguin on ice", "Hamburger", "Rocket launch", "Umbrella in rain",
+  "Cactus", "Jellyfish", "Sleeping cat", "Bicycle", "Crown",
+  "Igloo", "Butterfly", "Guitar", "Traffic jam", "Fishbowl",
+];
+
+const doodleTricky: string[] = [
+  "Brushing your teeth", "Missing the bus", "A very bad haircut",
+  "Losing your keys", "Falling asleep at work", "Stepping on a plug",
+  "Waiting for a text back", "The last slice of pizza",
+  "A cat knocking things off a table", "Awkward eye contact",
+  "Untangling headphones", "Running out of battery",
+  "Being chased by a goose", "Burnt toast", "A shopping trolley with one bad wheel",
+  "Assembling flat-pack furniture", "Trying to parallel park",
+  "A dog walking its owner", "The first day of a diet",
+  "Getting caught in the rain", "Singing in the shower",
+  "A plant you forgot to water", "Sneezing in a quiet room",
+  "Trying to leave a party quietly", "Your phone falling on your face",
+  "Two people reaching for the same thing", "A very long queue",
+  "Someone taking a selfie badly", "The moment before a sneeze",
+  "An overpacked suitcase",
+];
+
+const doodleImpossible: string[] = [
+  "Nostalgia", "Deja vu", "Procrastination", "Existential dread",
+  "The sound of silence", "Monday morning", "Second-hand embarrassment",
+  "The feeling of being watched", "Overthinking", "Time flying",
+  "A conversation going nowhere", "Bad wifi", "Regret at 3am",
+  "Peer pressure", "The silent treatment", "Butterflies in your stomach",
+  "A guilty conscience", "Wishful thinking", "The calm before the storm",
+  "Growing apart", "Beginner's luck", "A white lie",
+  "The last day of summer", "Unread messages", "Mixed signals",
+];
+
 const SEED_DECKS: SeedDeck[] = [
   // --- Charades ---
   {
@@ -2547,6 +2589,31 @@ const SEED_DECKS: SeedDeck[] = [
     description:
       "Honest opinions, confessions and rules with teeth. For a group that already knows each other.",
     content: partyModeTurnedUp,
+  },
+  // --- Doodle Chain ---
+  {
+    gameType: "doodlechain",
+    name: "Easy Doodles",
+    tier: "light",
+    description:
+      "Things that actually look like something. Dragons, lighthouses, penguins on ice.",
+    content: { words: doodleEasy },
+  },
+  {
+    gameType: "doodlechain",
+    name: "Tricky Doodles",
+    tier: "medium",
+    description:
+      "Situations, not objects. Try drawing 'waiting for a text back' and watch it mutate.",
+    content: { words: doodleTricky },
+  },
+  {
+    gameType: "doodlechain",
+    name: "Impossible Doodles",
+    tier: "spicy",
+    description:
+      "Abstract feelings with no business being drawn. The chain never survives. That is the point.",
+    content: { words: doodleImpossible },
   },
 ];
 

@@ -13,6 +13,7 @@ export const GAME_SLUGS = [
   "oddoneout",
   "fibber",
   "partymode",
+  "doodlechain",
 ] as const;
 
 export type GameSlug = (typeof GAME_SLUGS)[number];
@@ -370,6 +371,29 @@ export const GAMES: Record<GameSlug, GameDef> = {
         placeholder:
           "Nobody may say the word 'drink'\n{player} must be addressed as Your Majesty",
         minItems: 3,
+      },
+    ],
+  },
+  doodlechain: {
+    slug: "doodlechain",
+    title: "Doodle Chain",
+    tagline: "Draw it. Guess it. Watch it fall apart.",
+    description:
+      "A drawing game of telephone. One phone, passed around — each player sees only the step before theirs, and the whole chain is replayed at the end.",
+    howToPlay: [
+      "The first player gets a secret word and draws it.",
+      "The next sees only the drawing and writes what it is.",
+      "The next sees only that word and draws it. Repeat, then reveal.",
+    ],
+    emoji: "🎨",
+    minPlayers: 3,
+    sections: [
+      {
+        key: "words",
+        label: "Words",
+        hint: "One word or short phrase per line — drawable things work best.",
+        placeholder: "Octopus\nBrushing your teeth\nA haunted house",
+        minItems: 8,
       },
     ],
   },

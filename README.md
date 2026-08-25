@@ -2,7 +2,7 @@
 
 Every classic party game in one place, playable instantly in the browser. No app install, no account needed to play. Accounts unlock creating custom decks in any language and sharing them with your friend group.
 
-**Games:** Charades · Truth or Dare · Most Likely To · 5 Seconds · Never Have I Ever · Boom It · Would You Rather · Paranoia · Word Spy · Odd One Out · Fibber · Party Mode
+**Games:** Charades · Truth or Dare · Most Likely To · 5 Seconds · Never Have I Ever · Boom It · Would You Rather · Paranoia · Word Spy · Odd One Out · Fibber · Party Mode · Doodle Chain
 **Quick tools:** Spin the Bottle · Dice Roll
 
 ## Stack
@@ -47,6 +47,11 @@ Point `DATABASE_URL` at your Neon pooled connection string and run `npm run db:m
   localStorage roster (`src/lib/players.ts`) shared across every game that
   names players, and `PassAroundInput` for collecting one secret entry per
   player (used by Odd One Out and Fibber).
+- **Doodle Chain draws on a canvas** (`src/components/games/DoodleCanvas.tsx`).
+  Strokes are stored as normalized 0..1 points so they survive a resize and
+  render sharp on retina; drawings live in memory as PNG data URLs and are
+  never written to the database. `src/lib/doodlechain.ts` owns the chain rules,
+  including which single step a player is allowed to see.
 - **Game logic is separated from components** where it has rules worth
   testing: `src/lib/oddoneout.ts` (herd scoring, Pink Cow), `src/lib/fibber.ts`
   (option building, Psych scoring), `src/lib/prompts.ts` (Party Mode name

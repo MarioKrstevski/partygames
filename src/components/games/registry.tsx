@@ -12,6 +12,7 @@ import WordSpyGame from "./WordSpyGame";
 import OddOneOutGame from "./OddOneOutGame";
 import FibberGame from "./FibberGame";
 import PartyModeGame from "./PartyModeGame";
+import DoodleChainGame from "./DoodleChainGame";
 
 export interface PlayableDeck {
   id: string;
@@ -35,6 +36,7 @@ const GAME_COMPONENTS: Record<
   oddoneout: OddOneOutGame,
   fibber: FibberGame,
   partymode: PartyModeGame,
+  doodlechain: DoodleChainGame,
 };
 
 export function GamePlayer({
