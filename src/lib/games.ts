@@ -7,6 +7,9 @@ export const GAME_SLUGS = [
   "fiveseconds",
   "neverhaveiever",
   "boomit",
+  "wouldyourather",
+  "paranoia",
+  "wordspy",
 ] as const;
 
 export type GameSlug = (typeof GAME_SLUGS)[number];
@@ -22,6 +25,12 @@ export interface ContentSection {
   hint: string;
   placeholder: string;
   minItems: number;
+  /**
+   * Per-line validation applied when saving a deck. The pattern is kept as a
+   * string (not RegExp) so game definitions stay serializable across the
+   * server/client component boundary.
+   */
+  validateEntry?: { pattern: string; message: string };
 }
 
 export interface GameDef {
@@ -32,7 +41,10 @@ export interface GameDef {
   description: string;
   howToPlay: string[];
   emoji: string;
-  image: string;
+  /** Cover image. Games without one render an emoji tile instead. */
+  image?: string;
+  /** Minimum roster size; games without a roster leave this unset. */
+  minPlayers?: number;
   sections: ContentSection[];
 }
 
@@ -195,6 +207,81 @@ export const GAMES: Record<GameSlug, GameDef> = {
         hint: "One punishment per line for whoever holds the boom.",
         placeholder: "Do 10 push-ups",
         minItems: 3,
+      },
+    ],
+  },
+  wouldyourather: {
+    slug: "wouldyourather",
+    title: "Would You Rather",
+    tagline: "Impossible choices, zero mercy.",
+    description:
+      "Two options, both terrible (or both tempting). Everyone picks a side and defends it.",
+    howToPlay: [
+      "Read both options out loud.",
+      "Everyone picks A or B — no abstaining.",
+      "The minority explains themselves. Then next card.",
+    ],
+    emoji: "🤷",
+    sections: [
+      {
+        key: "dilemmas",
+        label: "Dilemmas",
+        hint: 'One dilemma per line as "option A | option B".',
+        placeholder:
+          "never taste food again | never hear music again\nknow how you die | know when you die",
+        minItems: 5,
+        validateEntry: {
+          pattern: "^[^|]+\\|[^|]+$",
+          message:
+            'each line needs exactly one "|" separating the two options',
+        },
+      },
+    ],
+  },
+  paranoia: {
+    slug: "paranoia",
+    title: "Paranoia",
+    tagline: "Whisper, answer, pray the coin stays down.",
+    description:
+      "Whisper a question to your neighbour, they answer with a name out loud. Heads: the question is revealed. Tails: the named player never finds out why.",
+    howToPlay: [
+      "Whisper the question on screen to the chosen player.",
+      "They say a player's name out loud — just the name.",
+      "Flip: heads reveals the question, tails keeps everyone guessing.",
+    ],
+    emoji: "🤫",
+    minPlayers: 3,
+    sections: [
+      {
+        key: "questions",
+        label: "Questions",
+        hint: 'One "Who here…" question per line.',
+        placeholder:
+          "Who here would survive longest in a zombie apocalypse?\nWho here gives the best hugs?",
+        minItems: 5,
+      },
+    ],
+  },
+  wordspy: {
+    slug: "wordspy",
+    title: "Word Spy",
+    tagline: "Everyone knows the word. One of you is lying.",
+    description:
+      "Everyone sees the secret word except the spy. Describe it without giving it away, then vote on who was bluffing.",
+    howToPlay: [
+      "Pass the phone — everyone peeks at the word, the spy gets nothing.",
+      "Take turns describing the word without saying it.",
+      "Vote on the spy. Spy escapes by guessing the word.",
+    ],
+    emoji: "🕵️",
+    minPlayers: 3,
+    sections: [
+      {
+        key: "words",
+        label: "Words",
+        hint: "One word or short phrase per line — this deck is the category.",
+        placeholder: "Pizza\nSushi\nPancakes",
+        minItems: 8,
       },
     ],
   },

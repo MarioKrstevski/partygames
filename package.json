@@ -13,7 +13,8 @@
     "db:seed": "tsx scripts/seed.ts",
     "db:up": "docker compose up -d",
     "db:down": "docker compose down",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "drizzle-kit studio",
+    "test": "vitest run"
   },
   "dependencies": {
     "better-auth": "^1.7.1",
@@ -44,6 +45,7 @@
     "postcss": "^8",
     "tailwindcss": "^4.3.3",
     "tsx": "^4.23.0",
-    "typescript": "5.9"
+    "typescript": "5.9",
+    "vitest": "^4.1.11"
   }
 }

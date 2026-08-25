@@ -93,6 +93,9 @@ export const gameTypeEnum = pgEnum("game_type", [
   "fiveseconds",
   "neverhaveiever",
   "boomit",
+  "wouldyourather",
+  "paranoia",
+  "wordspy",
 ]);
 
 /**

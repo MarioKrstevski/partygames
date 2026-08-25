@@ -73,6 +73,15 @@ function parseContent(
     if (items.some((item) => item.length > 200)) {
       return { error: `${section.label}: entries must be under 200 characters.` };
     }
+    if (section.validateEntry) {
+      const pattern = new RegExp(section.validateEntry.pattern);
+      const bad = items.find((item) => !pattern.test(item));
+      if (bad !== undefined) {
+        return {
+          error: `${section.label}: ${section.validateEntry.message} — "${bad.slice(0, 60)}"`,
+        };
+      }
+    }
     if (items.length > 500) {
       return { error: `${section.label}: maximum 500 entries.` };
     }

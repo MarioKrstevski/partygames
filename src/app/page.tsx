@@ -32,7 +32,7 @@ export default function Home() {
             aria-hidden="true"
             className="mb-6 text-3xl tracking-widest sm:text-4xl"
           >
-            🎭 🔥 👉 ⏱️ 🙈 💣
+            🎭 🔥 👉 ⏱️ 🙈 💣 🤷 🤫 🕵️
           </p>
           <h1 className="mx-auto max-w-3xl text-4xl font-extrabold tracking-tight text-white sm:text-6xl">
             One phone. Every party game.{" "}
@@ -73,7 +73,7 @@ export default function Home() {
             Pick your poison
           </h2>
           <p className="mt-2 text-sm text-zinc-400 sm:text-base">
-            Six games, all free, all ready in one tap.
+            Nine games, all free, all ready in one tap.
           </p>
           <ul className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {Object.values(GAMES).map((game) => (
@@ -83,13 +83,22 @@ export default function Home() {
                   className="group flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur transition-colors hover:border-violet-400/50 hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-400"
                 >
                   <div className="relative aspect-[16/9] w-full overflow-hidden bg-black/30">
-                    <Image
-                      src={game.image}
-                      alt=""
-                      fill
-                      sizes="(min-width: 1024px) 320px, (min-width: 640px) 50vw, 100vw"
-                      className="object-cover transition-transform duration-300 group-hover:scale-105"
-                    />
+                    {game.image ? (
+                      <Image
+                        src={game.image}
+                        alt=""
+                        fill
+                        sizes="(min-width: 1024px) 320px, (min-width: 640px) 50vw, 100vw"
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
+                    ) : (
+                      <div
+                        aria-hidden="true"
+                        className="flex h-full w-full items-center justify-center bg-gradient-to-br from-violet-600/40 via-violet-900/30 to-pink-500/20 text-6xl transition-transform duration-300 group-hover:scale-110"
+                      >
+                        {game.emoji}
+                      </div>
+                    )}
                   </div>
                   <div className="flex flex-1 flex-col p-4">
                     <h3 className="text-lg font-semibold text-white">

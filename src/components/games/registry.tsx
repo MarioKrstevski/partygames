@@ -6,6 +6,9 @@ import MostLikelyToGame from "./MostLikelyToGame";
 import FiveSecondsGame from "./FiveSecondsGame";
 import NeverHaveIEverGame from "./NeverHaveIEverGame";
 import BoomItGame from "./BoomItGame";
+import WouldYouRatherGame from "./WouldYouRatherGame";
+import ParanoiaGame from "./ParanoiaGame";
+import WordSpyGame from "./WordSpyGame";
 
 export interface PlayableDeck {
   id: string;
@@ -23,6 +26,9 @@ const GAME_COMPONENTS: Record<
   fiveseconds: FiveSecondsGame,
   neverhaveiever: NeverHaveIEverGame,
   boomit: BoomItGame,
+  wouldyourather: WouldYouRatherGame,
+  paranoia: ParanoiaGame,
+  wordspy: WordSpyGame,
 };
 
 export function GamePlayer({

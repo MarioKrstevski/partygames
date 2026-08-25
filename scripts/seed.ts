@@ -1626,6 +1626,285 @@ const boomItRoadTrip: DeckContent = {
   ]
 };
 
+// ============================================================
+// WOULD YOU RATHER
+// ============================================================
+
+const wouldYouRatherLight: string[] = [
+  "never taste food again | never hear music again",
+  "fight one horse-sized duck | fight a hundred duck-sized horses",
+  "sneeze glitter for the rest of your life | hiccup confetti every time you laugh",
+  "only be able to whisper | only be able to shout",
+  "relive the same great day forever | live a new random day every day",
+  "have hands for feet | have feet for hands",
+  "give up cheese forever | give up chocolate forever",
+  "always be 10 minutes late | always be 2 hours early",
+  "be able to talk to animals | speak every human language fluently",
+  "have a rewind button for your life | have a pause button for your life",
+  "dance every time you hear any music | sing along to every song you know",
+  "shower with your clothes on forever | sleep in wet socks every night",
+  "drink everything through your nose | eat everything with your elbows glued to your sides",
+  "live without the internet | live without air conditioning and heating",
+  "always have a song stuck in your head | always have a word on the tip of your tongue",
+  "smell like wet dog when it rains | sound like a kazoo when you cry",
+  "have unlimited free flights | never pay for food at restaurants again",
+  "be the funniest person in the room | be the smartest person in the room",
+  "wake up as a different person every day | wake up in a different country every day",
+  "only eat your favorite meal forever | never eat your favorite meal again",
+  "have a personal theme song that plays when you enter a room | have dramatic slow-motion every time you leave one",
+  "burp bubbles | fart fog",
+  "have your first name be a warning label | have your last name be a sound effect",
+  "swap lives with your pet for a week | swap lives with your best friend for a year",
+  "only watch movies you've already seen | only listen to songs released this year",
+  "high-five everyone you make eye contact with | wink at everyone who says your name",
+  "have free coffee for life | never need sleep on weekends",
+  "age only from the neck up | age only from the neck down",
+  "have to sing everything you say | have to mime everything you mean",
+  "own a dragon the size of a cat | own a cat the size of a dragon",
+  "always wear a cape | always wear a crown",
+  "have spaghetti for hair | sweat maple syrup",
+  "live in a treehouse with no ladder | live on a boat that never docks",
+  "be able to fly but only one metre high | be invisible but only in the dark",
+  "have every red light turn green for you | never wait in a queue again",
+  "hear a beep every time someone thinks about you | see a flash every time someone lies to you",
+  "have to skip everywhere | have to announce yourself when entering rooms",
+  "only be able to eat with tiny cutlery | only be able to drink from a ladle",
+  "have a pet cloud | have a pocket-sized sun",
+  "win every board game but nobody plays with you | lose every board game but everyone loves playing with you",
+];
+
+const wouldYouRatherMedium: string[] = [
+  "always say exactly what you're thinking | never speak again",
+  "have your search history projected at every party | have your group chats read aloud at family dinners",
+  "be famous but broke | be rich but completely unknown",
+  "know how you die | know when you die",
+  "lose all your photos | lose all your messages",
+  "read minds but can't turn it off | be invisible but only when nobody's looking",
+  "text your crush your most embarrassing secret | call your boss at 3 a.m. by accident every week",
+  "forget who you are every night | remember every single thing forever",
+  "win an argument with the wrong facts | lose an argument while being right",
+  "be stuck in an elevator with your ex | be stuck at an airport with your in-laws",
+  "always know when someone is lying | always get away with lying",
+  "accidentally like a 5-year-old photo while stalking | send a screenshot of the chat to the chat",
+  "have everyone hear your inner monologue for a day | have everyone see your camera roll for an hour",
+  "relive your most embarrassing moment weekly | never make a new memory of tonight",
+  "know what your friends really think of you | know what strangers first think of you",
+  "have your parents read your texts | have your boss follow your private account",
+  "apologise first every single time | never be apologised to again",
+  "lose your sense of humour | lose your sense of style",
+  "always cry when you laugh | always laugh at bad news",
+  "be forgotten by everyone you met once | be remembered only for your worst day",
+  "have to tell your crush how you feel tonight | never be able to tell them at all",
+  "know every secret in this room | have no one ever know yours",
+  "date someone who hates your friends | date someone your friends hate",
+  "get back with an ex | never date anyone from your city again",
+  "have your diary published | have your voice notes leaked",
+  "be brutally honest for a week | be lied to for a week without knowing",
+  "never be able to say no | never be asked for anything again",
+  "marry for money and learn to love | marry for love and learn to budget",
+  "have your ex plan your wedding | have your mother-in-law plan your honeymoon",
+  "know who dislikes you | let them keep pretending",
+  "restart your life at 10 with everything you know | jump to 60 with everything you want",
+  "be the one who loves more | be the one who is loved more",
+  "lose all your money and keep your memories | keep your money and lose five years of memories",
+  "always overshare on first dates | never get a second date and never know why",
+  "have every argument in public | have every triumph in private",
+  "hear every rumour about you | be the last to know everything",
+  "give up your phone for a year | give up your best friend's company for a year",
+  "have your family choose your partner | have your exes choose your job",
+  "be famous for something you didn't do | be unknown for something incredible you did",
+  "spend a year single with great stories | spend a year coupled with none",
+];
+
+const wouldYouRatherSpicy: string[] = [
+  "kiss the last person you texted | text your last kiss",
+  "have your bedroom history known to this room | know everyone else's",
+  "date someone wildly attractive with no chemistry | wild chemistry with someone your friends can't stand",
+  "never have a one-night stand again | never have a long-term relationship again",
+  "have to rate everyone in this room out loud | be rated by everyone in this room silently",
+  "always make the first move | never be allowed to make it",
+  "kiss badly and never know | know exactly and never fix it",
+  "read your partner's mind in bed | have them read yours",
+  "get caught | catch someone",
+  "relive your best kiss ever | preview your next one",
+  "have an ex describe you to your next date | have your next date interview your ex",
+  "confess your wildest thought tonight | let the group guess it",
+  "be irresistible to everyone but your type | be irresistible only to your exes",
+  "have a famous fling and everyone knows | a perfect secret romance no one ever knows",
+  "lose all memory of your first time | remember it in perfect detail forever",
+  "only whisper sweet nothings in public | only shout them in private",
+  "date two people who know about each other | be one of the two who didn't",
+  "have your dating profile written by your mother | by your ex",
+  "always say the wrong name once | always be called the wrong name",
+  "give a lap dance to a stranger | get one from a friend",
+  "swap phones with your partner for a day | swap search histories with a stranger forever",
+  "be a great kisser with terrible timing | terrible kisser with perfect timing",
+  "have every crush instantly know | never be able to tell anyone",
+  "spend a night with your celebrity crush and never speak of it | get a text from them every day and never meet",
+  "have your most flattering photo be your worst angle | your worst story be your most told",
+  "know how many people find you attractive | know exactly who",
+  "be blindfolded and guess who kissed you | kiss someone and never learn who",
+  "wear your heart on your sleeve | wear your history on your forehead",
+  "have one unforgettable summer romance | ten forgettable flings",
+  "always be the one who leaves first | always be the one left behind",
+];
+
+// ============================================================
+// PARANOIA
+// ============================================================
+
+const paranoiaLight: string[] = [
+  "Who here would survive longest in a zombie apocalypse?",
+  "Who would you call first if you won the lottery?",
+  "Who here gives the best hugs?",
+  "Who would you trust to plan your entire birthday?",
+  "Who here is secretly the most talented person in the room?",
+  "Who would make the best parent one day?",
+  "Who would you want next to you on a deserted island?",
+  "Who here always knows how to cheer you up?",
+  "Who would you trust with your phone unlocked for a whole day?",
+  "Who here is most likely to become famous?",
+  "Who would you pick as your partner in a two-person heist?",
+  "Who here would you want as your lawyer if you got arrested?",
+  "Who is most likely to drop everything and help you at 3 a.m.?",
+  "Who here would accidentally start a cult?",
+  "Who is most likely to get kicked out of a library for laughing?",
+  "Who would eat something off the floor without hesitation?",
+  "Who here would lose a fight against a goose?",
+  "Who is most likely to reply to a scam email?",
+  "Who would show up to their own wedding late?",
+  "Who is most likely to cry during a commercial?",
+  "Who would survive exactly zero minutes in a horror movie?",
+  "Who here talks to themselves the most?",
+  "Who is most likely to get famous for something embarrassing?",
+  "Who would spend their last 20 euros on something completely useless?",
+  "Who here is most likely to trip while walking on flat ground?",
+  "Who would win a lying competition without even trying?",
+  "Who here would make the best game show host?",
+  "Who would accidentally adopt five dogs in one year?",
+  "Who is most likely to become a millionaire by accident?",
+  "Who here would give the best speech with zero preparation?",
+  "Who would last longest without their phone?",
+  "Who here would you send to negotiate with aliens?",
+  "Who is most likely to laugh at the worst possible moment?",
+  "Who would accidentally become the mayor of a small town?",
+  "Who here has the most chaotic camera roll?",
+];
+
+const paranoiaMedium: string[] = [
+  "Who is most likely to have a secret crush in this room?",
+  "Who here has the most kissable smile?",
+  "Who would you pick for a slow dance if you had to choose right now?",
+  "Who here could steal someone's partner with one look?",
+  "Who would be the best date to bring home to your parents?",
+  "Who here is the biggest flirt when they've had one drink?",
+  "Who would you text first if you were bored at midnight?",
+  "Who here smells the best?",
+  "Who is most likely to fall in love with someone in this room?",
+  "Who would you choose for a fake wedding if you had to marry tonight?",
+  "Who here gets away with everything because they're cute?",
+  "Who would be the hardest to say no to?",
+  "Who here is someone's celebrity crush in disguise?",
+  "Who here has definitely stalked their crush's ex online?",
+  "Who is most likely to keep a secret about themselves for years?",
+  "Who here would you trust with your most embarrassing story?",
+  "Who is most likely to have cried over someone in this room?",
+  "Who here gives advice they would never follow themselves?",
+  "Who is most likely to double-text without shame?",
+  "Who here would win an award for pretending to be fine?",
+  "Who is most likely to know everyone's secrets and tell none?",
+  "Who here would you want reading your diary the least?",
+  "Who is most likely to be jealous and hide it perfectly?",
+  "Who here has the most dangerous smile?",
+  "Who would survive a breakup the most gracefully?",
+  "Who here is most likely to check an ex's profile tonight?",
+  "Who would you call to help you disappear for a weekend?",
+  "Who here is the best at pretending to listen?",
+  "Who is most likely to fall for a friend and never say it?",
+  "Who here could talk their way out of anything?",
+];
+
+const paranoiaSpicy: string[] = [
+  "Who here would you kiss if there were no consequences?",
+  "Who in this room probably has the wildest story nobody's heard?",
+  "Who here would you want to be locked in a room with overnight?",
+  "Who is most likely to have a secret situationship right now?",
+  "Who here looks the most innocent but definitely isn't?",
+  "Who would you take as your date to a very fancy hotel?",
+  "Who here is most likely to kiss someone tonight?",
+  "Who would you trust with a secret you can't tell your best friend?",
+  "Who here has flirted their way out of trouble?",
+  "Who is most likely to have kissed someone in this room already?",
+  "Who here would be the most dangerous ex?",
+  "Who is most likely to send a risky text tonight?",
+  "Who here would star in the most scandalous documentary?",
+  "Who would you pick for a weekend away, no questions asked?",
+  "Who here is the best kisser — by reputation?",
+  "Who is most likely to have a type that's sitting in this room?",
+  "Who here would break a heart without noticing?",
+  "Who is most likely to say 'it just happened'?",
+  "Who here would you want to see your camera roll the least?",
+  "Who is most likely to leave this party with someone?",
+  "Who here has the most secrets in their messages?",
+  "Who would win a staring contest by making it weird?",
+  "Who here is most likely to be someone's 2 a.m. call?",
+  "Who would look the best waking up next to you?",
+  "Who here is most likely to already know this question was about them?",
+];
+
+// ============================================================
+// WORD SPY — each deck is a category
+// ============================================================
+
+const wordSpyFood: string[] = [
+  "Pizza", "Sushi", "Pancakes", "Tacos", "Popcorn", "Spaghetti",
+  "Watermelon", "Cheeseburger", "Ice cream", "Garlic bread",
+  "Croissant", "Ramen", "Chocolate cake", "Hot dog", "Avocado toast",
+];
+
+const wordSpyPlaces: string[] = [
+  "The beach", "An airport", "A cinema", "A hospital", "A gym",
+  "A library", "A nightclub", "A supermarket", "A campsite", "A rooftop bar",
+  "A wedding", "A courtroom", "A hair salon", "A petrol station", "A museum",
+];
+
+const wordSpyMovies: string[] = [
+  "Titanic", "Jurassic Park", "The Lion King", "Harry Potter", "Star Wars",
+  "Frozen", "The Matrix", "Shrek", "Home Alone", "Jaws",
+  "Spider-Man", "Barbie", "The Godfather", "Toy Story", "Rocky",
+];
+
+const wordSpyAnimals: string[] = [
+  "Penguin", "Octopus", "Giraffe", "Kangaroo", "Sloth", "Shark",
+  "Owl", "Camel", "Dolphin", "Hedgehog",
+  "Flamingo", "Crocodile", "Panda", "Raccoon", "Peacock",
+];
+
+const wordSpyJobs: string[] = [
+  "Dentist", "Firefighter", "Hairdresser", "Pilot", "Chef", "Detective",
+  "Teacher", "Plumber", "Surgeon", "Taxi driver",
+  "Lifeguard", "Magician", "Barista", "Astronaut", "Wedding photographer",
+];
+
+const wordSpySports: string[] = [
+  "Boxing", "Surfing", "Bowling", "Tennis", "Ice hockey", "Golf",
+  "Skateboarding", "Swimming", "Darts", "Rock climbing",
+  "Fencing", "Archery", "Table tennis", "Karate", "Marathon running",
+];
+
+const wordSpyHousehold: string[] = [
+  "Toothbrush", "Microwave", "Vacuum cleaner", "Umbrella", "Mirror",
+  "Blender", "Alarm clock", "Washing machine", "Scissors", "Candle",
+  "Ironing board", "Doormat", "Curtains", "Kettle", "Remote control",
+];
+
+const wordSpyFamous: string[] = [
+  "Beyoncé", "Albert Einstein", "Cristiano Ronaldo", "Taylor Swift",
+  "Elvis Presley", "Serena Williams", "Leonardo DiCaprio", "Adele",
+  "Michael Jackson", "Usain Bolt", "Marilyn Monroe", "Lionel Messi",
+  "Freddie Mercury", "Rihanna", "Charlie Chaplin",
+];
+
 const SEED_DECKS: SeedDeck[] = [
   // --- Charades ---
   {
@@ -1824,6 +2103,113 @@ const SEED_DECKS: SeedDeck[] = [
     description:
       "Play it in the car or pretend you are in one. Petrol stations, wrong turns and aux cable politics.",
     content: boomItRoadTrip,
+  },
+  // --- Would You Rather ---
+  {
+    gameType: "wouldyourather",
+    name: "Light Would You Rather",
+    tier: "light",
+    description:
+      "Silly, impossible, sober-friendly choices. Glitter sneezes and duck-sized horses.",
+    content: { dilemmas: wouldYouRatherLight },
+  },
+  {
+    gameType: "wouldyourather",
+    name: "Medium Would You Rather",
+    tier: "medium",
+    description:
+      "Choices with consequences — exes, secrets, group chats, and what your friends really think.",
+    content: { dilemmas: wouldYouRatherMedium },
+  },
+  {
+    gameType: "wouldyourather",
+    name: "Spicy Would You Rather",
+    tier: "spicy",
+    description:
+      "Adults only. Crushes, kisses, and dilemmas you'll have to defend out loud.",
+    content: { dilemmas: wouldYouRatherSpicy },
+  },
+  // --- Paranoia ---
+  {
+    gameType: "paranoia",
+    name: "Light Paranoia",
+    tier: "light",
+    description:
+      "Wholesome and funny whispers. Zombie plans, goose fights, chaotic camera rolls.",
+    content: { questions: paranoiaLight },
+  },
+  {
+    gameType: "paranoia",
+    name: "Medium Paranoia",
+    tier: "medium",
+    description:
+      "Cheeky and personal. Crushes, flirts and slow dances — the coin decides who finds out.",
+    content: { questions: paranoiaMedium },
+  },
+  {
+    gameType: "paranoia",
+    name: "Spicy Paranoia",
+    tier: "spicy",
+    description:
+      "Bold questions for a brave group. Tails keeps the secret; heads changes the night.",
+    content: { questions: paranoiaSpicy },
+  },
+  // --- Word Spy (each deck is a category) ---
+  {
+    gameType: "wordspy",
+    name: "Food & Drink",
+    tier: "light",
+    description: "From pizza to avocado toast. Describe it without making everyone hungry.",
+    content: { words: wordSpyFood },
+  },
+  {
+    gameType: "wordspy",
+    name: "Places",
+    tier: "light",
+    description: "Beaches, courtrooms and rooftop bars. Vague enough to hide a spy.",
+    content: { words: wordSpyPlaces },
+  },
+  {
+    gameType: "wordspy",
+    name: "Movies",
+    tier: "light",
+    description: "Blockbusters everyone knows — which makes bluffing easier than you'd think.",
+    content: { words: wordSpyMovies },
+  },
+  {
+    gameType: "wordspy",
+    name: "Animals",
+    tier: "light",
+    description: "Penguins to peacocks. Harder to describe vaguely than it sounds.",
+    content: { words: wordSpyAnimals },
+  },
+  {
+    gameType: "wordspy",
+    name: "Jobs",
+    tier: "light",
+    description: "Dentists, magicians, astronauts. What do they even do all day?",
+    content: { words: wordSpyJobs },
+  },
+  {
+    gameType: "wordspy",
+    name: "Sports",
+    tier: "light",
+    description: "From darts to marathons. Every clue is a foul waiting to happen.",
+    content: { words: wordSpySports },
+  },
+  {
+    gameType: "wordspy",
+    name: "Around the House",
+    tier: "light",
+    description: "Everyday objects everyone owns and nobody can describe.",
+    content: { words: wordSpyHousehold },
+  },
+  {
+    gameType: "wordspy",
+    name: "Famous People",
+    tier: "light",
+    description: "Icons everyone recognises. One vague clue away from blowing your cover.",
+    content: { words: wordSpyFamous },
   },
 ];
 
