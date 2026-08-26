@@ -14,6 +14,8 @@ export const GAME_SLUGS = [
   "fibber",
   "partymode",
   "doodlechain",
+  "forbidden",
+  "wavelength",
 ] as const;
 
 export type GameSlug = (typeof GAME_SLUGS)[number];
@@ -446,6 +448,69 @@ export const GAMES: Record<GameSlug, GameDef> = {
         hint: "One word or short phrase per line — drawable things work best.",
         placeholder: "Octopus\nBrushing your teeth\nA haunted house",
         minItems: 8,
+      },
+    ],
+  },
+  forbidden: {
+    slug: "forbidden",
+    title: "Forbidden",
+    tagline: "Describe it. Without the five words you need most.",
+    description:
+      "Two teams, one clock. Get your team to say the word — but every obvious word for it is banned.",
+    howToPlay: [
+      "One player describes the word to their team against the clock.",
+      "The five banned words underneath are off limits — no rhymes, no spelling.",
+      "Got it? Tap the tick. Stuck? Pass. Most points wins.",
+    ],
+    emoji: "🚫",
+    minPlayers: 4,
+    maxPlayers: 16,
+    minutes: 15,
+    energy: "high",
+    sections: [
+      {
+        key: "cards",
+        label: "Cards",
+        hint: 'One per line as "WORD | banned, banned, banned".',
+        placeholder:
+          "Beach | sand, sea, sun, holiday\nPizza | cheese, Italy, slice, dough",
+        minItems: 10,
+        validateEntry: {
+          pattern: "^[^|]+\\|[^|]+$",
+          message:
+            'each line needs exactly one "|" between the word and its banned list',
+        },
+      },
+    ],
+  },
+  wavelength: {
+    slug: "wavelength",
+    title: "Wavelength",
+    tagline: "One clue. One dial. How well do you actually know each other?",
+    description:
+      "A hidden spot sits somewhere between two opposites. One player can see it and gives a single clue — everyone else moves the dial to find it. You all score together.",
+    howToPlay: [
+      "The clue-giver secretly sees a target on the spectrum.",
+      "They give one clue that sits at exactly that point — no numbers.",
+      "Everyone else argues, moves the dial, and locks it in. Closer is better.",
+    ],
+    emoji: "📡",
+    minPlayers: 3,
+    maxPlayers: 12,
+    minutes: 15,
+    energy: "low",
+    sections: [
+      {
+        key: "spectrums",
+        label: "Spectrums",
+        hint: 'One per line as "left end | right end" — two opposites.',
+        placeholder:
+          "Overrated | Underrated\nGuilty pleasure | Genuinely good",
+        minItems: 8,
+        validateEntry: {
+          pattern: "^[^|]+\\|[^|]+$",
+          message: 'each line needs exactly one "|" between the two ends',
+        },
       },
     ],
   },

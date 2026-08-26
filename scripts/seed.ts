@@ -2225,6 +2225,156 @@ const doodleImpossible: string[] = [
   "The last day of summer", "Unread messages", "Mixed signals",
 ];
 
+// ============================================================
+// FORBIDDEN — "WORD | five words you cannot use"
+// ============================================================
+
+const forbiddenEveryday: string[] = [
+  "Beach | sand, sea, sun, holiday, swim",
+  "Pizza | cheese, Italy, slice, dough, tomato",
+  "Umbrella | rain, wet, open, handle, weather",
+  "Wedding | marry, bride, dress, church, rings",
+  "Coffee | drink, morning, caffeine, cup, beans",
+  "Snow | cold, white, winter, ice, falls",
+  "Doctor | hospital, sick, patient, medicine, nurse",
+  "Birthday | cake, candles, presents, party, age",
+  "Toothbrush | teeth, clean, mouth, paste, bathroom",
+  "Football | ball, goal, kick, team, pitch",
+  "Library | books, quiet, borrow, shelves, read",
+  "Airport | plane, fly, luggage, terminal, gate",
+  "Guitar | strings, music, play, band, acoustic",
+  "Elephant | big, trunk, grey, animal, ears",
+  "Chocolate | sweet, brown, cocoa, bar, dessert",
+  "Alarm clock | wake, morning, ring, time, sleep",
+  "Rainbow | colours, rain, sky, arc, sun",
+  "Barber | hair, cut, shave, scissors, salon",
+  "Sunglasses | eyes, sun, face, dark, wear",
+  "Kitchen | cook, food, room, oven, sink",
+  "Passport | travel, country, photo, document, border",
+  "Bicycle | wheels, ride, pedal, bike, chain",
+  "Camping | tent, outside, fire, sleep, woods",
+  "Dentist | teeth, drill, mouth, appointment, chair",
+  "Ice cream | cold, cone, sweet, scoop, dessert",
+  "Firefighter | fire, hose, truck, rescue, uniform",
+  "Piano | keys, music, black, white, play",
+  "Mirror | reflection, glass, look, face, wall",
+  "Supermarket | food, shop, trolley, aisle, checkout",
+  "Candle | wax, flame, light, wick, burn",
+  "Winter | cold, snow, season, jumper, dark",
+  "Postman | letters, deliver, mail, post, bag",
+  "Butterfly | wings, insect, fly, caterpillar, colourful",
+  "Swimming pool | water, swim, dive, chlorine, lanes",
+  "Newspaper | news, read, paper, print, headline",
+];
+
+const forbiddenCulture: string[] = [
+  "Titanic | ship, iceberg, sink, Leonardo, ocean",
+  "Harry Potter | wizard, magic, wand, Hogwarts, glasses",
+  "Batman | bat, Gotham, Robin, cape, Bruce",
+  "Netflix | streaming, watch, series, TV, subscription",
+  "Selfie | photo, phone, camera, yourself, front",
+  "Podcast | listen, episode, audio, host, download",
+  "Instagram | photos, app, followers, post, filter",
+  "Karaoke | sing, song, microphone, lyrics, bar",
+  "Emoji | face, text, symbol, message, smiley",
+  "Tattoo | ink, skin, needle, permanent, design",
+  "Yoga | stretch, mat, pose, breathe, class",
+  "Barbecue | grill, meat, outside, summer, coals",
+  "Marathon | run, race, distance, 42, finish",
+  "Astronaut | space, rocket, moon, NASA, suit",
+  "Vampire | blood, teeth, night, coffin, garlic",
+  "Zombie | dead, brains, walk, apocalypse, undead",
+  "Pirate | ship, treasure, parrot, eye, sea",
+  "Detective | crime, clues, solve, case, police",
+  "Superhero | powers, cape, save, villain, comic",
+  "Time machine | travel, past, future, invention, back",
+  "Hangover | drink, headache, morning, alcohol, water",
+  "Blind date | meet, stranger, romance, dinner, arranged",
+  "Group chat | message, friends, phone, notifications, typing",
+  "Influencer | followers, sponsor, social, post, brand",
+  "Escape room | locked, puzzle, clues, hour, team",
+  "Road trip | car, drive, journey, playlist, stops",
+  "Ghosting | ignore, message, disappear, dating, reply",
+  "Spoiler | ending, reveal, film, ruin, plot",
+  "Karen | complain, manager, haircut, entitled, meme",
+  "Deadline | time, work, due, late, submit",
+];
+
+// ============================================================
+// WAVELENGTH — "left end | right end"
+// ============================================================
+
+const wavelengthEveryday: string[] = [
+  "Overrated | Underrated",
+  "Useless | Essential",
+  "Cheap | Expensive",
+  "Cold | Hot",
+  "Boring | Exciting",
+  "Ugly | Beautiful",
+  "Quiet | Loud",
+  "Old-fashioned | Modern",
+  "Small | Huge",
+  "Rare | Common",
+  "Difficult | Easy",
+  "Casual | Formal",
+  "Weird | Normal",
+  "Unhealthy | Healthy",
+  "Slow | Fast",
+  "Ugly building | Beautiful building",
+  "Bad smell | Good smell",
+  "Waste of money | Worth every penny",
+  "Terrible film | Masterpiece",
+  "Awful song | Perfect song",
+  "Forgettable | Unforgettable",
+  "Poorly made | Built to last",
+  "Ordinary job | Dream job",
+  "Bad haircut | Great haircut",
+  "Dull colour | Bright colour",
+  "Hard to learn | Anyone can do it",
+  "Terrible gift | Perfect gift",
+  "Waste of time | Time well spent",
+  "Unfriendly animal | Friendly animal",
+  "Dangerous | Completely safe",
+  "Bad first date | Great first date",
+  "Untrustworthy | Completely reliable",
+  "Overcooked | Perfectly cooked",
+  "Junk food | Health food",
+  "Bad excuse | Perfect excuse",
+];
+
+const wavelengthOpinions: string[] = [
+  "Guilty pleasure | Genuinely good",
+  "Cringe | Cool",
+  "Petty | Completely justified",
+  "Red flag | Green flag",
+  "Rude | Polite",
+  "Acceptable to do alone | Only with friends",
+  "Should be free | Worth paying for",
+  "Childish | Grown up",
+  "Bad habit | Harmless quirk",
+  "Overshared | Fair to mention",
+  "Should stay private | Fine to post",
+  "Basic | Original",
+  "Toxic trait | Charming trait",
+  "Trying too hard | Effortless",
+  "Attention seeking | Confident",
+  "Awkward silence | Comfortable silence",
+  "Deal-breaker | Not a problem",
+  "Would never forgive | Instantly forgiven",
+  "Selfish | Generous",
+  "Old before your time | Forever young",
+  "Bad advice | Wise advice",
+  "Unromantic | Deeply romantic",
+  "Icebreaker | Interrogation",
+  "Too soon to text | Waited too long",
+  "Formal apology needed | Just laugh it off",
+  "Embarrassing | Impressive",
+  "Beige | Chaotic",
+  "Introvert activity | Extrovert activity",
+  "Fine to be late for | Never be late for",
+  "Overthinking it | Not thinking enough",
+];
+
 const SEED_DECKS: SeedDeck[] = [
   // --- Charades ---
   {
@@ -2614,6 +2764,40 @@ const SEED_DECKS: SeedDeck[] = [
     description:
       "Abstract feelings with no business being drawn. The chain never survives. That is the point.",
     content: { words: doodleImpossible },
+  },
+  // --- Forbidden ---
+  {
+    gameType: "forbidden",
+    name: "Everyday Things",
+    tier: "light",
+    description:
+      "Objects, places and jobs everyone knows — and the five words that would make it easy.",
+    content: { cards: forbiddenEveryday },
+  },
+  {
+    gameType: "forbidden",
+    name: "Culture & Modern Life",
+    tier: "light",
+    description:
+      "Films, apps, internet habits and modern misery. Harder to describe than it looks.",
+    content: { cards: forbiddenCulture },
+  },
+  // --- Wavelength ---
+  {
+    gameType: "wavelength",
+    name: "Everyday Scales",
+    tier: "light",
+    description:
+      "Cheap to expensive, boring to exciting. Warm, safe and surprisingly argumentative.",
+    content: { spectrums: wavelengthEveryday },
+  },
+  {
+    gameType: "wavelength",
+    name: "Hot Takes",
+    tier: "medium",
+    description:
+      "Red flag to green flag, cringe to cool. Where the group finds out what it really thinks.",
+    content: { spectrums: wavelengthOpinions },
   },
 ];
 
