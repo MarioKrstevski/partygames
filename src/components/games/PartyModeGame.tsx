@@ -7,7 +7,8 @@ import { usePlayers } from "@/components/players/usePlayers";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { PageContainer } from "@/components/layout";
-import { randomNumber, shuffleArray, vibrate } from "@/lib/utils";
+import { shuffleArray, vibrate } from "@/lib/utils";
+import { pickFresh, shuffleFresh } from "@/lib/freshness";
 import { fillPlaceholders } from "@/lib/prompts";
 
 /** How many cards a rule stays in force for once dealt. */
@@ -48,7 +49,7 @@ export default function PartyModeGame({ deck }: PartyModeGameProps) {
   const enoughPlayers = players.length >= 2;
 
   function startGame() {
-    const shuffled = shuffleArray(allPrompts);
+    const shuffled = shuffleFresh(allPrompts, deck.id);
     setPrompts(shuffled);
     setPromptPos(0);
     setCardCount(0);
@@ -71,10 +72,9 @@ export default function PartyModeGame({ deck }: PartyModeGameProps) {
       allRules.length > 0 && expired.length < 3 && Math.random() < RULE_CHANCE;
 
     if (dealRule) {
-      const text = fillPlaceholders(
-        allRules[randomNumber(0, allRules.length - 1)],
-        players,
-      );
+      const rule = pickFresh(allRules, `${deck.id}:rules`);
+      if (!rule) return;
+      const text = fillPlaceholders(rule, players);
       setActiveRules([
         ...expired,
         { id: nextCount, text, expiresAtCard: nextCount + RULE_LIFETIME },
@@ -85,7 +85,8 @@ export default function PartyModeGame({ deck }: PartyModeGameProps) {
     }
 
     // Reshuffle when the prompt deck runs out so the night never stops.
-    const source = pos >= deckPrompts.length ? shuffleArray(allPrompts) : deckPrompts;
+    const source =
+      pos >= deckPrompts.length ? shuffleFresh(allPrompts, deck.id) : deckPrompts;
     const index = pos >= deckPrompts.length ? 0 : pos;
     const text = fillPlaceholders(source[index] ?? "", players);
 

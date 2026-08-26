@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { shuffleArray, vibrate } from "@/lib/utils";
+import { shuffleFresh } from "@/lib/freshness";
+import { useSeen } from "@/lib/use-seen";
 
 type MostLikelyToGameProps = {
   deck: {
@@ -20,10 +22,11 @@ export default function MostLikelyToGame({ deck }: MostLikelyToGameProps) {
 
   // Shuffle on the client only — shuffling during SSR breaks hydration.
   useEffect(() => {
-    setPrompts((current) => shuffleArray(current));
-  }, []);
+    setPrompts((current) => shuffleFresh(current, deck.id));
+  }, [deck.id]);
 
   const total = prompts.length;
+  useSeen(deck.id, prompts[currentIndex]);
 
   function handleNext() {
     vibrate(50);
@@ -36,7 +39,7 @@ export default function MostLikelyToGame({ deck }: MostLikelyToGameProps) {
 
   function handleReplay() {
     vibrate(50);
-    setPrompts(shuffleArray(prompts));
+    setPrompts(shuffleFresh(prompts, deck.id));
     setCurrentIndex(0);
     setFinished(false);
   }

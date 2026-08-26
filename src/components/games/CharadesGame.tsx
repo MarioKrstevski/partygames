@@ -11,6 +11,8 @@ import {
   shuffleArray,
   vibrate,
 } from "@/lib/utils";
+import { shuffleFresh } from "@/lib/freshness";
+import { useSeen } from "@/lib/use-seen";
 
 const COUNTDOWN_SECONDS = 5;
 const ROUND_SECONDS = 70;
@@ -79,7 +81,7 @@ export default function CharadesGame({
 }: {
   deck: { id: string; name: string; content: Record<string, string[]> };
 }) {
-  const [words, setWords] = useState(() => shuffleArray(deck.content.items ?? []));
+  const [words, setWords] = useState(() => shuffleFresh(deck.content.items ?? [], deck.id));
   const [phase, setPhase] = useState<Phase>("ready");
   const [secondsLeft, setSecondsLeft] = useState(COUNTDOWN_SECONDS);
   const [answers, setAnswers] = useState<Answer[]>([]);
@@ -90,6 +92,7 @@ export default function CharadesGame({
   const tiltArmedRef = useRef(false);
 
   const currentWord = words[answers.length];
+  useSeen(deck.id, currentWord);
   const correctCount = answers.filter((answer) => answer.correct).length;
 
   // Track screen orientation.
@@ -188,7 +191,7 @@ export default function CharadesGame({
   }
 
   function resetGame() {
-    setWords(shuffleArray(deck.content.items ?? []));
+    setWords(shuffleFresh(deck.content.items ?? [], deck.id));
     setAnswers([]);
     setSecondsLeft(COUNTDOWN_SECONDS);
     setPhase("ready");

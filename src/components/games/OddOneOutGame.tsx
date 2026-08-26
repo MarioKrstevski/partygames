@@ -11,6 +11,8 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { PageContainer } from "@/components/layout";
 import { shuffleArray, vibrate } from "@/lib/utils";
+import { shuffleFresh } from "@/lib/freshness";
+import { useSeen } from "@/lib/use-seen";
 import { scoreRound, type RoundResult } from "@/lib/oddoneout";
 
 type Phase = "setup" | "answering" | "reveal";
@@ -36,9 +38,10 @@ export default function OddOneOutGame({ deck }: OddOneOutGameProps) {
   const players = roster.players;
   const enoughPlayers = players.length >= 3;
   const question = questions[round];
+  useSeen(deck.id, question);
 
   function startGame() {
-    setQuestions(shuffleArray(allQuestions));
+    setQuestions(shuffleFresh(allQuestions, deck.id));
     setRound(0);
     setResult(null);
     setTotals({});

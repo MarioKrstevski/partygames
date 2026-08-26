@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { ButtonLink } from "@/components/button-link";
 import { Button } from "@/components/ui/button";
 import { shuffleArray, vibrate } from "@/lib/utils";
+import { shuffleFresh } from "@/lib/freshness";
+import { useSeen } from "@/lib/use-seen";
 
 const READY_SECONDS = 3;
 const ROUND_SECONDS = 5;
@@ -18,12 +20,13 @@ export default function FiveSecondsGame({
   deck: { id: string; name: string; content: Record<string, string[]> };
 }) {
   const [categories, setCategories] = useState<string[]>(() =>
-    shuffleArray(deck.content.items ?? []),
+    shuffleFresh(deck.content.items ?? [], deck.id),
   );
   const [index, setIndex] = useState(0);
   const [phase, setPhase] = useState<Phase>("ready");
   const [secondsLeft, setSecondsLeft] = useState(READY_SECONDS);
   const [score, setScore] = useState<Score>({ success: 0, fail: 0 });
+  useSeen(deck.id, categories[index]);
 
   // Tick down once per second while a countdown is active.
   useEffect(() => {
@@ -62,7 +65,7 @@ export default function FiveSecondsGame({
   }
 
   function handleReplay() {
-    setCategories(shuffleArray(deck.content.items ?? []));
+    setCategories(shuffleFresh(deck.content.items ?? [], deck.id));
     setIndex(0);
     setScore({ success: 0, fail: 0 });
     setSecondsLeft(READY_SECONDS);

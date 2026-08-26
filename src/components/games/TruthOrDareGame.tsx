@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { cn, shuffleArray, vibrate } from "@/lib/utils";
+import { markSeen, shuffleFresh } from "@/lib/freshness";
 
 type Kind = "truth" | "dare";
 
@@ -15,10 +16,10 @@ export default function TruthOrDareGame({
   deck: { id: string; name: string; content: Record<string, string[]> };
 }) {
   const [truths, setTruths] = useState(() =>
-    shuffleArray(deck.content.truths ?? []),
+    shuffleFresh(deck.content.truths ?? [], `${deck.id}:truths`),
   );
   const [dares, setDares] = useState(() =>
-    shuffleArray(deck.content.dares ?? []),
+    shuffleFresh(deck.content.dares ?? [], `${deck.id}:dares`),
   );
   const [truthIndex, setTruthIndex] = useState(0);
   const [dareIndex, setDareIndex] = useState(0);
@@ -31,19 +32,20 @@ export default function TruthOrDareGame({
     if (pile.length === 0) return;
 
     setPrompt({ kind, text: pile[index] });
+    markSeen(`${deck.id}:${kind}s`, pile[index]);
     vibrate(50);
 
     const exhausted = index + 1 >= pile.length;
     if (kind === "truth") {
       if (exhausted) {
-        setTruths(shuffleArray(truths));
+        setTruths(shuffleFresh(truths, `${deck.id}:truths`));
         setTruthIndex(0);
       } else {
         setTruthIndex(index + 1);
       }
     } else {
       if (exhausted) {
-        setDares(shuffleArray(dares));
+        setDares(shuffleFresh(dares, `${deck.id}:dares`));
         setDareIndex(0);
       } else {
         setDareIndex(index + 1);

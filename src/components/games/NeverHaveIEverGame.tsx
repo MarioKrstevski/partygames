@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { shuffleArray, vibrate } from "@/lib/utils";
+import { shuffleFresh } from "@/lib/freshness";
+import { useSeen } from "@/lib/use-seen";
 
 type NeverHaveIEverGameProps = {
   deck: { id: string; name: string; content: Record<string, string[]> };
@@ -17,11 +19,12 @@ export default function NeverHaveIEverGame({
   );
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFinished, setIsFinished] = useState(false);
+  useSeen(deck.id, statements[currentIndex]);
 
   // Shuffle on the client only — shuffling during SSR breaks hydration.
   useEffect(() => {
-    setStatements((current) => shuffleArray(current));
-  }, []);
+    setStatements((current) => shuffleFresh(current, deck.id));
+  }, [deck.id]);
 
   function handleNext() {
     vibrate(50);
@@ -34,7 +37,7 @@ export default function NeverHaveIEverGame({
 
   function handleReplay() {
     vibrate(50);
-    setStatements(shuffleArray(statements));
+    setStatements(shuffleFresh(statements, deck.id));
     setCurrentIndex(0);
     setIsFinished(false);
   }

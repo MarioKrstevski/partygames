@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { PageContainer } from "@/components/layout";
 import { cn, shuffleArray, vibrate } from "@/lib/utils";
+import { shuffleFresh } from "@/lib/freshness";
+import { useSeen } from "@/lib/use-seen";
 import {
   addPoint,
   describerFor,
@@ -19,6 +21,9 @@ import {
   type TeamId,
   type Teams,
 } from "@/lib/forbidden";
+
+/** Same derivation on both sides, so the stored hash matches. */
+const tabooKey = (c: TabooCard) => c.word;
 
 const ROUND_SECONDS = 60;
 const TARGET_SCORE = 10;
@@ -56,6 +61,7 @@ export default function ForbiddenGame({ deck }: ForbiddenGameProps) {
   const players = roster.players;
   const enoughPlayers = players.length >= 4;
   const card = cards[cardPos];
+  useSeen(deck.id, card ? tabooKey(card) : null);
   const describer = teams ? describerFor(teams, team, turnsTaken[team]) : null;
 
   useEffect(() => {
@@ -77,7 +83,7 @@ export default function ForbiddenGame({ deck }: ForbiddenGameProps) {
   function startGame() {
     if (allCards.length === 0 || !enoughPlayers) return;
     setTeams(splitTeams(players));
-    setCards(shuffleArray(allCards));
+    setCards(shuffleFresh(allCards, deck.id, tabooKey));
     setCardPos(0);
     setTeam(0);
     setTurnsTaken([0, 0]);

@@ -7,6 +7,7 @@ import { getVisibleDecks } from "@/lib/decks";
 import { getGame } from "@/lib/games";
 import type { Deck } from "@/lib/schema";
 import { TierBadge } from "@/components/TierBadge";
+import DeckFreshness from "@/components/DeckFreshness";
 import { ButtonLink } from "@/components/button-link";
 import { PageContainer } from "@/components/layout";
 import SavedToast from "@/components/SavedToast";
@@ -140,6 +141,10 @@ export default async function GamePage({ params }: GamePageProps) {
                       {LANGUAGE_LABELS[deck.language] ?? deck.language}
                     </span>
                     <span>{entryCount(deck)} entries</span>
+                    <DeckFreshness
+                      deckId={deck.id}
+                      entries={Object.values(deck.content).flat()}
+                    />
                   </div>
                   <div className="mt-auto flex items-center gap-3 pt-1">
                     <ButtonLink href={`/${game.slug}/play/${deck.id}`}>

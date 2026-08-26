@@ -11,6 +11,8 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { PageContainer } from "@/components/layout";
 import { shuffleArray, vibrate } from "@/lib/utils";
+import { shuffleFresh } from "@/lib/freshness";
+import { useSeen } from "@/lib/use-seen";
 import {
   buildOptions,
   parseTrivia,
@@ -19,6 +21,9 @@ import {
   type TriviaCard,
   type Vote,
 } from "@/lib/fibber";
+
+/** Same derivation on both sides, so the stored hash matches. */
+const cardKey = (c: TriviaCard) => `${c.question}|${c.answer}`;
 
 type Phase = "setup" | "faking" | "voting" | "reveal";
 
@@ -45,10 +50,11 @@ export default function FibberGame({ deck }: FibberGameProps) {
   const players = roster.players;
   const enoughPlayers = players.length >= 3;
   const card = cards[round];
+  useSeen(deck.id, card ? cardKey(card) : null);
   const voter = players[voterIndex];
 
   function startGame() {
-    setCards(shuffleArray(allCards));
+    setCards(shuffleFresh(allCards, deck.id, cardKey));
     setRound(0);
     setTotals({});
     setPhase("faking");

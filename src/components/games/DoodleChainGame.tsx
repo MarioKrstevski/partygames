@@ -13,7 +13,8 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { PageContainer } from "@/components/layout";
-import { randomNumber, vibrate } from "@/lib/utils";
+import { vibrate } from "@/lib/utils";
+import { pickFresh } from "@/lib/freshness";
 import {
   buildChain,
   chainSurvived,
@@ -73,7 +74,9 @@ export default function DoodleChainGame({ deck }: DoodleChainGameProps) {
 
   function startRound() {
     if (words.length === 0 || !enoughPlayers) return;
-    setSecretWord(words[randomNumber(0, words.length - 1)]);
+    const word = pickFresh(words, deck.id);
+    if (!word) return;
+    setSecretWord(word);
     setChain(buildChain(players, round));
     setEntries([]);
     setStepIndex(0);

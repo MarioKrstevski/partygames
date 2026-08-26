@@ -6,7 +6,12 @@ import { usePlayers } from "@/components/players/usePlayers";
 import { Button } from "@/components/ui/button";
 import { PageContainer } from "@/components/layout";
 import { cn, shuffleArray, vibrate } from "@/lib/utils";
+import { shuffleFresh } from "@/lib/freshness";
+import { useSeen } from "@/lib/use-seen";
 import { parseDilemmas, type Dilemma } from "@/lib/dilemmas";
+
+/** Same derivation on both sides, so the stored hash matches. */
+const dilemmaKey = (d: Dilemma) => `${d.a}|${d.b}`;
 
 const FLAVOR_LINES = [
   "Bold choice!",
@@ -44,7 +49,7 @@ export default function WouldYouRatherGame({ deck }: WouldYouRatherGameProps) {
   const chooser = players.length >= 2 ? players[turn % players.length] : null;
 
   function startGame() {
-    setDilemmas(shuffleArray(allDilemmas));
+    setDilemmas(shuffleFresh(allDilemmas, deck.id, dilemmaKey));
     setIndex(0);
     setPicked(null);
     setTurn(0);
@@ -71,6 +76,7 @@ export default function WouldYouRatherGame({ deck }: WouldYouRatherGameProps) {
   }
 
   const dilemma = dilemmas[index];
+  useSeen(deck.id, dilemma ? dilemmaKey(dilemma) : null);
 
   if (allDilemmas.length === 0) {
     return (

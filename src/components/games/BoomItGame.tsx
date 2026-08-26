@@ -2,6 +2,8 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { randomNumber, shuffleArray, vibrate } from "@/lib/utils";
+import { shuffleFresh } from "@/lib/freshness";
+import { useSeen } from "@/lib/use-seen";
 import { ButtonLink } from "@/components/button-link";
 import { Button } from "@/components/ui/button";
 
@@ -36,6 +38,7 @@ export default function BoomItGame({
   const [statements, setStatements] = useState<string[]>([]);
   const [statementIndex, setStatementIndex] = useState(0);
   const [punishment, setPunishment] = useState<string | null>(null);
+  useSeen(deck.id, statements[statementIndex]);
   const tickAudioRef = useRef<HTMLAudioElement | null>(null);
 
   // Pre-round countdown: 3, 2, 1 -> armed.
@@ -93,7 +96,7 @@ export default function BoomItGame({
       audio.loop = true;
       tickAudioRef.current = audio;
     }
-    setStatements(shuffleArray(sourceStatements));
+    setStatements(shuffleFresh(sourceStatements, deck.id));
     setStatementIndex(0);
     setPunishment(null);
     setCountdown(COUNTDOWN_SECONDS);
@@ -103,7 +106,7 @@ export default function BoomItGame({
   function handleNextStatement() {
     vibrate(30);
     if (statementIndex >= statements.length - 1) {
-      setStatements(shuffleArray(statements));
+      setStatements(shuffleFresh(statements, deck.id));
       setStatementIndex(0);
     } else {
       setStatementIndex(statementIndex + 1);

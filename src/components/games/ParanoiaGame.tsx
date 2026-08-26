@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { PageContainer } from "@/components/layout";
 import { shuffleArray, vibrate } from "@/lib/utils";
+import { shuffleFresh } from "@/lib/freshness";
+import { useSeen } from "@/lib/use-seen";
 import { pickPair, type Player } from "@/lib/players";
 import PlayerSetup from "@/components/players/PlayerSetup";
 import { usePlayers } from "@/components/players/usePlayers";
@@ -41,6 +43,7 @@ export default function ParanoiaGame({ deck }: ParanoiaGameProps) {
   const allQuestions = deck.content.questions ?? [];
   const enoughPlayers = roster.players.length >= 3;
   const question = questions[deckPos];
+  useSeen(deck.id, question);
 
   useEffect(() => {
     if (phase !== "flipping") return;
@@ -60,7 +63,7 @@ export default function ParanoiaGame({ deck }: ParanoiaGameProps) {
   }
 
   function startGame() {
-    setQuestions(shuffleArray(allQuestions));
+    setQuestions(shuffleFresh(allQuestions, deck.id));
     setDeckPos(0);
     beginRound(0);
   }

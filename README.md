@@ -44,6 +44,16 @@ Point `DATABASE_URL` at your Neon pooled connection string and run `npm run db:m
 - **Auth** is better-auth (`src/lib/auth.ts`, route handler at `/api/auth/[...all]`). Use `getUser()` / `getSession()` in server code and `@/lib/auth-client` in client components. Admin access is by email — see `ADMIN_EMAIL` and `isAdminEmail()`.
 - **Deck mutations** go through `src/app/actions/decks.ts` — zod-validated server actions with ownership checks. They redirect on success and carry a `?saved=` flag that `SavedToast` turns into a toast, because React 19 resets an uncontrolled form once its action settles.
 - **Styling** is dark-only. The palette is defined once in `globals.css` using shadcn's token names, so shadcn components inherit the app's violet-on-zinc look without restyling.
+- **Decks stay fresh.** `src/lib/freshness.ts` remembers which entries a phone
+  has been shown, keyed per deck, so a second sitting serves the material you
+  have not seen rather than the same cards in a new order. Entries are stored
+  as short hashes, so the record is small and editing a deck naturally retires
+  its old entries. `shuffleFresh` is a drop-in for `shuffleArray` that floats
+  unseen entries to the front, `pickFresh` replaces a random draw and cannot
+  repeat within a sitting, and `useSeen` marks an entry at the moment it is put
+  in front of the players — marking at display time rather than shuffle time is
+  what keeps the record honest when a group plays six cards of a sixty card
+  deck. Once a deck is exhausted the record clears and a fresh lap begins.
 - **Decks are shareable by link and QR.** Every deck carries an unguessable
   `share_token`; holding it grants read access regardless of `isPublic`, which
   is what makes unlisted sharing with a friend group possible. `/d/[token]`

@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { PageContainer } from "@/components/layout";
 import { cn, shuffleArray, vibrate } from "@/lib/utils";
+import { shuffleFresh } from "@/lib/freshness";
+import { useSeen } from "@/lib/use-seen";
 import {
   BANDS,
   maxPoints,
@@ -17,6 +19,9 @@ import {
   scoreGuess,
   type Spectrum,
 } from "@/lib/wavelength";
+
+/** Same derivation on both sides, so the stored hash matches. */
+const spectrumKey = (s: Spectrum) => `${s.left}|${s.right}`;
 
 const ROUNDS = 6;
 
@@ -71,12 +76,13 @@ export default function WavelengthGame({ deck }: WavelengthGameProps) {
   const players = roster.players;
   const enoughPlayers = players.length >= 3;
   const spectrum = spectrums[round];
+  useSeen(deck.id, spectrum ? spectrumKey(spectrum) : null);
   const clueGiver = players.length > 0 ? players[round % players.length] : null;
   const result = scoreGuess(target, guess);
 
   function startGame() {
     if (allSpectrums.length === 0 || !enoughPlayers) return;
-    setSpectrums(shuffleArray(allSpectrums));
+    setSpectrums(shuffleFresh(allSpectrums, deck.id, spectrumKey));
     setRound(0);
     setTotal(0);
     setTarget(randomTarget());

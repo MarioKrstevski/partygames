@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { PageContainer } from "@/components/layout";
 import { randomNumber, shuffleArray, vibrate } from "@/lib/utils";
+import { pickFresh } from "@/lib/freshness";
 import type { Player } from "@/lib/players";
 
 const DISCUSSION_SECONDS = 180;
@@ -81,7 +82,9 @@ export default function WordSpyGame({ deck }: WordSpyGameProps) {
   const startRound = useCallback(() => {
     const players = roster.players;
     if (players.length < 3 || words.length === 0) return;
-    const word = words[randomNumber(0, words.length - 1)];
+    // Fresh pick so the same word cannot come up twice in a night.
+    const word = pickFresh(words, deck.id);
+    if (!word) return;
     // Uniform random spy — no lucky weighting, everyone gets equal odds.
     const spy = players[randomNumber(0, players.length - 1)];
     setRound({
@@ -98,7 +101,7 @@ export default function WordSpyGame({ deck }: WordSpyGameProps) {
     setTimerRunning(false);
     setVotedId(null);
     setPhase("peek");
-  }, [roster.players, words]);
+  }, [roster.players, words, deck.id]);
 
   function nextPeek() {
     if (!round) return;
