@@ -15,6 +15,8 @@ import PartyModeGame from "./PartyModeGame";
 import DoodleChainGame from "./DoodleChainGame";
 import ForbiddenGame from "./ForbiddenGame";
 import WavelengthGame from "./WavelengthGame";
+import DeeperGame from "./DeeperGame";
+import FlipSideGame from "./FlipSideGame";
 
 export interface PlayableDeck {
   id: string;
@@ -41,6 +43,8 @@ const GAME_COMPONENTS: Record<
   doodlechain: DoodleChainGame,
   forbidden: ForbiddenGame,
   wavelength: WavelengthGame,
+  deeper: DeeperGame,
+  flipside: FlipSideGame,
 };
 
 export function GamePlayer({

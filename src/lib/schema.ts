@@ -102,6 +102,8 @@ export const gameTypeEnum = pgEnum("game_type", [
   "doodlechain",
   "forbidden",
   "wavelength",
+  "deeper",
+  "flipside",
 ]);
 
 /**

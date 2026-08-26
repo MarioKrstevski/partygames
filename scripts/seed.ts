@@ -2375,6 +2375,142 @@ const wavelengthOpinions: string[] = [
   "Overthinking it | Not thinking enough",
 ];
 
+// ============================================================
+// DEEPER — each rung narrows the one above it
+// ============================================================
+
+const deeperLight: string[] = [
+  "What is a small thing that made you happy this week? > What is a small thing that made you happy that you did not tell anyone about? > Why did you keep it to yourself?",
+  "What did you want to be when you were a child? > When did you stop wanting it? > Is there any part of it left in what you do now?",
+  "What is a habit you have picked up recently? > Who did you pick it up from? > Have you ever told them?",
+  "What is something you are secretly quite good at? > Why does nobody know? > Who would be most surprised?",
+  "What is the last thing that made you laugh out loud alone? > Would you show it to the room? > What does it say about you?",
+  "What is a place you would go back to tomorrow? > Who were you with? > Would it be the same without them?",
+  "What is something you own that you would never sell? > What would you take for it? > What is the real reason it is worth that?",
+  "What is a song you cannot skip? > Where were you the first time it mattered? > Who does it remind you of?",
+  "What is a rule you follow that nobody asked you to? > Where did it come from? > What happens inside you when you break it?",
+  "What is something you are looking forward to? > What could ruin it? > Have you already planned for that?",
+  "What is a compliment you remember years later? > Who gave it to you? > Do you believe it yet?",
+  "What is a food that tastes like being a child? > Who made it? > When did you last have it?",
+  "What is a skill you would learn if it took a week? > Why not a year? > What is really stopping you?",
+  "What is the best decision you made this year? > What did it cost? > Would you make it again knowing that?",
+  "What do you do when nobody is watching? > Would you be embarrassed if we saw? > Which part exactly?",
+  "What is something you find beautiful that others do not? > When did you notice it first? > Have you tried explaining it to anyone?",
+  "What is a small kindness someone did for you? > Did you ever repay it? > Why not, or why then?",
+  "What is a thing you say too often? > What are you usually avoiding when you say it? > What would you say instead if you were braver?",
+];
+
+const deeperMedium: string[] = [
+  "Have you ever lied to a friend? > Was it about something that mattered? > Was it in the last month? > Are they in this room?",
+  "Who do you compare yourself to? > What do they have that you want? > Do they know you feel that way? > Would it change anything if they did?",
+  "What is something you have never told your family? > Who came closest to finding out? > What stopped you? > Will you ever tell them?",
+  "What is a friendship you let fade? > Whose fault was it? > What would you say if they called tonight? > Why have you not called?",
+  "When did you last cry? > What actually caused it? > Was it really about that? > Who would you have wanted there?",
+  "What do you pretend not to care about? > Who are you performing that for? > How long have you kept it up? > Is it working?",
+  "What is the most jealous you have ever been? > Of whom? > Did you act on it? > Do they know?",
+  "What is something you regret saying? > Who did you say it to? > Did you apologise? > What did you leave out of the apology?",
+  "What is a decision you are avoiding? > How long have you been avoiding it? > What are you actually afraid of? > What would you tell a friend in your position?",
+  "Who in your life do you take for granted? > When did that start? > What would they say if asked? > What will you do about it this week?",
+  "What is a version of yourself you are glad nobody here met? > What year was that? > What ended it? > Is any of it still in you?",
+  "What do you want that you feel guilty for wanting? > Who taught you it was greedy? > Do you still believe them? > What would it take to stop?",
+  "What is something you have never forgiven? > Was it ever discussed out loud? > What would forgiveness cost you? > Is that price the real problem?",
+  "What is the loneliest you have been? > Were you actually alone? > Who did you not call? > Why that person?",
+  "What is a compliment you cannot accept? > Who gives it most? > What do you think when they say it? > Where did that voice come from?",
+  "What is a lie you tell about yourself? > How long have you told it? > Who believes it most? > Do you?",
+];
+
+const deeperSpicy: string[] = [
+  "Who was the last person you thought about before sleeping? > Was it romantic? > Are they in this room? > Do they know?",
+  "What is the boldest thing you have ever done for attraction? > Did it work? > Would you do it again? > For whom, right now?",
+  "Have you ever wanted someone you should not have? > Did anything happen? > Would you tell the person it affected? > Do you regret the answer you just gave?",
+  "What is something you have never asked a partner for? > Why not? > What do you imagine they would say? > What would happen if you were wrong?",
+  "What is the most honest thing you could say about your last relationship? > What is the part you leave out when you tell the story? > Who does that protect? > Is it still worth protecting?",
+  "Who here would you have said yes to five years ago? > What changed? > Was it them or you? > Would you say yes now?",
+  "What is a secret that would change how this room sees you? > Who already knows? > How did they take it? > Would you tell it tonight for the right reason?",
+  "What do you want that you have never said out loud? > Who came closest to hearing it? > What stopped you that night? > Is that still true?",
+  "What is the most reckless thing you have done sober? > Would you tell your closest friend? > Have you? > What would they say about you?",
+  "What is something you did that you would not want repeated tonight? > Who else was there? > Are they still in your life? > Why is that?",
+  "What is the last thing you deleted before someone could see it? > Who was it about? > What would have happened if they had seen it? > Would that have been worse or better?",
+  "Who has the most power over how you feel? > Do they use it? > Do they know they have it? > When did you hand it over?",
+  "What is the biggest thing you have hidden from someone you love? > Would it end things? > Is that why you hid it? > What are you waiting for?",
+  "Who would you call if tonight went badly? > Would they come? > When did you last do that for them? > What does that tell you?",
+];
+
+// ============================================================
+// FLIP SIDE — statements a room will split on
+// ============================================================
+
+const flipSideEveryday: string[] = [
+  "Pineapple belongs on pizza",
+  "Replying to a text three days later is completely fine",
+  "Breakfast food is the best food at any hour",
+  "Socks should come off before trousers",
+  "The film is almost never better than the book",
+  "Cereal is a soup",
+  "Voice notes over two minutes should be illegal",
+  "Cold showers are worth it",
+  "Sitting in the front seat of a taxi is friendly, not weird",
+  "A hot dog is a sandwich",
+  "Everyone should have to learn to swim",
+  "It is fine to wear the same outfit twice in one week",
+  "Dogs are better housemates than cats",
+  "Airport arrival three hours early is correct behaviour",
+  "Reading the last page first is a valid way to read",
+  "Anyone who claps when the plane lands is right to",
+  "Group holidays ruin friendships",
+  "Coriander genuinely tastes like soap and that is not a preference",
+  "Buying physical books you will not read is a good use of money",
+  "The middle seat should get both armrests",
+  "There is a correct way to load a dishwasher",
+  "Anyone over thirty should not be in a nightclub",
+  "Podcasts at double speed still count as listening",
+  "Splitting the bill evenly is always fairer",
+  "Tea is better than coffee and it is not close",
+  "A birthday should be celebrated for the whole week",
+  "Sending a link with no message is rude",
+  "The window seat holder controls the window, no discussion",
+  "Leftover pizza is better cold",
+  "You should always take your shoes off in someone's home",
+  "Nobody actually likes camping",
+  "Small talk is a skill worth having",
+  "It is acceptable to leave a party without saying goodbye",
+  "Playing music out loud in public is never acceptable",
+  "New Year's Eve is the worst night of the year",
+];
+
+const flipSideSpicy: string[] = [
+  "Checking a partner's phone is sometimes justified",
+  "Staying friends with an ex never really works",
+  "It is fine to keep photos of an ex",
+  "You should tell a friend if their partner is not right for them",
+  "Emotional cheating is worse than physical",
+  "Everyone has a number they would lie about",
+  "Falling out of love is nobody's fault",
+  "A relationship without jealousy is a relationship without passion",
+  "Getting back with an ex is always a mistake",
+  "You should know your partner's passwords",
+  "Ghosting is sometimes the kindest option",
+  "Age gaps stop mattering after thirty",
+  "It is possible to love two people at once",
+  "Attraction to someone else is not a betrayal",
+  "Long distance is not worth attempting",
+  "Meeting on an app is less romantic and everyone knows it",
+  "You should tell your partner everything about your past",
+  "Being someone's second choice is not always bad",
+  "Weddings are for the guests, not the couple",
+  "Living together before marriage should be mandatory",
+  "A friendship can survive one person confessing feelings",
+  "Nobody is truly over their first love",
+  "You can tell within one date whether it is going anywhere",
+  "Keeping a secret to protect someone is still lying",
+  "Everyone in a long relationship has thought about leaving",
+  "Flirting while in a relationship is harmless",
+  "You should never date within your friend group",
+  "The person who loves less holds the power",
+  "It is fine to end a relationship by text if it was short",
+  "Sharing finances says more than saying I love you",
+];
+
 const SEED_DECKS: SeedDeck[] = [
   // --- Charades ---
   {
@@ -2798,6 +2934,48 @@ const SEED_DECKS: SeedDeck[] = [
     description:
       "Red flag to green flag, cringe to cool. Where the group finds out what it really thinks.",
     content: { spectrums: wavelengthOpinions },
+  },
+  // --- Deeper ---
+  {
+    gameType: "deeper",
+    name: "Light Deeper",
+    tier: "light",
+    description:
+      "Warm threads about small things. Goes three rungs down and never anywhere anyone regrets.",
+    content: { threads: deeperLight },
+  },
+  {
+    gameType: "deeper",
+    name: "Medium Deeper",
+    tier: "medium",
+    description:
+      "Four rungs, and the fourth one usually lands. Regret, jealousy, and the friendships you let fade.",
+    content: { threads: deeperMedium },
+  },
+  {
+    gameType: "deeper",
+    name: "Spicy Deeper",
+    tier: "spicy",
+    description:
+      "Only for a room that trusts each other. The last rung of every thread is the one you cannot take back.",
+    content: { threads: deeperSpicy },
+  },
+  // --- Flip Side ---
+  {
+    gameType: "flipside",
+    name: "Everyday Arguments",
+    tier: "light",
+    description:
+      "Pineapple, dishwashers, and whether cereal is soup. Nothing at stake but pride.",
+    content: { statements: flipSideEveryday },
+  },
+  {
+    gameType: "flipside",
+    name: "Relationship Arguments",
+    tier: "spicy",
+    description:
+      "Exes, jealousy and phone passwords. Pick a side out loud, then defend the one you do not believe.",
+    content: { statements: flipSideSpicy },
   },
 ];
 

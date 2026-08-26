@@ -32,7 +32,7 @@ export default function Home() {
             aria-hidden="true"
             className="mb-6 text-3xl tracking-widest sm:text-4xl"
           >
-            🎭 🔥 👉 ⏱️ 🙈 💣 🤷 🤫 🕵️ 🐮 🤥 🎉 🎨 🚫 📡
+            🎭 🔥 👉 ⏱️ 🙈 💣 🤷 🤫 🕵️ 🐮 🤥 🎉 🎨 🚫 📡 🕳️ 😈
           </p>
           <h1 className="mx-auto max-w-3xl text-4xl font-extrabold tracking-tight text-white sm:text-6xl">
             One phone. Every party game.{" "}
@@ -58,7 +58,7 @@ export default function Home() {
               variant="secondary"
               className="h-auto w-full px-6 py-3 text-base sm:w-auto"
             >
-              Browse all 15
+              Browse all 17
             </ButtonLink>
           </div>
         </section>
@@ -76,7 +76,7 @@ export default function Home() {
             Pick your poison
           </h2>
           <p className="mt-2 text-sm text-zinc-400 sm:text-base">
-            Fifteen games, all free, all ready in one tap — or let{" "}
+            Seventeen games, all free, all ready in one tap — or let{" "}
             <Link
               href="/tonight"
               className="font-medium text-violet-300 underline-offset-4 hover:underline"

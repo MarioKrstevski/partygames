@@ -2,7 +2,7 @@
 
 Every classic party game in one place, playable instantly in the browser. No app install, no account needed to play. Accounts unlock creating custom decks in any language and sharing them with your friend group.
 
-**Games:** Charades · Truth or Dare · Most Likely To · 5 Seconds · Never Have I Ever · Boom It · Would You Rather · Paranoia · Word Spy · Odd One Out · Fibber · Party Mode · Doodle Chain · Forbidden · Wavelength
+**Games:** Charades · Truth or Dare · Most Likely To · 5 Seconds · Never Have I Ever · Boom It · Would You Rather · Paranoia · Word Spy · Odd One Out · Fibber · Party Mode · Doodle Chain · Forbidden · Wavelength · Deeper · Flip Side
 **Quick tools:** Spin the Bottle · Dice Roll
 **Plan tonight:** answer three questions, get a running order for the whole evening
 

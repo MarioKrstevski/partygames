@@ -16,6 +16,8 @@ export const GAME_SLUGS = [
   "doodlechain",
   "forbidden",
   "wavelength",
+  "deeper",
+  "flipside",
 ] as const;
 
 export type GameSlug = (typeof GAME_SLUGS)[number];
@@ -511,6 +513,65 @@ export const GAMES: Record<GameSlug, GameDef> = {
           pattern: "^[^|]+\\|[^|]+$",
           message: 'each line needs exactly one "|" between the two ends',
         },
+      },
+    ],
+  },
+  deeper: {
+    slug: "deeper",
+    title: "Deeper",
+    tagline: "Every question has a worse one underneath it.",
+    description:
+      "Not a list of questions — a ladder. Each one narrows the last, and the only choice is whether to keep going down or bail out in front of everyone.",
+    howToPlay: [
+      "Read the question. Anyone can answer — no turns, no order.",
+      "Tap Deeper and the same question gets more specific.",
+      "Bail out whenever you like. Everyone will see that you did.",
+    ],
+    emoji: "🕳️",
+    minPlayers: 2,
+    maxPlayers: 12,
+    minutes: 15,
+    energy: "low",
+    sections: [
+      {
+        key: "threads",
+        label: "Threads",
+        hint: 'One thread per line, rungs separated by ">", each narrowing the last.',
+        placeholder:
+          "Have you ever lied to a friend? > About something that mattered? > In the last month? > Are they in this room?",
+        minItems: 5,
+        validateEntry: {
+          pattern: "^[^>]+>[^>]*[^\\s>][^>]*$|^[^>]+(>[^>]*[^\\s>][^>]*)+$",
+          message:
+            'each thread needs at least one ">" so the question has somewhere to go',
+        },
+      },
+    ],
+  },
+  flipside: {
+    slug: "flipside",
+    title: "Flip Side",
+    tagline: "Pick a side out loud. Then defend the other one.",
+    description:
+      "A divisive statement, a countdown, and everyone shouts their side at the same time so nobody can follow the crowd — then the phone makes one side argue against itself.",
+    howToPlay: [
+      "Read the statement. On three, everyone shouts AGREE or DISAGREE at once.",
+      "The phone picks a side. Those people now argue the opposite.",
+      "Beat the clock, then move on. Nobody keeps score.",
+    ],
+    emoji: "😈",
+    minPlayers: 3,
+    maxPlayers: 20,
+    minutes: 15,
+    energy: "high",
+    sections: [
+      {
+        key: "statements",
+        label: "Statements",
+        hint: "One divisive statement per line — something a room would split on.",
+        placeholder:
+          "Pineapple belongs on pizza\nReplying to a text three days later is fine",
+        minItems: 8,
       },
     ],
   },
