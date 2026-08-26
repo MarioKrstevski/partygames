@@ -16,6 +16,7 @@ const config = [
       "src/components/games/**",
       "src/components/players/**",
       "src/components/night/**",
+      "src/components/DeckFreshness.tsx",
     ],
     rules: { "react-hooks/set-state-in-effect": "warn" },
   },
