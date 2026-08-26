@@ -44,6 +44,15 @@ Point `DATABASE_URL` at your Neon pooled connection string and run `npm run db:m
 - **Auth** is better-auth (`src/lib/auth.ts`, route handler at `/api/auth/[...all]`). Use `getUser()` / `getSession()` in server code and `@/lib/auth-client` in client components. Admin access is by email — see `ADMIN_EMAIL` and `isAdminEmail()`.
 - **Deck mutations** go through `src/app/actions/decks.ts` — zod-validated server actions with ownership checks. They redirect on success and carry a `?saved=` flag that `SavedToast` turns into a toast, because React 19 resets an uncontrolled form once its action settles.
 - **Styling** is dark-only. The palette is defined once in `globals.css` using shadcn's token names, so shadcn components inherit the app's violet-on-zinc look without restyling.
+- **It works offline and installs to the home screen.** A party happens where
+  the wifi is bad, and every game's logic already runs in the browser, so
+  `public/sw.js` caches pages as they are visited: anything opened once still
+  plays with no connection. Build assets are cache-first (they are content
+  hashed), pages are network-first with a cached fallback, and anything that
+  writes — auth, server actions, the admin area — is never cached. The worker
+  registers in production only, since caching the pages you are editing makes
+  for baffling development. `src/app/manifest.ts` plus the generated
+  `icon.tsx` / `apple-icon.tsx` make it installable.
 - **Decks stay fresh.** `src/lib/freshness.ts` remembers which entries a phone
   has been shown, keyed per deck, so a second sitting serves the material you
   have not seen rather than the same cards in a new order. Entries are stored

@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Header from "@/components/Header";
 import { Toaster } from "@/components/ui/sonner";
+import OfflineSupport from "@/components/OfflineSupport";
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -37,6 +38,7 @@ export default function RootLayout({
         <Header />
         {children}
         <Toaster position="top-center" />
+        <OfflineSupport />
       </body>
     </html>
   );
