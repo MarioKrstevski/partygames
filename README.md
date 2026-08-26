@@ -44,6 +44,13 @@ Point `DATABASE_URL` at your Neon pooled connection string and run `npm run db:m
 - **Auth** is better-auth (`src/lib/auth.ts`, route handler at `/api/auth/[...all]`). Use `getUser()` / `getSession()` in server code and `@/lib/auth-client` in client components. Admin access is by email — see `ADMIN_EMAIL` and `isAdminEmail()`.
 - **Deck mutations** go through `src/app/actions/decks.ts` — zod-validated server actions with ownership checks. They redirect on success and carry a `?saved=` flag that `SavedToast` turns into a toast, because React 19 resets an uncontrolled form once its action settles.
 - **Styling** is dark-only. The palette is defined once in `globals.css` using shadcn's token names, so shadcn components inherit the app's violet-on-zinc look without restyling.
+- **Decks are shareable by link and QR.** Every deck carries an unguessable
+  `share_token`; holding it grants read access regardless of `isPublic`, which
+  is what makes unlisted sharing with a friend group possible. `/d/[token]`
+  previews a deck and `/d/[token]/play` plays it with no account at all, and
+  signed-in visitors can copy it into their own decks (private, with its own
+  fresh token, named to avoid colliding with what they already have). QR codes
+  are rendered on the server so no QR library reaches the browser.
 - **`/tonight` plans the evening.** `src/lib/night.ts` takes the group size,
   the vibe and how long you have, then builds a running order: only games that
   fit the room, no repeats until every eligible game has been used, energy

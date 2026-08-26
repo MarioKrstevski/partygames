@@ -111,6 +111,14 @@ export const gameTypeEnum = pgEnum("game_type", [
  */
 export type DeckContent = Record<string, string[]>;
 
+const TOKEN_ALPHABET = "abcdefghijkmnopqrstuvwxyz23456789";
+
+/** Short, URL-friendly and unguessable. Ambiguous characters are left out. */
+export function newShareToken(length = 10): string {
+  const bytes = crypto.getRandomValues(new Uint8Array(length));
+  return Array.from(bytes, (b) => TOKEN_ALPHABET[b % TOKEN_ALPHABET.length]).join("");
+}
+
 export const deck = pgTable(
   "deck",
   {
@@ -127,6 +135,15 @@ export const deck = pgTable(
     isPublic: boolean("is_public").notNull().default(false),
     tier: tierEnum("tier").default("light").notNull(),
     content: jsonb("content").$type<DeckContent>().notNull(),
+    /**
+     * Unguessable id for link sharing. Every deck has one; holding it grants
+     * read access regardless of isPublic, which is what makes "unlisted"
+     * sharing with a friend group possible without going fully public.
+     */
+    shareToken: text("share_token")
+      .notNull()
+      .unique()
+      .$defaultFn(() => newShareToken()),
     createdAt: timestamp("created_at").notNull().defaultNow(),
     updatedAt: timestamp("updated_at")
       .notNull()

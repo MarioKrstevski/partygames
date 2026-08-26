@@ -43,6 +43,13 @@
       "when": 1787702510233,
       "tag": "0005_lethal_spyke",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1787703182625,
+      "tag": "0006_jazzy_terrax",
+      "breakpoints": true
     }
   ]
 }

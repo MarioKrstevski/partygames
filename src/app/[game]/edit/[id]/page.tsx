@@ -9,6 +9,8 @@ import DeckForm from "@/components/DeckForm";
 import { PageContainer } from "@/components/layout";
 import { Card } from "@/components/ui/card";
 import DeleteDeckButton from "./DeleteDeckButton";
+import ShareDeckDialog from "@/components/ShareDeckDialog";
+import { shareUrlFor, qrSvgFor } from "@/lib/share";
 
 interface EditDeckPageProps {
   params: Promise<{ game: string; id: string }>;
@@ -34,6 +36,9 @@ export default async function EditDeckPage({ params }: EditDeckPageProps) {
   const deck = await getOwnedDeck(id, user.id);
   if (!deck || deck.gameType !== game.slug) notFound();
 
+  const shareUrl = await shareUrlFor(deck.shareToken);
+  const qrSvg = await qrSvgFor(shareUrl);
+
   return (
     <PageContainer className="max-w-2xl space-y-6">
       <div>
@@ -50,6 +55,21 @@ export default async function EditDeckPage({ params }: EditDeckPageProps) {
           Tweak your entries — one per line — and save.
         </p>
       </div>
+
+      <Card className="flex flex-wrap items-center justify-between gap-3 p-5">
+        <div className="min-w-0">
+          <h2 className="text-sm font-semibold">Share this deck</h2>
+          <p className="mt-0.5 text-sm text-zinc-400">
+            Send the link or hold up the QR — friends can play it and keep
+            their own copy.
+          </p>
+        </div>
+        <ShareDeckDialog
+          deckName={deck.name}
+          shareUrl={shareUrl}
+          qrSvg={qrSvg}
+        />
+      </Card>
 
       <DeckForm
         game={game}

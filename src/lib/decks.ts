@@ -101,3 +101,25 @@ export async function getPlannableDecks(
     : eq(deck.isPublic, true);
   return db.select().from(deck).where(visibility).orderBy(asc(deck.name));
 }
+
+/** A deck by its share token — the token itself is the permission. */
+export async function getSharedDeck(token: string): Promise<Deck | null> {
+  const rows = await db
+    .select()
+    .from(deck)
+    .where(eq(deck.shareToken, token))
+    .limit(1);
+  return rows[0] ?? null;
+}
+
+/** Names a user already has for a game, so a copy can avoid colliding. */
+export async function getDeckNamesFor(
+  userId: string,
+  gameType: GameSlug,
+): Promise<string[]> {
+  const rows = await db
+    .select({ name: deck.name })
+    .from(deck)
+    .where(and(eq(deck.userId, userId), eq(deck.gameType, gameType)));
+  return rows.map((r) => r.name);
+}
