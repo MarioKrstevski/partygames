@@ -2543,6 +2543,17 @@ const wordSpySpanish: string[] = [
   "Las doce uvas", "Una verbena", "El Clásico",
 ];
 
+const charadesSpanish: string[] = [
+  "La siesta", "Una paella", "Las doce uvas", "Un torero", "La sobremesa",
+  "Bailar flamenco", "Un chiringuito", "La Sagrada Familia", "Un churro",
+  "El Clásico", "La tomatina", "Un camarero con prisa", "Jugar al mus",
+  "Un gazpacho", "Las Fallas", "Un jamón entero", "Rafa Nadal",
+  "El Camino de Santiago", "Una tortilla de patatas", "La Rambla",
+  "Un botellón", "Los Sanfermines", "Una tapa de bravas", "El Rocío",
+  "Un abanico", "Un vecino con la tele alta", "La cola del paro",
+  "Un guiri con quemaduras", "Un cocido madrileño", "El Gordo de Navidad",
+];
+
 const SEED_DECKS: SeedDeck[] = [
   // --- Charades ---
   {
@@ -3027,6 +3038,15 @@ const SEED_DECKS: SeedDeck[] = [
     description:
       "Siesta, sobremesa, las doce uvas. Todos conocen la palabra secreta menos el espía — y solo un español sabrá describirla.",
     content: { words: wordSpySpanish },
+  },
+  {
+    gameType: "charades",
+    name: "Muy español",
+    tier: "light",
+    language: "es",
+    description:
+      "Mima la siesta, una paella y un guiri quemado. Palabras que solo un español adivina a la primera.",
+    content: { items: charadesSpanish },
   },
 ];
 

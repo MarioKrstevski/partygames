@@ -4,33 +4,124 @@
   "title": "Design System: Party Games",
   "extensions": {
     "colorMeta": {
-      "ground": { "role": "neutral", "displayName": "Room Ground", "canonical": "oklch(0.16 0.032 300)", "tonalRamp": ["oklch(0.15 0.032 300)", "oklch(0.21 0.035 300)", "oklch(0.29 0.03 300)", "oklch(0.4 0.03 300)", "oklch(0.55 0.03 300)", "oklch(0.72 0.02 300)", "oklch(0.86 0.015 300)", "oklch(0.97 0.012 300)"] },
-      "tile": { "role": "neutral", "displayName": "Tile", "canonical": "oklch(0.21 0.035 300)" },
-      "card": { "role": "neutral", "displayName": "Card", "canonical": "oklch(0.22 0.03 300)" },
-      "raised": { "role": "neutral", "displayName": "Raised", "canonical": "oklch(0.29 0.03 300)" },
-      "ink": { "role": "neutral", "displayName": "Ink", "canonical": "oklch(0.97 0.012 300)" },
-      "ink-muted": { "role": "neutral", "displayName": "Ink Muted", "canonical": "oklch(0.72 0.02 300)" },
-      "violet": { "role": "primary", "displayName": "Table Violet", "canonical": "oklch(0.55 0.24 295)", "tonalRamp": ["oklch(0.2 0.12 295)", "oklch(0.3 0.18 295)", "oklch(0.4 0.22 295)", "oklch(0.55 0.24 295)", "oklch(0.62 0.19 295)", "oklch(0.72 0.14 295)", "oklch(0.84 0.08 295)", "oklch(0.95 0.03 295)"] },
-      "violet-ring": { "role": "primary", "displayName": "Ring Violet", "canonical": "oklch(0.62 0.19 295)" },
-      "hairline": { "role": "neutral", "displayName": "Hairline", "canonical": "oklch(1 0 0 / 12%)" },
-      "danger": { "role": "tertiary", "displayName": "Dare Red", "canonical": "oklch(0.58 0.22 27)" }
+      "ground": {
+        "role": "neutral",
+        "displayName": "Room Ground",
+        "canonical": "oklch(0.16 0.032 300)",
+        "tonalRamp": [
+          "oklch(0.15 0.032 300)",
+          "oklch(0.21 0.035 300)",
+          "oklch(0.29 0.03 300)",
+          "oklch(0.4 0.03 300)",
+          "oklch(0.55 0.03 300)",
+          "oklch(0.72 0.02 300)",
+          "oklch(0.86 0.015 300)",
+          "oklch(0.97 0.012 300)"
+        ]
+      },
+      "tile": {
+        "role": "neutral",
+        "displayName": "Tile",
+        "canonical": "oklch(0.21 0.035 300)"
+      },
+      "card": {
+        "role": "neutral",
+        "displayName": "Card",
+        "canonical": "oklch(0.22 0.03 300)"
+      },
+      "raised": {
+        "role": "neutral",
+        "displayName": "Raised",
+        "canonical": "oklch(0.29 0.03 300)"
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "oklch(0.97 0.012 300)"
+      },
+      "ink-muted": {
+        "role": "neutral",
+        "displayName": "Ink Muted",
+        "canonical": "oklch(0.72 0.02 300)"
+      },
+      "violet": {
+        "role": "primary",
+        "displayName": "Table Violet",
+        "canonical": "oklch(0.55 0.24 295)",
+        "tonalRamp": [
+          "oklch(0.2 0.12 295)",
+          "oklch(0.3 0.18 295)",
+          "oklch(0.4 0.22 295)",
+          "oklch(0.55 0.24 295)",
+          "oklch(0.62 0.19 295)",
+          "oklch(0.72 0.14 295)",
+          "oklch(0.84 0.08 295)",
+          "oklch(0.95 0.03 295)"
+        ]
+      },
+      "violet-ring": {
+        "role": "primary",
+        "displayName": "Ring Violet",
+        "canonical": "oklch(0.62 0.19 295)"
+      },
+      "hairline": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "oklch(1 0 0 / 12%)"
+      },
+      "danger": {
+        "role": "tertiary",
+        "displayName": "Dare Red",
+        "canonical": "oklch(0.58 0.22 27)"
+      }
     },
     "typographyMeta": {
-      "display": { "displayName": "Display", "purpose": "The page hook only; two balanced lines." },
-      "row-heading": { "displayName": "Row heading", "purpose": "Names a rail or index; nothing sits above it." },
-      "meta": { "displayName": "Meta", "purpose": "Players, minutes, language, counts." }
+      "display": {
+        "displayName": "Display",
+        "purpose": "The page hook only; two balanced lines."
+      },
+      "row-heading": {
+        "displayName": "Row heading",
+        "purpose": "Names a rail or index; nothing sits above it."
+      },
+      "meta": {
+        "displayName": "Meta",
+        "purpose": "Players, minutes, language, counts."
+      }
     },
     "shadows": [
-      { "name": "rest", "value": "0 10px 30px -12px oklch(0 0 0 / 70%)", "purpose": "Tiles and cards on the ground." },
-      { "name": "forward", "value": "0 24px 50px -16px oklch(0 0 0 / 80%), 0 0 0 2px oklch(0.62 0.19 295)", "purpose": "The one focused tile." }
+      {
+        "name": "rest",
+        "value": "0 10px 30px -12px oklch(0 0 0 / 70%)",
+        "purpose": "Tiles and cards on the ground."
+      },
+      {
+        "name": "forward",
+        "value": "0 30px 60px -24px oklch(0 0 0 / 80%)",
+        "purpose": "Phone frames on the landing page."
+      }
     ],
     "motion": [
-      { "name": "ease-forward", "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Tile lift and sheet reveal, 320ms." },
-      { "name": "ease-dim", "value": "ease-out", "purpose": "Row dim, 320ms." }
+      {
+        "name": "ease-forward",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Tile lift and sheet reveal, 320ms."
+      },
+      {
+        "name": "ease-dim",
+        "value": "ease-out",
+        "purpose": "Row dim, 320ms."
+      }
     ],
     "breakpoints": [
-      { "name": "sm", "value": "640px" },
-      { "name": "lg", "value": "1024px" }
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      }
     ]
   },
   "components": [
@@ -59,12 +150,12 @@
       "css": ".ds-link { color: oklch(0.72 0.02 300); font: 500 0.875rem Geist, system-ui, sans-serif; text-decoration: none; text-underline-offset: 4px; transition: color 160ms ease-out; } .ds-link:hover { color: #fff; text-decoration: underline; }"
     },
     {
-      "name": "Wall Tile",
+      "name": "Phone Frame",
       "kind": "card",
-      "refersTo": "tile",
-      "description": "A portrait game tile with a caption sheet that rises on focus.",
-      "html": "<a class=\"ds-tile\" href=\"#\"><div class=\"ds-tile-screen\">Crab</div><div class=\"ds-tile-sheet\"><strong>Charades</strong><span>3–12 players · ~15 min</span></div></a>",
-      "css": ".ds-tile { position: relative; display: block; width: 164px; aspect-ratio: 9/16; overflow: hidden; border-radius: 1.25rem; background: oklch(0.21 0.035 300); border: 1px solid oklch(1 0 0 / 9%); box-shadow: 0 10px 30px -12px oklch(0 0 0 / 70%); color: oklch(0.97 0.012 300); text-decoration: none; transition: transform 320ms cubic-bezier(0.16,1,0.3,1), box-shadow 320ms cubic-bezier(0.16,1,0.3,1); } .ds-tile-screen { position: absolute; inset: 0; display: grid; place-items: center; font: 700 1.125rem Geist, system-ui, sans-serif; } .ds-tile-sheet { position: absolute; inset-inline: 0; bottom: 0; padding: 2.25rem 0.9rem 0.9rem; background: linear-gradient(to top, oklch(0.12 0.03 300 / 96%) 55%, transparent); transform: translateY(1.75rem); opacity: 0; transition: transform 320ms cubic-bezier(0.16,1,0.3,1), opacity 240ms ease-out; font: 400 0.6875rem Geist, system-ui, sans-serif; } .ds-tile-sheet strong { display: block; font-size: 0.875rem; } .ds-tile:hover, .ds-tile:focus-visible { transform: translateY(-10px) scale(1.12); box-shadow: 0 24px 50px -16px oklch(0 0 0 / 80%), 0 0 0 2px oklch(0.62 0.19 295); outline: none; } .ds-tile:hover .ds-tile-sheet, .ds-tile:focus-visible .ds-tile-sheet { transform: none; opacity: 1; }"
+      "refersTo": "phone-frame",
+      "description": "A phone-shaped frame around a live game screen.",
+      "html": "<figure class=\"ds-phone\"><div class=\"ds-phone-screen\">Crab</div></figure>",
+      "css": ".ds-phone { position: relative; width: 150px; aspect-ratio: 9/18; margin: 0; overflow: hidden; border-radius: 2rem; background: oklch(0.21 0.035 300); border: 1px solid oklch(1 0 0 / 12%); box-shadow: 0 30px 60px -24px oklch(0 0 0 / 80%), inset 0 0 0 6px oklch(0.1 0.02 300); } .ds-phone::after { content: ''; position: absolute; top: 10px; left: 50%; width: 34%; height: 14px; translate: -50%; border-radius: 999px; background: oklch(0.1 0.02 300); } .ds-phone-screen { position: absolute; inset: 6px; display: grid; place-items: center; border-radius: 1.6rem; color: oklch(0.97 0.012 300); font: 700 1.125rem Geist, system-ui, sans-serif; }"
     },
     {
       "name": "Row Heading",
@@ -73,14 +164,6 @@
       "description": "All-caps, tracked wide, alone above its row.",
       "html": "<h2 class=\"ds-row-heading\">You've just met</h2>",
       "css": ".ds-row-heading { margin: 0; color: #fff; font: 800 0.875rem/1.2 Geist, system-ui, sans-serif; letter-spacing: 0.08em; text-transform: uppercase; }"
-    },
-    {
-      "name": "Rail Button",
-      "kind": "button",
-      "refersTo": "rail-button",
-      "description": "Pill arrow that scrolls a rail.",
-      "html": "<button class=\"ds-rail-btn\" aria-label=\"Scroll right\"><svg viewBox=\"0 0 16 16\" width=\"16\" height=\"16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m6 3 5 5-5 5\"/></svg></button>",
-      "css": ".ds-rail-btn { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 9999px; border: 1px solid oklch(1 0 0 / 15%); background: transparent; color: oklch(0.72 0.02 300); transition: color 160ms, border-color 160ms; } .ds-rail-btn:hover { color: #fff; border-color: oklch(1 0 0 / 40%); } .ds-rail-btn:focus-visible { outline: 2px solid oklch(0.62 0.19 295); outline-offset: 3px; }"
     },
     {
       "name": "Text Input",
@@ -110,14 +193,30 @@
       "Depth is a single, soft, offset shadow plus a hairline; the focused object comes forward and everything else steps back."
     ],
     "rules": [
-      { "name": "The Only-Colour-Is-Content Rule", "body": "Saturated colour appears only inside game screens, tier badges and deck art. Chrome is ink, hairline and one violet.", "section": "colors" },
-      { "name": "The One Violet Rule", "body": "Violet is spent on the primary action and the focus ring. It is never a background wash, a gradient, or a heading colour.", "section": "colors" },
-      { "name": "The Heading Stands Alone Rule", "body": "No label, kicker or eyebrow above a heading. The all-caps row heading is the label; put metadata beneath, never above.", "section": "typography" },
-      { "name": "The One Thing Forward Rule", "body": "When something is focused it comes forward and its siblings step back (rows not hovered or focused drop to 45% opacity). Never lift two things at once.", "section": "elevation" }
+      {
+        "name": "The Only-Colour-Is-Content Rule",
+        "body": "Saturated colour appears only inside game screens, tier badges and deck art. Chrome is ink, hairline and one violet.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Violet Rule",
+        "body": "Violet is spent on the primary action and the focus ring. It is never a background wash, a gradient, or a heading colour.",
+        "section": "colors"
+      },
+      {
+        "name": "The Heading Stands Alone Rule",
+        "body": "No label, kicker or eyebrow above a heading. The all-caps row heading is the label; put metadata beneath, never above.",
+        "section": "typography"
+      },
+      {
+        "name": "The One Thing Forward Rule",
+        "body": "Depth is spent on the object being shown — a phone frame, a card in play — and never on chrome around it.",
+        "section": "elevation"
+      }
     ],
     "dos": [
       "Do let game screens supply the colour; keep chrome to ink, hairline and Table Violet.",
-      "Do put one thing forward at a time and dim the rest.",
+      "Do show the product in phone frames rather than describing it.",
       "Do theme the browser: violet selection, caret, accent-colour, scrollbar and focus ring are part of the surface.",
       "Do honour prefers-reduced-motion: transitions collapse, scene loops stop, the drawn doodle renders complete."
     ],

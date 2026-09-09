@@ -64,16 +64,11 @@ components:
     textColor: "{colors.ink}"
     rounded: "{rounded.md}"
     padding: "14px 24px"
-  tile:
+  phone-frame:
     backgroundColor: "{colors.tile}"
     textColor: "{colors.ink}"
-    rounded: "{rounded.lg}"
-    padding: "0"
-  rail-button:
-    backgroundColor: "transparent"
-    textColor: "{colors.ink-muted}"
-    rounded: "{rounded.pill}"
-    size: "32px"
+    rounded: "2rem"
+    padding: "6px"
 ---
 
 # Design System: Party Games
@@ -112,12 +107,12 @@ One dark violet ramp for surfaces, one violet accent, white ink at two strengths
 - **Table Violet** (`oklch(0.55 0.24 295)`): the primary button, the wordmark
   mark, selected states in games. It is the only accent on chrome.
 - **Ring Violet** (`oklch(0.62 0.19 295)`): the focus ring, caret, and the
-  outline on the focused tile — a lighter cousin so it reads on the dark tile.
+  outline on focused controls — a lighter cousin so it reads on dark surfaces.
 
 ### Neutral
 - **Room Ground** (`oklch(0.16 0.032 300)`): page background, propagated to
   the canvas; carries the grain.
-- **Tile** (`oklch(0.21 0.035 300)`): the game tiles on the landing wall.
+- **Tile** (`oklch(0.21 0.035 300)`): phone frames on the landing page.
 - **Card** (`oklch(0.22 0.03 300)`): shadcn card and popover surfaces.
 - **Raised** (`oklch(0.29 0.03 300)`): secondary buttons, muted surfaces.
 - **Ink** (`oklch(0.97 0.012 300)`): headings and primary text.
@@ -144,9 +139,9 @@ explains.
 ### Hierarchy
 - **Display** (800, `clamp(2rem, 5vw, 4.5rem)`, 0.95, −0.035em): the page hook
   only. Two short sentences, balanced wrapping, no colour.
-- **Row heading** (800, 14–16px, +0.08em, uppercase): names a rail or an
-  index. Sits alone above its row; nothing above it.
-- **Title** (700, 16px): a game or deck name on a tile sheet or card.
+- **Row heading** (800, 14–16px, +0.08em, uppercase): names an index or a
+  list. Sits alone above its content; nothing above it.
+- **Title** (700, 16px): a game or deck name under a phone frame or on a card.
 - **Body** (400, 16–18px, 1.625): explanatory copy, max ~60ch.
 - **Meta** (400, 11–12px): players, minutes, language, counts.
 
@@ -157,12 +152,10 @@ The all-caps row heading *is* the label; put metadata beneath, never above.
 ## Layout
 
 A 72rem (`max-w-6xl`) column with 1rem gutters at phone widths and 1.5rem from
-`sm`. Rails on the landing wall break the column: their padding is
-`max(1rem, (100vw − 72rem)/2 + 1.5rem)` so tiles start on the grid and bleed
-off the right edge, with `scroll-padding-inline` matching so snap points land
-on the gutter. Tiles are 9:16 portraits, 10.25rem wide from `sm` and
-`clamp(9.5rem, 44vw, 12rem)` below, 0.75rem apart. Rows sit 2rem apart;
-sections 4–6rem. The hook keeps a 4xl measure; body copy an xl measure.
+`sm`. The landing page is a sequence of full-width sections divided by hairlines,
+each 4–6rem tall in padding; two-column sections split roughly 1:1.15 from
+`lg`. Phone frames sit three abreast from `sm` and scroll horizontally with
+snap below it (58vw each). Body copy keeps an lg measure.
 
 ## Elevation & Depth
 
@@ -172,17 +165,16 @@ shadow has offset and blur; there are no hard zero-blur shadows and no glass.
 ### Shadow Vocabulary
 - **Rest** (`0 10px 30px -12px oklch(0 0 0 / 70%)`): tiles and cards on the
   ground.
-- **Forward** (`0 24px 50px -16px oklch(0 0 0 / 80%), 0 0 0 2px oklch(0.62 0.19 295)`):
-  the hovered or focused tile, which also scales to 1.12 and lifts 10px.
+- **Forward** (`0 30px 60px -24px oklch(0 0 0 / 80%)`):
+  phone frames on the landing page.
 
 ### Named Rules
-**The One Thing Forward Rule.** When something is focused it comes forward
-and its siblings step back (rows not hovered or focused drop to 45% opacity).
-Never lift two things at once.
+**The One Thing Forward Rule.** Depth is spent on the object being shown —
+a phone frame, a card in play — and never on chrome around it.
 
 ## Shapes
 
-Soft rectangles throughout. Tiles and hero cards use 1.25rem corners; buttons,
+Soft rectangles throughout. Phone frames use 2rem corners, cards 1.25rem; buttons,
 inputs and list items 0.75rem; small chips 0.5rem; icon buttons are pills.
 Borders are 1px hairlines, never coloured, never thicker than 1px on one side.
 The wordmark mark is a 10px square with a 3px violet halo.
@@ -197,18 +189,14 @@ The wordmark mark is a 10px square with a 3px violet halo.
   outline offset 3px, never a box-shadow glow
 - **Text link:** Ink Muted, underline on hover with 4px offset, turns Ink
 
-### Tiles (landing wall)
-- **Corner Style:** 1.25rem
-- **Background:** Tile, 1px soft hairline, Rest shadow
-- **Content:** the game's live screen; the caption sheet slides up from the
-  bottom on hover/focus (always shown on touch devices) with title, meta, and
-  one line of copy over a bottom-to-top ground gradient at 96%
-- **Forward state:** scale 1.12, lift 10px, Forward shadow with ring
-
-### Rails
-- Horizontal scroll, `scroll-snap-type: x mandatory`, hidden scrollbar, a mask
-  fading the right 2.5rem; pill arrow buttons (32px, hairline border, drawn
-  chevrons) at the row heading's right on `sm` and up.
+### Phone frames (landing)
+- **Shape:** 9:18 portrait, 2rem corners, 6px inset bezel, pill notch
+- **Background:** Tile, hairline border, Rest shadow deepened to
+  `0 30px 60px -24px oklch(0 0 0 / 80%)`
+- **Content:** the game's live screen, captioned beneath in Meta
+- **Motion:** rise on load (700ms, staggered 90ms by depth); hero frames
+  drift apart on scroll via `animation-timeline: scroll(root)` where
+  supported; on phones the row scrolls horizontally with snap
 
 ### Cards / Containers
 - **Corner Style:** 0.75rem–1.25rem
@@ -228,7 +216,7 @@ The wordmark mark is a 10px square with a 3px violet halo.
 ### Do:
 - **Do** let game screens supply the colour; keep chrome to ink, hairline and
   Table Violet.
-- **Do** put one thing forward at a time and dim the rest.
+- **Do** show the product in phone frames rather than describing it.
 - **Do** theme the browser: violet selection, caret, accent-colour, scrollbar
   and focus ring are part of the surface.
 - **Do** honour `prefers-reduced-motion`: transitions collapse, scene loops

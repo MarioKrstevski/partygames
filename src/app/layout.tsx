@@ -40,11 +40,11 @@ export default function RootLayout({
           aria-hidden="true"
           dangerouslySetInnerHTML={{
             __html: `<!--
-THESIS: The library is the hero. A catalog wall of live game screens in rows named for the people in the room; refuses the centered hero, feature grid and three-step how-it-works.
-OWN-WORLD: near-black violet ground; the tiles are the only colour, each game wearing its own screen; one violet ring on the focused tile; Geist at 800 for display, all-caps row headings tracked +0.08em; no emoji in the chrome, no gradient text.
-STORY: "I could be playing in ten seconds" -> sees real games already running -> picks the row that matches who is in the room -> Start playing now.
-FIRST VIEWPORT: hook line top-left with Start playing now; beneath it the Most played row of portrait tiles bleeding off the right edge, second row heading visible. Rails scroll horizontally with snap; the focused tile grows and reveals title, players and minutes, one line; its row lifts and the others dim.
-FORM: streaming title-card wall; catalog challenger that beat the dealt structures; seed e32f4c27.
+THESIS: A conventional landing page that proves itself with the product: the motto, then three real game screens in phone frames; features beneath; one game shown in three languages leading into "make your own deck".
+OWN-WORLD: near-black violet ground with paper grain; colour lives only in the game screens; one violet for the primary action and the focus ring; Geist at 800 for display; no emoji in the chrome, no gradient text, no kickers.
+STORY: "I don't want to install five apps" -> reads the motto -> sees three games already running -> learns it's customizable and in their language -> Start playing now.
+FIRST VIEWPORT: motto and Start playing now on the left; three staggered phone frames on the right (Charades, Would You Rather, Never Have I Ever) that rise on load and drift apart as the page scrolls.
+FORM: hero, features, language showcase, closing call; seed e32f4c27.
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance.
 -->`,
           }}

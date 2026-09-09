@@ -174,101 +174,72 @@ body::before {
   text-wrap: balance;
 }
 
-.rail {
-  display: flex;
-  gap: 0.75rem;
-  overflow-x: auto;
-  overscroll-behavior-x: contain;
-  scroll-snap-type: x mandatory;
-  scrollbar-width: none;
-  /* rows bleed to the viewport edge; tiles start on the page grid */
-  padding-inline: max(1rem, calc((100vw - 72rem) / 2 + 1.5rem));
-  scroll-padding-inline: max(1rem, calc((100vw - 72rem) / 2 + 1.5rem));
-  padding-block: 1.25rem 1.25rem;
-  mask-image: linear-gradient(to right, transparent, black 0.75rem, black calc(100% - 2.5rem), transparent);
-}
-.rail::-webkit-scrollbar {
-  display: none;
-}
-.tile-slot {
-  flex: 0 0 auto;
-  scroll-snap-align: start;
-  width: clamp(9.5rem, 44vw, 12rem);
-}
-@media (min-width: 640px) {
-  .tile-slot {
-    width: 10.25rem;
-  }
-}
-.tile {
+/* Phone frames — the product shown as it is, at phone proportions. */
+.phone {
   position: relative;
-  display: block;
-  aspect-ratio: 9 / 16;
+  aspect-ratio: 9 / 18;
   overflow: hidden;
-  border-radius: 1.25rem;
+  border-radius: 2rem;
   background: oklch(0.21 0.035 300);
-  border: 1px solid oklch(1 0 0 / 9%);
-  box-shadow: 0 10px 30px -12px oklch(0 0 0 / 70%);
-  transition:
-    transform 320ms cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 320ms cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: transform;
+  border: 1px solid oklch(1 0 0 / 12%);
+  box-shadow:
+    0 30px 60px -24px oklch(0 0 0 / 80%),
+    inset 0 0 0 6px oklch(0.1 0.02 300);
 }
-.tile-screen {
+.phone::after {
+  /* the notch */
+  content: "";
   position: absolute;
-  inset: 0;
+  top: 10px;
+  left: 50%;
+  width: 34%;
+  height: 14px;
+  translate: -50%;
+  border-radius: 999px;
+  background: oklch(0.1 0.02 300);
   pointer-events: none;
 }
-.tile-sheet {
+.phone-screen {
   position: absolute;
-  inset-inline: 0;
-  bottom: 0;
-  padding: 2.25rem 0.9rem 0.9rem;
-  background: linear-gradient(to top, oklch(0.12 0.03 300 / 96%) 55%, transparent);
-  transform: translateY(1.75rem);
-  opacity: 0;
-  transition:
-    transform 320ms cubic-bezier(0.16, 1, 0.3, 1),
-    opacity 240ms ease-out;
+  inset: 6px;
+  border-radius: 1.6rem;
+  overflow: hidden;
+  padding-top: 18px;
 }
-.tile-line {
-  display: none;
-}
-/* The focused tile comes forward; its row lifts; the other rows step back. */
-@media (hover: hover) {
-  .tile:hover,
-  .tile:focus-visible {
-    transform: translateY(-10px) scale(1.12);
-    box-shadow:
-      0 24px 50px -16px oklch(0 0 0 / 80%),
-      0 0 0 2px oklch(0.62 0.19 295);
-    z-index: 2;
-  }
-  .tile:hover .tile-sheet,
-  .tile:focus-visible .tile-sheet {
-    transform: translateY(0);
-    opacity: 1;
-  }
-  .tile:hover .tile-line,
-  .tile:focus-visible .tile-line {
-    display: block;
-  }
-  .wall:has(.row:hover, .row:focus-within) .row:not(:hover, :focus-within) {
-    opacity: 0.45;
-  }
-  .row {
-    transition: opacity 320ms ease-out;
-  }
-}
-/* Touch: no hover, so every tile carries its caption. */
-@media (hover: none) {
-  .tile-sheet {
-    transform: none;
-    opacity: 1;
-  }
+.phone-screen > * {
+  height: 100%;
 }
 
-/* Live-scene motion, only while the row is on screen. */
+/* Hero phones drift at different rates as the page scrolls (Chrome, Edge,
+   Safari 26+); elsewhere they simply sit still. */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .drift {
+      animation: drift linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 100vh;
+    }
+    .drift[data-depth="1"] { --drift: -24px; }
+    .drift[data-depth="2"] { --drift: -56px; }
+    .drift[data-depth="3"] { --drift: -96px; }
+  }
+}
+@keyframes drift {
+  to { transform: translateY(var(--drift, 0)); }
+}
+
+/* Entrance: the hero phones rise once on load. */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: none; }
+}
+.rise {
+  animation: rise 700ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.rise[data-depth="2"] { animation-delay: 90ms; }
+.rise[data-depth="3"] { animation-delay: 180ms; }
+
+/* Live-scene motion. */
 @keyframes pg-tick {
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.14); }
@@ -295,28 +266,20 @@ body::before {
   stroke-dasharray: 300;
   stroke-dashoffset: 300;
 }
-[data-live="true"] .pg-tick { animation: pg-tick 1s ease-in-out infinite; }
-[data-live="true"] .pg-ring { animation: pg-ring 5s linear infinite; }
-[data-live="true"] .pg-needle { animation: pg-needle 4s cubic-bezier(0.16, 1, 0.3, 1) infinite; }
-[data-live="true"] .pg-bomb { animation: pg-bomb 0.8s ease-in-out infinite; }
-[data-live="true"] .pg-spin { animation: pg-spin 6s linear infinite; }
-[data-live="true"] .pg-draw { animation: pg-draw 2.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.pg-tick { animation: pg-tick 1s ease-in-out infinite; }
+.pg-ring { animation: pg-ring 5s linear infinite; }
+.pg-needle { animation: pg-needle 4s cubic-bezier(0.16, 1, 0.3, 1) infinite; }
+.pg-bomb { animation: pg-bomb 0.8s ease-in-out infinite; }
+.pg-spin { animation: pg-spin 6s linear infinite; }
+.pg-draw { animation: pg-draw 2.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 
 @media (prefers-reduced-motion: reduce) {
-  .tile,
-  .tile-sheet,
-  .row {
-    transition-duration: 0.01ms;
-  }
-  .tile:hover,
-  .tile:focus-visible {
-    transform: none;
-  }
-  [data-live="true"] .pg-tick,
-  [data-live="true"] .pg-ring,
-  [data-live="true"] .pg-needle,
-  [data-live="true"] .pg-bomb,
-  [data-live="true"] .pg-spin {
+  .rise,
+  .pg-tick,
+  .pg-ring,
+  .pg-needle,
+  .pg-bomb,
+  .pg-spin {
     animation: none;
   }
   .pg-draw {
