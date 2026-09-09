@@ -126,13 +126,19 @@ function FiveSeconds({ deck }: SceneProps) {
   );
 }
 
+const NHIE_LEAD: Record<string, string> = {
+  en: "Never have I ever…",
+  fr: "Je n'ai jamais…",
+  es: "Yo nunca…",
+};
+
 function NeverHaveIEver({ deck }: SceneProps) {
   return (
     <Screen deck={deck}>
       <p className="text-[8px] text-zinc-500">1 / 30</p>
       <div className="flex flex-1 flex-col items-center justify-center text-center">
-        <p className="text-[8px] font-semibold uppercase tracking-widest text-violet-300">Never have I ever…</p>
-        <p className="mt-2 text-sm font-bold leading-snug">{entry(deck, 14, "laughed so hard I snorted")}</p>
+        <p className="text-[8px] font-semibold uppercase tracking-widest text-violet-300">{NHIE_LEAD[deck?.language ?? "en"] ?? NHIE_LEAD.en}</p>
+        <p className="mt-2 text-sm font-bold leading-snug">{entry(deck, 3, "laughed so hard I snorted")}</p>
       </div>
       <Btn>Next</Btn>
     </Screen>

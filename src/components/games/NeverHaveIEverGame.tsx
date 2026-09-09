@@ -7,8 +7,15 @@ import { shuffleArray, vibrate } from "@/lib/utils";
 import { shuffleFresh } from "@/lib/freshness";
 import { useSeen } from "@/lib/use-seen";
 
+/** The line every card completes, in the deck's language. */
+const LEAD: Record<string, string> = {
+  en: "Never have I ever…",
+  fr: "Je n'ai jamais…",
+  es: "Yo nunca…",
+};
+
 type NeverHaveIEverGameProps = {
-  deck: { id: string; name: string; content: Record<string, string[]> };
+  deck: { id: string; name: string; language?: string; content: Record<string, string[]> };
 };
 
 export default function NeverHaveIEverGame({
@@ -102,7 +109,7 @@ export default function NeverHaveIEverGame({
 
       <div className="flex flex-1 flex-col items-center justify-center text-center">
         <p className="text-sm font-semibold uppercase tracking-[0.3em] text-violet-300">
-          Never have I ever…
+          {LEAD[deck.language ?? "en"] ?? LEAD.en}
         </p>
         <p className="mt-6 max-w-xl text-3xl font-bold leading-snug text-white sm:text-4xl">
           {statements[currentIndex]}

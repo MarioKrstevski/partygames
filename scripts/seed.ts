@@ -2554,6 +2554,38 @@ const charadesSpanish: string[] = [
   "Un guiri con quemaduras", "Un cocido madrileño", "El Gordo de Navidad",
 ];
 
+const neverHaveIEverFrench: string[] = [
+  "pris le métro sans ticket", "fait semblant de connaître un vin",
+  "râlé contre la SNCF alors que j'étais en retard", "mangé une baguette entière tout seul",
+  "dit \"bref\" pour finir une histoire de vingt minutes", "pleuré devant un film d'animation",
+  "fait la bise à quelqu'un que je ne connaissais pas", "commandé un croissant à 16h",
+  "prétendu aimer les huîtres", "raté le dernier métro exprès",
+  "envoyé un message à mon ex après un apéro", "dormi dans un aéroport",
+  "chanté la Marseillaise faux mais très fort", "fait une grève de la vaisselle",
+  "dit \"c'est la vie\" à un touriste", "menti sur ma taille",
+  "mangé une raclette en été", "rendu un cadeau que je n'aimais pas",
+  "pris un accent pour draguer", "fini le fromage de quelqu'un d'autre",
+  "gardé un secret de la famille pendant des années", "dit que je parlais anglais couramment",
+  "regardé une émission de télé-réalité en cachette", "pris trois cafés avant midi",
+  "fait un discours à un mariage sans préparation",
+];
+
+const neverHaveIEverSpanish: string[] = [
+  "dormido la siesta en el trabajo", "cenado a las once de la noche",
+  "fingido saber bailar sevillanas", "comido las doce uvas fuera de tiempo",
+  "hablado con un guiri a gritos para que me entendiera", "pedido una tapa que no sabía qué era",
+  "llegado tarde a propósito", "llorado con un anuncio de Navidad",
+  "escrito a mi ex después de una fiesta", "dormido en un aeropuerto",
+  "cantado en un karaoke sin saberme la letra", "dicho que mañana empiezo la dieta",
+  "criticado la tortilla de otra persona", "regalado algo que me habían regalado",
+  "puesto acento para ligar", "terminado el jamón de otro",
+  "guardado un secreto familiar durante años", "dicho que hablaba inglés perfectamente",
+  "visto un reality a escondidas", "tomado tres cafés antes del mediodía",
+  "dado un discurso en una boda sin preparar nada", "hecho botellón pasados los treinta",
+  "prometido que era la última copa", "cambiado de bar por la música",
+  "dicho \"ahora voy\" y tardado una hora",
+];
+
 const SEED_DECKS: SeedDeck[] = [
   // --- Charades ---
   {
@@ -3047,6 +3079,24 @@ const SEED_DECKS: SeedDeck[] = [
     description:
       "Mima la siesta, una paella y un guiri quemado. Palabras que solo un español adivina a la primera.",
     content: { items: charadesSpanish },
+  },
+  {
+    gameType: "neverhaveiever",
+    name: "Jamais en France",
+    tier: "light",
+    language: "fr",
+    description:
+      "Le métro sans ticket, la bise aux inconnus, le croissant de 16h. Des aveux que seuls les Français comprendront.",
+    content: { items: neverHaveIEverFrench },
+  },
+  {
+    gameType: "neverhaveiever",
+    name: "Yo nunca, en España",
+    tier: "light",
+    language: "es",
+    description:
+      "La siesta en el trabajo, cenar a las once, las uvas a destiempo. Confesiones que solo un español entiende.",
+    content: { items: neverHaveIEverSpanish },
   },
 ];
 
