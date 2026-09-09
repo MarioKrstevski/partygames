@@ -53,6 +53,8 @@ export interface GameDef {
   image?: string;
   /** Minimum roster size; games without a roster leave this unset. */
   minPlayers?: number;
+  /** True when play starts with a player roster; unset means tap and play. */
+  roster?: boolean;
   /** Above this the game drags — pass-around turns get slow in a big room. */
   maxPlayers?: number;
   /** Roughly how long one sitting runs, in minutes. Used to plan a night. */
@@ -293,6 +295,7 @@ export const GAMES: Record<GameSlug, GameDef> = {
     ],
     emoji: "🤫",
     minPlayers: 3,
+    roster: true,
     maxPlayers: 8,
     minutes: 15,
     energy: "low",
@@ -320,6 +323,7 @@ export const GAMES: Record<GameSlug, GameDef> = {
     ],
     emoji: "🕵️",
     minPlayers: 3,
+    roster: true,
     maxPlayers: 8,
     minutes: 15,
     energy: "low",
@@ -346,6 +350,7 @@ export const GAMES: Record<GameSlug, GameDef> = {
     ],
     emoji: "🐮",
     minPlayers: 3,
+    roster: true,
     maxPlayers: 8,
     minutes: 15,
     energy: "low",
@@ -373,6 +378,7 @@ export const GAMES: Record<GameSlug, GameDef> = {
     ],
     emoji: "🤥",
     minPlayers: 3,
+    roster: true,
     maxPlayers: 8,
     minutes: 20,
     energy: "low",
@@ -405,6 +411,7 @@ export const GAMES: Record<GameSlug, GameDef> = {
     ],
     emoji: "🎉",
     minPlayers: 2,
+    roster: true,
     maxPlayers: 12,
     minutes: 20,
     energy: "high",
@@ -440,6 +447,7 @@ export const GAMES: Record<GameSlug, GameDef> = {
     ],
     emoji: "🎨",
     minPlayers: 3,
+    roster: true,
     maxPlayers: 8,
     minutes: 20,
     energy: "low",
@@ -466,6 +474,7 @@ export const GAMES: Record<GameSlug, GameDef> = {
     ],
     emoji: "🚫",
     minPlayers: 4,
+    roster: true,
     maxPlayers: 16,
     minutes: 15,
     energy: "high",
@@ -498,6 +507,7 @@ export const GAMES: Record<GameSlug, GameDef> = {
     ],
     emoji: "📡",
     minPlayers: 3,
+    roster: true,
     maxPlayers: 12,
     minutes: 15,
     energy: "low",

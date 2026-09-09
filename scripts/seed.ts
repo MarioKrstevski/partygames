@@ -67,6 +67,8 @@ type SeedDeck = {
   name: string;
   description: string;
   tier: "light" | "medium" | "spicy";
+  /** ISO code; decks default to English. */
+  language?: string;
   content: DeckContent;
 };
 
@@ -2511,6 +2513,36 @@ const flipSideSpicy: string[] = [
   "Sharing finances says more than saying I love you",
 ];
 
+// ============================================================
+// IN OTHER LANGUAGES — showcase decks for "your language, your people"
+// ============================================================
+
+const charadesFrench: string[] = [
+  "Faire la bise", "Le métro parisien", "Un croissant", "Le Tour de France",
+  "La tour Eiffel", "Un escargot", "Une baguette sous le bras", "Un mime",
+  "Le Petit Prince", "Astérix", "Une grève", "Une partie de pétanque",
+  "La Marseillaise", "Un serveur pressé", "Le Louvre", "Un béret",
+  "Une raclette", "La Coupe du monde 98", "Un croque-monsieur",
+  "Le marché du dimanche", "Les Bleus", "Une crêpe ratée", "Zidane",
+  "Le bac", "Un embouteillage sur le périph", "Une manif", "Le TGV",
+  "Un fromage qui pue", "La Fête de la musique", "Un apéro",
+  "Le Mont-Saint-Michel", "Un pain au chocolat (ou une chocolatine)",
+  "Une bûche de Noël", "Roland-Garros", "Un accordéon", "Le 14 juillet",
+  "Une sieste après le déjeuner", "Le Moulin Rouge", "Un caniche",
+  "La dictée", "Un rond-point", "Le bisou du Nouvel An",
+  "Les vacances au camping", "Un Parisien qui râle", "Un marché de Noël",
+];
+
+const wordSpySpanish: string[] = [
+  "La siesta", "Una paella", "El Camino de Santiago", "Las Fallas",
+  "Un churro con chocolate", "La Sagrada Familia", "El Rastro",
+  "Una tortilla de patatas", "La Feria de Abril", "Los Sanfermines",
+  "Un botellón", "La Puerta del Sol", "Una tapa", "El flamenco",
+  "La Tomatina", "Un jamón ibérico", "La Alhambra", "Las Ramblas",
+  "Un chiringuito", "La sobremesa", "El Gordo de Navidad", "Un gazpacho",
+  "Las doce uvas", "Una verbena", "El Clásico",
+];
+
 const SEED_DECKS: SeedDeck[] = [
   // --- Charades ---
   {
@@ -2977,6 +3009,25 @@ const SEED_DECKS: SeedDeck[] = [
       "Exes, jealousy and phone passwords. Pick a side out loud, then defend the one you do not believe.",
     content: { statements: flipSideSpicy },
   },
+  // --- In other languages ---
+  {
+    gameType: "charades",
+    name: "Très français",
+    tier: "light",
+    language: "fr",
+    description:
+      "Mime la bise, le périph et un Parisien qui râle. Des mots que seuls les Français devineront du premier coup.",
+    content: { items: charadesFrench },
+  },
+  {
+    gameType: "wordspy",
+    name: "Muy español",
+    tier: "light",
+    language: "es",
+    description:
+      "Siesta, sobremesa, las doce uvas. Todos conocen la palabra secreta menos el espía — y solo un español sabrá describirla.",
+    content: { words: wordSpySpanish },
+  },
 ];
 
 // ---------------------------------------------------------------------------
@@ -3008,7 +3059,7 @@ async function main() {
       name: d.name,
       description: d.description,
       tier: d.tier,
-      language: "en",
+      language: d.language ?? "en",
       isPublic: true,
       content: d.content,
     })),

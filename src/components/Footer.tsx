@@ -10,7 +10,8 @@ export default async function Footer() {
         <div className="flex flex-col gap-8 sm:flex-row sm:justify-between">
           <div>
             <p className="text-lg font-bold tracking-tight text-white">
-              🎉 Party Games
+              <span aria-hidden="true" className="inline-block size-2.5 rounded-[3px] bg-primary align-[-1px] shadow-[0_0_0_3px_oklch(0.55_0.24_295/35%)]" />
+              <span className="ml-2">Party Games</span>
             </p>
             <p className="mt-1 text-sm text-zinc-400">Made for game nights.</p>
           </div>

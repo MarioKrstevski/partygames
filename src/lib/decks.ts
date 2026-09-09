@@ -123,3 +123,37 @@ export async function getDeckNamesFor(
     .where(and(eq(deck.userId, userId), eq(deck.gameType, gameType)));
   return rows.map((r) => r.name);
 }
+
+export interface ShowcaseDeck {
+  id: string;
+  name: string;
+  gameType: string;
+  language: string;
+  entries: string[];
+}
+
+/**
+ * Real content for the landing page's live tiles: the light English deck of
+ * every game, plus every public deck in another language. Only a handful of
+ * entries per deck travel to the client.
+ */
+export async function getShowcaseDecks(): Promise<ShowcaseDeck[]> {
+  const rows = await db
+    .select()
+    .from(deck)
+    .where(eq(deck.isPublic, true))
+    .orderBy(asc(deck.name));
+
+  const byGame = new Map<string, ShowcaseDeck>();
+  const foreign: ShowcaseDeck[] = [];
+  for (const d of rows) {
+    const entries = Object.values(d.content).flat().slice(0, 12);
+    const item = { id: d.id, name: d.name, gameType: d.gameType, language: d.language, entries };
+    if (d.language !== "en") {
+      foreign.push(item);
+    } else if (d.tier === "light" && !byGame.has(d.gameType)) {
+      byGame.set(d.gameType, item);
+    }
+  }
+  return [...byGame.values(), ...foreign];
+}

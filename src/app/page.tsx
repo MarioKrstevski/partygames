@@ -1,215 +1,214 @@
-import Image from "next/image";
 import Link from "next/link";
 import Footer from "@/components/Footer";
-import { GAMES, TOOLS } from "@/lib/games";
+import GameWall, { type WallRow, type WallTile } from "@/components/landing/GameWall";
 import { ButtonLink } from "@/components/button-link";
+import { GAMES, TOOLS, type GameSlug } from "@/lib/games";
 
-const STEPS = [
-  {
-    title: "Create a free account",
-    description:
-      "One minute, no credit card. Playing stays free with or without one.",
-  },
-  {
-    title: "Build a deck in your language",
-    description:
-      "Charades words, dares, punishments — write them yourself. Your inside jokes, your language, your people.",
-  },
-  {
-    title: "Host game night",
-    description:
-      "Open a game, pick your deck, pass the phone around. That is the whole setup.",
-  },
-] as const;
+const GAME_SLUGS = Object.keys(GAMES) as GameSlug[];
+import { getGamePlayCounts, getShowcaseDecks, type ShowcaseDeck } from "@/lib/decks";
 
-export default function Home() {
+/** The order the wall falls back to while real play counts are still thin. */
+const CURATED_MOST_PLAYED: GameSlug[] = [
+  "charades", "truthordare", "neverhaveiever", "wouldyourather",
+  "deeper", "wordspy", "flipside", "mostlikelyto",
+];
+const JUST_MET: GameSlug[] = [
+  "wouldyourather", "fiveseconds", "oddoneout", "charades",
+  "wordspy", "flipside", "wavelength", "doodlechain",
+];
+const KNOWN_FOR_YEARS: GameSlug[] = [
+  "truthordare", "neverhaveiever", "paranoia", "deeper",
+  "mostlikelyto", "fibber", "partymode", "boomit", "forbidden",
+];
+
+const LANGUAGE_LABEL: Record<string, string> = {
+  fr: "En français",
+  es: "En español",
+  mk: "На македонски",
+  de: "Auf Deutsch",
+  it: "In italiano",
+};
+
+function gameTile(slug: GameSlug, decks: Map<string, ShowcaseDeck>): WallTile {
+  const game = GAMES[slug];
+  return {
+    key: slug,
+    slug,
+    href: `/${slug}`,
+    title: game.title,
+    meta: `${game.minPlayers}–${game.maxPlayers} players · ~${game.minutes} min`,
+    line: game.tagline,
+    deck: decks.get(slug),
+  };
+}
+
+export default async function Home() {
+  const [showcase, counts] = await Promise.all([getShowcaseDecks(), getGamePlayCounts()]);
+  const english = new Map(showcase.filter((d) => d.language === "en").map((d) => [d.gameType, d]));
+  const foreign = showcase.filter((d) => d.language !== "en");
+
+  // Real plays first; the curated order fills in behind them.
+  const mostPlayed = [...CURATED_MOST_PLAYED]
+    .sort((a, b) => (counts[b] ?? 0) - (counts[a] ?? 0))
+    .slice(0, 8);
+
+  const rows: WallRow[] = [
+    {
+      id: "most-played",
+      title: "Most played",
+      tiles: mostPlayed.map((s) => gameTile(s, english)),
+      more: { href: "#all", label: "All seventeen" },
+    },
+    {
+      id: "just-met",
+      title: "You've just met",
+      tiles: JUST_MET.map((s) => gameTile(s, english)),
+    },
+    {
+      id: "known-for-years",
+      title: "Known each other for years",
+      tiles: KNOWN_FOR_YEARS.map((s) => gameTile(s, english)),
+    },
+    {
+      id: "languages",
+      title: "In your language",
+      tiles: [
+        ...foreign.map((d): WallTile => {
+          const game = GAMES[d.gameType as GameSlug];
+          return {
+            key: d.id,
+            slug: d.gameType,
+            href: `/${d.gameType}/play/${d.id}`,
+            title: d.name,
+            meta: `${LANGUAGE_LABEL[d.language] ?? d.language} · ${game?.title ?? d.gameType}`,
+            line: "A real deck, written for the people who get the jokes. Tap to play it.",
+            deck: d,
+          };
+        }),
+        {
+          key: "make-yours",
+          slug: "partymode",
+          href: "/signup",
+          title: "Make yours",
+          meta: "Any game · any language",
+          line: "Your city, your uni, your group chat. Build a deck, share it by QR.",
+          deck: {
+            id: "make-yours",
+            name: "Your deck",
+            gameType: "partymode",
+            language: "en",
+            entries: ["{player}, tell the group the story behind the group chat name"],
+          },
+        },
+      ],
+    },
+    {
+      id: "tools",
+      title: "Quick tools",
+      tiles: TOOLS.map((tool) => ({
+        key: tool.slug,
+        slug: tool.slug,
+        href: tool.href,
+        title: tool.title,
+        meta: "No rules, no decks",
+        line: tool.tagline,
+      })),
+    },
+  ];
+
   return (
     <>
-      <main>
-        {/* Hero */}
-        <section className="mx-auto w-full max-w-5xl px-4 pb-16 pt-14 text-center sm:px-6 sm:pt-24">
-          <p
-            aria-hidden="true"
-            className="mb-6 text-3xl tracking-widest sm:text-4xl"
-          >
-            🎭 🔥 👉 ⏱️ 🙈 💣 🤷 🤫 🕵️ 🐮 🤥 🎉 🎨 🚫 📡 🕳️ 😈
-          </p>
-          <h1 className="mx-auto max-w-3xl text-4xl font-extrabold tracking-tight text-white sm:text-6xl">
-            One phone. Every party game.{" "}
-            <span className="bg-gradient-to-r from-violet-400 to-pink-400 bg-clip-text text-transparent">
-              Zero excuses.
-            </span>
+      <main className="pb-16">
+        {/* Hook */}
+        <section className="mx-auto w-full max-w-6xl px-4 pb-8 pt-10 sm:px-6 sm:pb-8 sm:pt-10">
+          <h1 className="hook max-w-4xl text-[2rem] font-extrabold leading-[0.95] tracking-[-0.035em] text-white sm:text-6xl lg:text-7xl">
+            One phone on the table.{" "}
+            <br className="hidden sm:block" />
+            Seventeen games on it.
           </h1>
-          <p className="mx-auto mt-5 max-w-xl text-base text-zinc-300 sm:text-lg">
-            Charades, Truth or Dare, Never Have I Ever and more — playable in
-            the browser the second your friends walk in. No app to install, no
-            account needed to play. Want it personal? Build custom decks in any
-            language.
+          <p className="mt-5 max-w-xl text-base leading-relaxed text-zinc-300 sm:text-lg">
+            Break the ice with people you met an hour ago, or fill half an hour
+            with people you&apos;ve known for years. Nothing to install, no
+            account to play, and it keeps working when the wifi doesn&apos;t.
           </p>
-          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <ButtonLink
+          <div className="mt-7 flex flex-col items-start gap-3 sm:flex-row sm:items-center">
+            <ButtonLink href="/play" className="h-auto w-full px-6 py-3.5 text-base sm:w-auto">
+              Start playing now
+            </ButtonLink>
+            <Link
               href="/tonight"
-              className="h-auto w-full px-6 py-3 text-base sm:w-auto"
+              className="text-sm font-medium text-zinc-300 underline-offset-4 transition-colors hover:text-white hover:underline"
             >
-              🌙 Plan tonight
-            </ButtonLink>
-            <ButtonLink
-              href="#games"
-              variant="secondary"
-              className="h-auto w-full px-6 py-3 text-base sm:w-auto"
-            >
-              Browse all 17
-            </ButtonLink>
+              or plan the whole night
+            </Link>
           </div>
         </section>
 
-        {/* Games grid */}
-        <section
-          id="games"
-          aria-labelledby="games-heading"
-          className="mx-auto w-full max-w-5xl scroll-mt-8 px-4 sm:px-6"
-        >
-          <h2
-            id="games-heading"
-            className="text-2xl font-bold tracking-tight text-white sm:text-3xl"
-          >
-            Pick your poison
-          </h2>
-          <p className="mt-2 text-sm text-zinc-400 sm:text-base">
-            Seventeen games, all free, all ready in one tap — or let{" "}
-            <Link
-              href="/tonight"
-              className="font-medium text-violet-300 underline-offset-4 hover:underline"
-            >
-              Plan tonight
-            </Link>{" "}
-            build the running order for you.
-          </p>
-          <ul className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {Object.values(GAMES).map((game) => (
-              <li key={game.slug}>
-                <Link
-                  href={`/${game.slug}`}
-                  className="group flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur transition-colors hover:border-violet-400/50 hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-400"
-                >
-                  <div className="relative aspect-[16/9] w-full overflow-hidden bg-black/30">
-                    {game.image ? (
-                      <Image
-                        src={game.image}
-                        alt=""
-                        fill
-                        sizes="(min-width: 1024px) 320px, (min-width: 640px) 50vw, 100vw"
-                        className="object-cover transition-transform duration-300 group-hover:scale-105"
-                      />
-                    ) : (
-                      <div
-                        aria-hidden="true"
-                        className="flex h-full w-full items-center justify-center bg-gradient-to-br from-violet-600/40 via-violet-900/30 to-pink-500/20 text-6xl transition-transform duration-300 group-hover:scale-110"
-                      >
-                        {game.emoji}
-                      </div>
-                    )}
-                  </div>
-                  <div className="flex flex-1 flex-col p-4">
-                    <h3 className="text-lg font-semibold text-white">
-                      <span aria-hidden="true" className="mr-2">
-                        {game.emoji}
-                      </span>
-                      {game.title}
-                    </h3>
-                    <p className="mt-1 text-sm text-zinc-400">{game.tagline}</p>
-                    <p className="mt-2 text-xs text-zinc-500">
-                      {game.minPlayers === game.maxPlayers
-                        ? `${game.minPlayers} players`
-                        : `${game.minPlayers}–${game.maxPlayers} players`}{" "}
-                      · ~{game.minutes} min
-                    </p>
-                  </div>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </section>
+        {/* The wall */}
+        <div id="games">
+          <GameWall rows={rows} />
+        </div>
 
-        {/* Quick tools */}
-        <section
-          aria-labelledby="tools-heading"
-          className="mx-auto mt-16 w-full max-w-5xl px-4 sm:px-6"
-        >
-          <h2
-            id="tools-heading"
-            className="text-2xl font-bold tracking-tight text-white sm:text-3xl"
-          >
-            Quick tools
-          </h2>
-          <p className="mt-2 text-sm text-zinc-400 sm:text-base">
-            No rules, no decks — just the classics when you need them.
-          </p>
-          <ul className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
-            {TOOLS.map((tool) => (
-              <li key={tool.slug}>
-                <Link
-                  href={tool.href}
-                  className="group flex items-center gap-4 rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur transition-colors hover:border-violet-400/50 hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-400"
-                >
-                  <span
-                    aria-hidden="true"
-                    className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-violet-600/20 text-3xl"
-                  >
-                    {tool.emoji}
-                  </span>
-                  <span>
-                    <span className="block text-lg font-semibold text-white">
-                      {tool.title}
-                    </span>
-                    <span className="mt-0.5 block text-sm text-zinc-400">
-                      {tool.tagline}
-                    </span>
-                  </span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </section>
-
-        {/* Make it yours */}
-        <section
-          aria-labelledby="custom-heading"
-          className="mx-auto my-16 w-full max-w-5xl px-4 sm:my-24 sm:px-6"
-        >
-          <div className="rounded-3xl border border-violet-500/20 bg-gradient-to-b from-violet-600/15 to-pink-500/5 p-6 sm:p-10">
-            <h2
-              id="custom-heading"
-              className="text-2xl font-bold tracking-tight text-white sm:text-3xl"
-            >
-              Make it yours
+        {/* Close */}
+        <section id="all" className="mx-auto mt-16 w-full max-w-6xl scroll-mt-8 px-4 sm:mt-24 sm:px-6">
+          <div className="grid gap-8 border-t border-white/10 pt-10 sm:grid-cols-3">
+            <Proof title="Plays without wifi">
+              Open a game once and it keeps working with no connection — the
+              part of the night when the venue&apos;s router gives up.
+            </Proof>
+            <Proof title="Remembers what you've seen">
+              Every deck serves the cards this phone has not shown yet, so a
+              second night is not the first night in a different order.
+            </Proof>
+            <Proof title="Yours to share">
+              Any deck you build has a link and a QR code. Friends play it with
+              no account and can keep their own copy.
+            </Proof>
+          </div>
+          <div className="mt-14 border-t border-white/10 pt-10">
+            <h2 className="text-sm font-extrabold uppercase tracking-[0.08em] text-white sm:text-base">
+              All seventeen
             </h2>
-            <p className="mt-2 max-w-xl text-sm text-zinc-300 sm:text-base">
-              The built-in decks are great. The deck full of things only your
-              group would dare each other to do? Better.
-            </p>
-            <ol className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-3">
-              {STEPS.map((step, index) => (
-                <li key={step.title} className="flex flex-col">
-                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-violet-600 text-sm font-bold text-white">
-                    {index + 1}
-                  </span>
-                  <h3 className="mt-3 font-semibold text-white">
-                    {step.title}
-                  </h3>
-                  <p className="mt-1 text-sm text-zinc-400">
-                    {step.description}
-                  </p>
+            <ul className="mt-5 flex flex-wrap gap-x-6 gap-y-3">
+              {GAME_SLUGS.map((slug) => (
+                <li key={slug}>
+                  <Link
+                    href={`/${slug}`}
+                    className="text-base font-semibold text-zinc-200 underline-offset-4 transition-colors hover:text-white hover:underline"
+                  >
+                    {GAMES[slug].title}
+                  </Link>
                 </li>
               ))}
-            </ol>
-            <ButtonLink href="/signup" className="mt-8 h-auto px-6 py-3 text-base">
-              Start building decks
-            </ButtonLink>
+              {TOOLS.map((tool) => (
+                <li key={tool.slug}>
+                  <Link
+                    href={tool.href}
+                    className="text-base font-semibold text-zinc-400 underline-offset-4 transition-colors hover:text-white hover:underline"
+                  >
+                    {tool.title}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <div className="mt-10">
+              <ButtonLink href="/play" className="h-auto px-6 py-3.5 text-base">
+                Start playing now
+              </ButtonLink>
+            </div>
           </div>
         </section>
       </main>
       <Footer />
     </>
+  );
+}
+
+function Proof({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div>
+      <h2 className="text-base font-bold text-white">{title}</h2>
+      <p className="mt-2 text-sm leading-relaxed text-zinc-400">{children}</p>
+    </div>
   );
 }
