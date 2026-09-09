@@ -22,7 +22,7 @@ export const GAME_SLUGS = [
 
 export type GameSlug = (typeof GAME_SLUGS)[number];
 
-export const TOOL_SLUGS = ["spinthebottle", "diceroll"] as const;
+export const TOOL_SLUGS = ["spinthebottle", "diceroll", "fingerpicker"] as const;
 export type ToolSlug = (typeof TOOL_SLUGS)[number];
 
 /** One editable list inside a deck (e.g. "truths" and "dares"). */
@@ -69,7 +69,7 @@ export interface ToolDef {
   title: string;
   tagline: string;
   emoji: string;
-  image: string;
+  image?: string;
   href: string;
 }
 
@@ -588,6 +588,13 @@ export const GAMES: Record<GameSlug, GameDef> = {
 };
 
 export const TOOLS: ToolDef[] = [
+  {
+    slug: "fingerpicker",
+    title: "Finger Picker",
+    tagline: "Everyone puts a finger down. The screen picks one.",
+    emoji: "☝️",
+    href: "/fingerpicker/play",
+  },
   {
     slug: "spinthebottle",
     title: "Spin the Bottle",
