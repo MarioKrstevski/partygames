@@ -13,6 +13,17 @@ if (!process.env.BETTER_AUTH_SECRET) {
 
 export const auth = betterAuth({
   secret: process.env.BETTER_AUTH_SECRET,
+  /**
+   * In development the dev server may land on any free port — another project
+   * on this machine often holds 3000 — and better-auth rejects a request whose
+   * origin does not match, with "Invalid origin". Trusting localhost on any
+   * port keeps sign-in working wherever the server ends up. Production stays
+   * strict: only the origin of BETTER_AUTH_URL is accepted.
+   */
+  trustedOrigins:
+    process.env.NODE_ENV === "production"
+      ? []
+      : ["http://localhost:*", "http://127.0.0.1:*"],
   database: drizzleAdapter(db, {
     provider: "pg",
     schema,
